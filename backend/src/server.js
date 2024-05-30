@@ -1,8 +1,9 @@
 "use strict";
 
+const { PORT } = process.env;
 const app = require("./app");
 
-app.listen(3001, () => {
-    console.log("Listening on port 3001");
+app.listen(PORT, () => {
+    console.log(`Started on http://localhost:${PORT}`);
 });
 

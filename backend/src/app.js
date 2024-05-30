@@ -15,8 +15,4 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 
-console.log(process.env.PORT);
-console.log(process.env.DATABASE_URL);
-console.log(process.env.NODE_ENV);
-
 module.exports = app;
