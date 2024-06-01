@@ -1,0 +1,62 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/userNew.json",
+    "type": "object",
+    "default": {},
+    "title": "User",
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "username": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50
+        },
+        "password": {
+            "type": "string",
+            "minLength": 6
+        },
+        "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 100
+        },
+        "is_admin": {
+            "type": "boolean",
+            "default": false
+        },
+        "location": {
+            "type": "object",
+            "properties": {
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "street": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "post_code": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "username",
+        "password",
+        "email"
+    ]
+}
