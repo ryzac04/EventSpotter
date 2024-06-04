@@ -6,6 +6,7 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 
+const { NODE_ENV } = process.env; 
 const { NotFoundError } = require("../utils/expressError");
 
 const app = express();
@@ -21,7 +22,7 @@ app.use((req, res, next) => {
 
 /** Generic error handler; anything unhandled goes here. */
 app.use((err, req, res, next) => {
-    if (process.env.NODE_ENV !== "test") console.error(err.stack);
+    if (NODE_ENV !== "test") console.error(err.stack);
     // default status is 500 Internal Server Error
     const status = err.status || 500;
     const message = err.message || "Internal Server Error";
