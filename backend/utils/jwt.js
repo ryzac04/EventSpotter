@@ -48,10 +48,11 @@ function createAccessToken(user) {
         let accessToken = jwt.sign(payload, ACCESS_JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION });
 
         return accessToken;
+
     } catch (error) {
         console.error("Error creating access token:", error);
         throw new BadRequestError("Failed to create access token.");
-    }
+    };
 };
 
 function createRefreshToken(user) {
@@ -68,10 +69,11 @@ function createRefreshToken(user) {
         let refreshToken = jwt.sign(payload, REFRESH_JWT_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION });
 
         return refreshToken;
+
     } catch (error) {
         console.error("Error creating refresh token:", error);
         throw new BadRequestError("Failed to create refresh token.");
-    }
+    };
 };
 
 function decodeToken(token) {
@@ -79,10 +81,11 @@ function decodeToken(token) {
         const decodedToken = jwt.decode(token);
 
         return decodedToken;
+
     } catch (error) {
         console.error("Error decoding JWT:", error);
         throw new BadRequestError("Failed to decode JWT.");
-    }
+    };
 };
 
 module.exports = { createAccessToken, createRefreshToken, decodeToken };
