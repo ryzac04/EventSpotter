@@ -53,5 +53,3 @@ Sensitive information to be secured includes a user's password and location. The
 - Include ticket availability and/or pricing.
 - Algorithm to track a user's preferences.
 - Consider developing a mobile app version for better accessibility.
-
-
