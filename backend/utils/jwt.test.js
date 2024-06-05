@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const jwt = require("jsonwebtoken");
-const { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET, ACCESS_TOKEN_EXPIRATION, REFRESH_TOKEN_EXPIRATION } = process.env;
+const { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET } = process.env;
 
 const { createAccessToken, createRefreshToken, decodeToken } = require("./jwt");
 const { BadRequestError } = require("./expressError");
