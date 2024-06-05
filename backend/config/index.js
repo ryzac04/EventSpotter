@@ -2,6 +2,8 @@
 
 /** Configuration for application; can be required many places. */
 
+require("dotenv").config();
+
 const { NODE_ENV, TEST_DB_URL, DB_URL } = process.env;
 
 // use test db or dev db depending on NODE_ENV setting. 
