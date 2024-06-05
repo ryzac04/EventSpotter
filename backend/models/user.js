@@ -82,7 +82,7 @@ class User {
      * 
      * @param {string} username - the username of the user.
      * @param {string} password - the password of the user. 
-     * @returns {Promise<Object>} user - the authenticated user object containing property: username. Password is deleted for security before user object returned. 
+     * @returns {Promise<Object>} 'user' - the authenticated user object containing property: username. Password is deleted for security before user object returned. 
      * @throws {UnauthorizedError} if the user is not found by username.
      * @throws {UnauthorizedError} if the password is not correct.
      * @throws {InternalServerError} if there is an issue authenticating the user not related to the username or password. 
@@ -132,7 +132,7 @@ class User {
      * Find a single user by username. 
      * 
      * @param {string} username - the username of the user. 
-     * @returns {Promise<Object>} user - the found user object containing properties: username, email, isAdmin.
+     * @returns {Promise<Object>} 'user' - the found user object containing properties: username, email, isAdmin.
      * @throws {NotFoundError} if unable to find the queried username. 
      * @throws {InternalServerError} if there is an issue retrieving a user from the database not related to finding the queried username. 
      */
@@ -166,7 +166,7 @@ class User {
     /**
      * Find all users. 
      * 
-     * @returns {Promise<Object>} result.rows - all found user objects containing properties: username, email, isAdmin.  
+     * @returns {Promise<Object>} 'result.rows' - all found user objects containing properties: username, email, isAdmin.  
      * @throws {InternalServerError} if there is an issue retrieving all users from the database. 
      */
 
@@ -193,7 +193,7 @@ class User {
      * 
      * @param {string} username - the username of the user.
      * @param {object} data - data object containing the fields to be updated, such as username, email, isAdmin. 
-     * @returns {Promise<Object>} user - the updated user object containing properties: username, email, isAdmin. Password is deleted for security before user object returned. 
+     * @returns {Promise<Object>} 'user' - the updated user object containing properties: username, email, isAdmin. Password is deleted for security before user object returned. 
      * @throws {NotFoundError} if unable to find the queried username. 
      * @throws {InternalServerError} if there is an issue updating the user not related to finding the queried username. 
      */
