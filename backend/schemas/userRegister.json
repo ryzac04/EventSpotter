@@ -18,6 +18,10 @@
             "type": "string",
             "format": "email",
             "maxLength": 100
+        },
+        "is_admin": {
+            "type": "boolean",
+            "default": false
         }
     },
     "additionalProperties": false,
