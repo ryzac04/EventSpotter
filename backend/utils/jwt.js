@@ -7,21 +7,15 @@ const { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET, ACCESS_TOKEN_EXPIRATION, REFRESH_
 const { BadRequestError } = require("./expressError");
 
 /**
- * Functions to generate an access JWT, a refresh JWT, and to decode JWTs
+ * Function to generate an access JWT.
  * 
- * Token Creation: 
  * @param {Object} user - the user object containing user information. 
  * @param {integer} user.id - the unique identifier of the user. 
  * @param {string} user.username - the username of the user. 
  * @param {string} user.email - the email of the user. 
  * @param {boolean} user.isAdmin - indicates whether the user has administrative privileges. 
- * 
- * @returns {string} - the generated access token. 
- * 
- * Token Decoding: 
- * @param {string} token - the token to be decoded. 
- * 
- * @returns {Object} - the decoded token. 
+ * @returns {string} 'accessToken' - the generated access token. 
+ * @throws {BadRequestError} if invalid properties exist for JWT. 
  */
 
 function createAccessToken(user) {
@@ -55,6 +49,14 @@ function createAccessToken(user) {
     };
 };
 
+/**
+ * Functions to generate a refresh JWT. 
+ * 
+ * @param {Object} user - the user object containing user information. 
+ * @param {integer} user.id - the unique identifier of the user. 
+ * @returns {string} 'refreshToken' - the generated refresh token. 
+ * @throws {BadRequestError} if the user object does not have a valid 'sub' property.
+*/
 function createRefreshToken(user) {
     try{
         if (!user.id) {
@@ -75,6 +77,14 @@ function createRefreshToken(user) {
         throw new BadRequestError("Failed to create refresh token.");
     };
 };
+
+/**
+ * Function to decode a token.
+ *  
+ * @param {string} token - the token to be decoded. 
+ * @returns {Object} 'decodedToken' - the decoded token. 
+ * @throws {BadRequestError} if decoding the JWT fails.
+ */
 
 function decodeToken(token) {
     try {
