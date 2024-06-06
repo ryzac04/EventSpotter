@@ -1,10 +1,10 @@
--- both test users have the password "password"
+-- both users have the password "password"
 
-INSERT INTO users (id, username, password, email, is_admin, latitude, longitude, street, city, state, post_code, country)
-VALUES (1,
-        'testuser1',
+INSERT INTO users (username, password, email, is_admin, latitude, longitude, street, city, state, post_code, country)
+VALUES (
+        'username1',
         '$argon2id$v=19$m=65536,t=3,p=4$hhZXak0/rdnXJp74dqwRYQ$hbjKzPh6s5UIr4hXZuF/ZVLwACb9jNhMeTYH8cGgFeU',
-        'testuser1@email.com',
+        'username1@email.com',
         FALSE,
         30.351470,
         -97.556717,
@@ -13,10 +13,10 @@ VALUES (1,
         'TX',
         78653,
         'USA'),
-        (2,
-        'testuser2',
+        (
+        'username2',
         '$argon2id$v=19$m=65536,t=3,p=4$hhZXak0/rdnXJp74dqwRYQ$hbjKzPh6s5UIr4hXZuF/ZVLwACb9jNhMeTYH8cGgFeU',
-        'testuser2@email.com',
+        'username2@email.com',
         TRUE,
         30.351470,
         -97.556717,
