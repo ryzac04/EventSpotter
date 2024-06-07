@@ -10,8 +10,22 @@ const {
     InternalServerError
 } = require("../utils/expressError");
 
-const { argon2TimeCost } = require("../config/index");
-const { sqlForPartialUpdate } = require("../utils/sqlPartialUpdate");
+const {
+    validateRequiredFields,
+    validateUsername,
+    validatePassword,
+    validateEmail,
+    validateIsAdmin
+} = require("../utils/userModelValidation");
+
+const {
+    checkDuplicateUsername,
+    checkUserExists,
+    hashPassword,
+    verifyPassword,
+    sqlForPartialUpdate
+} = require("../utils/userModelUtils");
+const { argon2TimeCost } = require("../config");
 
 /** User model and related functions. */
 
@@ -25,26 +39,25 @@ class User {
      * @param {string} email - the email of the user.
      * @param {boolean} isAdmin - admin status of the user - defaults to false.
      * @returns {Promise<Object>} 'user' - the registered user object containing properties: username, email, isAdmin. Password is deleted for security before user object returned. 
-     * @throws {BadRequestError} if the username is already in use by another user.
-     * @throws {InternalServerError} if there is an issue registering the user to the database not related to username duplication. 
+     * @throws {BadRequestError} validation functions - specific error will be thrown for any user data that does not meet validation requirements. See userValidation.js for details. 
+     * @throws {BadRequestError} checkDuplicateUsername - error will be thrown if username is already in use. 
+     * @throws {InternalServerError} if password hashed incorrectly or if there is an issue registering the user to the database related to unexpected database behavior. 
      */
 
     static async register({ username, password, email, isAdmin }) {
         try {
-            // Query the database for duplicate username
-            const duplicateCheck = await db.query(
-                `SELECT username
-                FROM users
-                WHERE username = $1`,
-                [username],
-            );
+            // Validate required fields are present for registration
+            validateRequiredFields({ username, password, email });
 
-            if (duplicateCheck.rows[0]) {
-                throw new BadRequestError(`Username '${username}' is already taken.`);
-            };
+            // Validate correct data format and requirements
+            validateUsername(username);
+            validatePassword(password);
+            validateEmail(email);
+            validateIsAdmin(isAdmin);
 
-            // Hash the password
-            const hashedPassword = await argon.hash(password, argon2TimeCost);
+            // Utility functions
+            await checkDuplicateUsername(username);
+            const hashedPassword = await hashPassword(password);
 
             // Insert user into the database
             const result = await db.query(
@@ -61,7 +74,7 @@ class User {
                     email,
                     isAdmin
                 ],
-            );
+            )
 
             // Extract and return user data after successful registration
             const user = result.rows[0];
@@ -70,12 +83,14 @@ class User {
             return user;
             
         } catch (error) {
-            console.error("Error registering new user to the database:", error);
+            console.error(`Error registering new user ${username} to the database:`, error);
             if (!(error instanceof BadRequestError)) {
-                throw new InternalServerError("Failed to register new user to the database.");
+                throw new InternalServerError(`Failed to register new user ${username} to the database.`);
+            } else {
+                throw error;
             }
-        };
-    };
+        }
+    }
 
     /**
      * Authenticate a user with username and password. 
@@ -91,7 +106,7 @@ class User {
     static async authenticate(username, password) {
         try {
 
-             // Query the database to find the user
+            // Query the database to find the user
             const result = await db.query(
                 `SELECT username,
                         password,
@@ -100,7 +115,7 @@ class User {
                 FROM users
                 WHERE username = $1`,
                 [username],
-            );
+            )
         
             const user = result.rows[0];
 
@@ -110,23 +125,21 @@ class User {
             };
 
             // Verify password
-            const isValid = await argon.verify(password, user.password);
-            if (!isValid) {
-                throw new UnauthorizedError("Invalid password.");
-            };
+            await verifyPassword({ user }, password);
 
             // Remove password from the returned data
             delete user.password;
 
-            return user; 
+            return user;
             
         } catch (error) {
-            console.error("Error authenticating this user:", error);
+            console.error(`Error authenticating ${username}:`, error);
             if (!(error instanceof UnauthorizedError)) {
-                throw new InternalServerError("Failed to authenticate user.");  
-            };
-        };
-    };
+                
+                throw new InternalServerError(`Failed to authenticate ${username}.`);
+            } else throw error;
+        }
+    }
 
     /**
      * Find a single user by username. 
@@ -146,22 +159,22 @@ class User {
                 FROM users
                 WHERE username = $1`,
                 [username],
-            );
+            )
 
             const user = result.rows[0];
 
             // Check if user exists
-            if (!user) throw new NotFoundError(`Unable to find user: ${username}`);
+            checkUserExists({ user });
 
             return user;
 
         } catch (error) {
-            console.error(`Error retrieving user data for username '${username}' from the database:`, error);
+            console.error(`Error retrieving user data for username ${username} from the database:`, error);
             if (!(error instanceof NotFoundError)) {
-                throw new InternalServerError(`Failed to retrieve user data for username '${username}' from the database.`);
-            };
-        };
-    };
+                throw new InternalServerError(`Failed to retrieve user data for username ${username} from the database.`);
+            } else throw error;
+        }
+    }
 
     /**
      * Find all users. 
@@ -185,8 +198,8 @@ class User {
         } catch (error) {
             console.error("Error retrieving all users from the database:", error);
             throw new InternalServerError("Failed to retrieve all users from the database.");
-        };
-    };
+        }
+    }
 
     /**
      * Update user data.
@@ -202,7 +215,7 @@ class User {
         try {
             // Hash the password if included in the data 
             if (data.password) {
-            data.password = await argon.hash(data.password, argon2TimeCost);
+                data.password = await hashPassword(data.password);
             };
             
             // Generate SQL for partial update
@@ -210,6 +223,7 @@ class User {
                 data,
                 {
                     username: "username",
+                    password: "password",
                     email: "email",
                     isAdmin: "is_admin"
                 });
@@ -228,21 +242,23 @@ class User {
             // Execute the query 
             const result = await db.query(querySql, [...values, username]);
             const user = result.rows[0];
-            
+
             // Check if user exists
-            if (!user) throw new NotFoundError(`Unable to find user: ${username}`);
+            checkUserExists({ user });
             
             // Remove password from the returned data 
             delete user.password;
             return user;
             
         } catch (error) {
-            console.error("Error updating user data to the database:", error);
-            if (!(error instanceof NotFoundError)) {
-                throw new InternalServerError(`Failed to update user data for username: '${username}' to the database.`);
-            };
-        };
-    };
+            console.error(`Error updating user data for username ${username} to the database:`, error);
+            if (!(error instanceof BadRequestError) && !(error instanceof NotFoundError)) {
+
+                throw new InternalServerError(`Failed to update user data for username ${username} to the database.`);
+                
+            } else throw error;
+        }
+    }
 
     /**
      * Delete a user from the database.
@@ -266,15 +282,15 @@ class User {
             const user = result.rows[0];
 
             // Check if user exists
-            if (!user) throw new NotFoundError(`Unable to find user:'${username}'.`);
+            checkUserExists({ user });
             
         } catch (error) {
-            console.error("Error deleting user from the database:", error);
+            console.error(`Error deleting ${username} from the database:`, error);
             if (!(error instanceof NotFoundError)) {
-                throw new InternalServerError(`Failed to delete user '${username}' from the database.`);
-            }
-        };
-    };
-};
+                throw new InternalServerError(`Failed to delete ${username} from the database.`);
+            } else throw error;
+        }
+    }
+}
 
 module.exports = User;
