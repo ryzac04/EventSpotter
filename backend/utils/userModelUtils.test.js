@@ -30,7 +30,7 @@ beforeAll(() => {
 
 afterEach(() => {
     jest.restoreAllMocks();
-})
+});
 
 afterAll(() => {
     // Restore db.query to its original implementation
