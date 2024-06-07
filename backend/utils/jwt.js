@@ -46,8 +46,8 @@ function createAccessToken(user) {
     } catch (error) {
         console.error("Error creating access token:", error);
         throw new BadRequestError("Failed to create access token.");
-    };
-};
+    }
+}
 
 /**
  * Functions to generate a refresh JWT. 
@@ -75,8 +75,8 @@ function createRefreshToken(user) {
     } catch (error) {
         console.error("Error creating refresh token:", error);
         throw new BadRequestError("Failed to create refresh token.");
-    };
-};
+    }
+}
 
 /**
  * Function to decode a token.
@@ -95,7 +95,7 @@ function decodeToken(token) {
     } catch (error) {
         console.error("Error decoding JWT:", error);
         throw new BadRequestError("Failed to decode JWT.");
-    };
-};
+    }
+}
 
 module.exports = { createAccessToken, createRefreshToken, decodeToken };
