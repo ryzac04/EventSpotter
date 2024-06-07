@@ -43,7 +43,7 @@ async function checkDuplicateUsername(username) {
 
 function checkUserExists({ user }) {
     if (!user) {
-        throw new NotFoundError(`Unable to find user: ${user.username}.`);
+        throw new NotFoundError("Unable to find user.");
     }
 }
 
@@ -101,8 +101,8 @@ function sqlForPartialUpdate(dataToUpdate, jsToSql) {
     return {
         setCols: setCols,
         values: values
-    };
-};
+    }
+}
 
 module.exports = {
     checkDuplicateUsername,
