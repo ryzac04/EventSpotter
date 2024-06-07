@@ -79,7 +79,6 @@ async function commonBeforeEach() {
 async function commonAfterEach() {
     try {
         await db.query("ROLLBACK");
-        // await db.query("ALTER SEQUENCE users_id_seq RESTART WITH 1;");
     } catch (error) {
         console.error("Error with rollback transaction in 'commonAfterEach' function:", error);
         throw new InternalServerError("Failed to rollback transaction in 'commonAfterEach' function.");
