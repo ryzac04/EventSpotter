@@ -3,6 +3,7 @@
 const argon = require("argon2");
 
 const db = require("../db/index");
+const {validatePassword} = require("./userModelValidation");
 const {
     BadRequestError,
     UnauthorizedError,
@@ -57,9 +58,16 @@ function checkUserExists({ user }) {
 
 async function hashPassword(password) {
     try {
+        validatePassword(password);
+
         return await argon.hash(password, argon2TimeCost);
     } catch (error) {
-        throw new InternalServerError("Failed to hash password.");
+        console.error("Error in hashPassword:", error);
+        if (error instanceof BadRequestError) {
+            throw error;
+        } else {
+            throw new InternalServerError("Failed to hash password.");
+        }
     }
 }
 
