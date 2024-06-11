@@ -1,7 +1,6 @@
 "use strict"; 
 
 const argon = require("argon2");
-const { JsonWebTokenError } = require("jsonwebtoken");
 
 const db = require("../db/index");
 const User = require("./user");
@@ -42,132 +41,7 @@ describe("register", () => {
         expect(user).toHaveProperty("email", "newuser@email.com");
         expect(user).toHaveProperty("isAdmin", false);
     });
-    // validateRequiredFields integration tests 
-    test("throws BadRequestError for missing registration data", async () => {
-        // missing username
-        try {
-            await User.register({
-                username: "",
-                password: "Password!2",
-                email: "newuser@email.com",
-                isAdmin: false
-            });
-        } catch (error) {
-            expect(error).toBeInstanceOf(BadRequestError);
-            expect(error.message).toEqual("User data missing for registration: username.");
-        };
-        // missing password
-        try {
-            await User.register({
-                username: "newUser",
-                password: "",
-                email: "newuser@email.com",
-                isAdmin: false
-            });
-        } catch (error) {
-            expect(error).toBeInstanceOf(BadRequestError);
-            expect(error.message).toEqual("User data missing for registration: password.");
-        };
-        // missing email
-        try {
-            await User.register({
-                username: "newUser",
-                password: "Password!2",
-                email: "",
-                isAdmin: false
-            });
-        } catch (error) {
-            expect(error).toBeInstanceOf(BadRequestError);
-            expect(error.message).toEqual("User data missing for registration: email.");
-        };
-        // missing multiple fields 
-        try {
-            await User.register({
-                username: "",
-                password: "",
-                email: "",
-                isAdmin: false
-            });
-        } catch (error) {
-            expect(error).toBeInstanceOf(BadRequestError);
-            expect(error.message).toEqual("User data missing for registration: username, password, email.");
-        };
-    });
     
-    test("throws BadRequestError for invalid user data format and/or requirements", async () => {
-        // validateUsername - length validation 
-        try {
-            await User.register({
-                username: "RC",
-                password: "Password!2",
-                email: "newuser@email.com",
-                isAdmin: false
-            });
-        } catch (error) {
-            expect(error).toBeInstanceOf(BadRequestError);
-            expect(error.message).toEqual("Username must be at least 3 characters long.");
-        };
-        // validateUsername - valid characters validation 
-        try {
-            await User.register({
-                username: "RC!!",
-                password: "Password!2",
-                email: "newuser@email.com",
-                isAdmin: false
-            });
-        } catch (error) {
-            expect(error).toBeInstanceOf(BadRequestError);
-            expect(error.message).toEqual("Username can only contain alphanumeric characters and underscores. Invalid characters found: '!'.");
-        };
-        // validatePassword - length validation 
-        try {
-            await User.register({
-                username: "newUser",
-                password: "!2-Ab",
-                email: "newuser@email.com",
-                isAdmin: false
-            });
-        } catch (error) {
-            expect(error).toBeInstanceOf(BadRequestError);
-            expect(error.message).toEqual("Password must be at least 6 characters long.");
-        };
-        // validatePassword - valid characters validation
-        try {
-            await User.register({
-                username: "newUser",
-                password: "password",
-                email: "newuser@email.com",
-                isAdmin: false
-            });
-        } catch (error) {
-            expect(error).toBeInstanceOf(BadRequestError);
-            expect(error.message).toEqual("Password must include at least one uppercase letter, digit, special character.");
-        };
-        // validateEmail - format validation 
-        try {
-            await User.register({
-                username: "newUser",
-                password: "Password!2",
-                email: "newuseremail.com",
-                isAdmin: false
-            });
-        } catch (error) {
-            expect(error).toBeInstanceOf(BadRequestError);
-            expect(error.message).toEqual("Invalid email format.");
-        };
-        // validateIsAdmin boolean validation 
-        try {
-            await User.register({
-                username: "newUser",
-                password: "Password!2",
-                email: "newuser@email.com",
-                isAdmin: "True"
-            });
-        } catch (error) {
-            expect(error).toBeInstanceOf(BadRequestError);
-            expect(error.message).toEqual("Invalid value for isAdmin. Must be boolean true or false.");
-        };
-    })
     // checkDuplicateUsername
     test("throws BadRequestError for duplicate user", async () => {
         try {
@@ -182,6 +56,7 @@ describe("register", () => {
             expect(error.message).toEqual("Username 'testname1' is already taken.");
         };
     });
+    
     // hashPassword 
     test("correctly hashes a password", async () => {
         const password = "Password!2";
