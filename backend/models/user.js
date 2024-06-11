@@ -11,14 +11,6 @@ const {
 } = require("../utils/expressError");
 
 const {
-    validateRequiredFields,
-    validateUsername,
-    validatePassword,
-    validateEmail,
-    validateIsAdmin
-} = require("../utils/userModelValidation");
-
-const {
     checkDuplicateUsername,
     checkUserExists,
     hashPassword,
@@ -39,24 +31,15 @@ class User {
      * @param {string} email - the email of the user.
      * @param {boolean} isAdmin - admin status of the user - defaults to false.
      * @returns {Promise<Object>} 'user' - the registered user object containing properties: username, email, isAdmin. Password is deleted for security before user object returned. 
-     * @throws {BadRequestError} validation functions - specific error will be thrown for any user data that does not meet validation requirements. See userValidation.js for details. 
      * @throws {BadRequestError} checkDuplicateUsername - error will be thrown if username is already in use. 
-     * @throws {InternalServerError} if password hashed incorrectly or if there is an issue registering the user to the database related to unexpected database behavior. 
+     * @throws {InternalServerError} if password hashed incorrectly or if there is any other issue registering the user to the database related to unexpected database behavior. 
      */
 
     static async register({ username, password, email, isAdmin }) {
         try {
-            // Validate required fields are present for registration
-            validateRequiredFields({ username, password, email });
-
-            // Validate correct data format and requirements
-            validateUsername(username);
-            validatePassword(password);
-            validateEmail(email);
-            validateIsAdmin(isAdmin);
-
-            // Utility functions
+            // Utility functions to check for duplicate username and to hash password
             await checkDuplicateUsername(username);
+
             const hashedPassword = await hashPassword(password);
 
             // Insert user into the database
@@ -100,7 +83,7 @@ class User {
      * @returns {Promise<Object>} 'user' - the authenticated user object containing property: username. Password is deleted for security before user object returned. 
      * @throws {UnauthorizedError} if the user is not found by username.
      * @throws {UnauthorizedError} if the password is not correct.
-     * @throws {InternalServerError} if there is an issue authenticating the user not related to the username or password. 
+     * @throws {InternalServerError} if there is any other issue authenticating the user not related to the username or password. 
      */
 
     static async authenticate(username, password) {
@@ -147,7 +130,7 @@ class User {
      * @param {string} username - the username of the user. 
      * @returns {Promise<Object>} 'user' - the found user object containing properties: username, email, isAdmin.
      * @throws {NotFoundError} if unable to find the queried username. 
-     * @throws {InternalServerError} if there is an issue retrieving a user from the database not related to finding the queried username. 
+     * @throws {InternalServerError} if there is any other issue retrieving a user from the database not related to finding the queried username. 
      */
     
     static async findUser(username) {
@@ -180,7 +163,7 @@ class User {
      * Find all users. 
      * 
      * @returns {Promise<Object>} 'result.rows' - all found user objects containing properties: username, email, isAdmin.  
-     * @throws {InternalServerError} if there is an issue retrieving all users from the database. 
+     * @throws {InternalServerError} if there is any other issue retrieving all users from the database. 
      */
 
     static async findAllUsers() {
@@ -208,7 +191,7 @@ class User {
      * @param {object} data - data object containing the fields to be updated, such as username, email, isAdmin. 
      * @returns {Promise<Object>} 'user' - the updated user object containing properties: username, email, isAdmin. Password is deleted for security before user object returned. 
      * @throws {NotFoundError} if unable to find the queried username. 
-     * @throws {InternalServerError} if there is an issue updating the user not related to finding the queried username. 
+     * @throws {InternalServerError} if there is any other issue updating the user not related to finding the queried username. 
      */
 
     static async updateUser(username, data) {
@@ -266,7 +249,7 @@ class User {
      * @param {string} username - the username of the user. 
      * @returns {undefined}
      * @throws {NotFoundError} if unable to find the queried username.
-     * @throws {InternalServerError} if there is an issue deleting the user from the database not related to finding the queried username. 
+     * @throws {InternalServerError} if there is any other issue deleting the user from the database not related to finding the queried username. 
      */
 
     static async remove(username) {
