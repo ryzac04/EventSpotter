@@ -1,3 +1,5 @@
+"use strict";
+
 require("dotenv").config();
 
 const jwt = require("jsonwebtoken");
@@ -5,7 +7,6 @@ const { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET } = process.env;
 
 const { createAccessToken, createRefreshToken, verifyToken } = require("./jwt");
 const { BadRequestError } = require("./expressError");
-const { verify } = require("argon2");
 
 describe("JWT Utility Functions", () => {
     // Mock users for testing. 
