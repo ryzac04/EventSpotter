@@ -4,8 +4,6 @@ const argon = require("argon2");
 
 const db = require("../db/index");
 
-const argon2TimeCost = require("../config/index");
-
 const {
     checkDuplicateUsername,
     checkUserExists,
@@ -20,6 +18,8 @@ const {
     NotFoundError,
     InternalServerError
 } = require("./expressError");
+
+const argon2TimeCost = require("../config/index");
 
 const mockDbQuery = jest.fn();
 
