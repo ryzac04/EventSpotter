@@ -1,13 +1,14 @@
+"use strict"; 
 
 const express = require("express");
 const request = require("supertest");
 const app = require("./app");
+const db = require("../db/index");
 const { UnauthorizedError } = require("../utils/expressError");
 
 function createTestApp() {
     const testApp = express();
     testApp.use(express.json());
-    // testApp.use(express.urlencoded({ extended: false }));
     
     // Adding test routes for error handling
     testApp.get("/test-error", (req, res, next) => {
@@ -57,3 +58,6 @@ describe("Generic Error Handler", () => {
     });
 });
 
+afterAll(() => {
+    db.end();
+});
