@@ -1,7 +1,5 @@
 "use strict";
 
-const argon = require("argon2");
-
 const db = require("../db/index");
 const {
     BadRequestError,
@@ -17,7 +15,6 @@ const {
     verifyPassword,
     sqlForPartialUpdate
 } = require("../utils/userModelUtils");
-const { argon2TimeCost } = require("../config");
 
 /** User model and related functions. */
 
@@ -118,7 +115,6 @@ class User {
         } catch (error) {
             console.error(`Error authenticating ${username}:`, error);
             if (!(error instanceof UnauthorizedError)) {
-                
                 throw new InternalServerError(`Failed to authenticate ${username}.`);
             } else throw error;
         }
