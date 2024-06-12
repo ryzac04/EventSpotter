@@ -1,5 +1,12 @@
+"use strict";
 
-const { ExpressError, NotFoundError, UnauthorizedError, BadRequestError, ForbiddenError } = require("./expressError");
+const {
+    ExpressError,
+    NotFoundError,
+    UnauthorizedError,
+    BadRequestError,
+    ForbiddenError
+} = require("./expressError");
 
 describe("ExpressError", () => {
     test("should create an instance of ExpressError with the specified message and status", () => {
