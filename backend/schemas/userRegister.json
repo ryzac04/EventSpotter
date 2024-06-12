@@ -8,20 +8,40 @@
         "username": {
             "type": "string",
             "minLength": 3,
-            "maxLength": 50
+            "maxLength": 50,
+            "pattern": "^[a-zA-Z0-9_]+$",
+            "errorMessage": {
+                "minLength": "Username must be at least 3 characters long.",
+                "maxLength": "Username cannot exceed 50 characters.",
+                "pattern": "Username can only contain alphanumeric characters and underscores."
+            }
         },
         "password": {
             "type": "string",
-            "minLength": 6
+            "minLength": 6,
+            "maxLength": 50,
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9\\s]).*$",
+            "errorMessage": {
+                "minLength": "Password must be at least 6 characters long.",
+                "maxLength": "Password cannot exceed 50 characters.",
+                "pattern": "Password must include at least one uppercase letter, one lowercase letter, one digit, and one special character."
+            }
         },
         "email": {
             "type": "string",
             "format": "email",
-            "maxLength": 100
+            "maxLength": 100,
+            "errorMessage": {
+                "format": "Invalid email format.",
+                "maxLength": "Email cannot exceed 100 characters."
+            }
         },
         "is_admin": {
             "type": "boolean",
-            "default": false
+            "default": false,
+            "errorMessage": {
+                "type": "is_admin must be a boolean value."
+            }
         }
     },
     "additionalProperties": false,
@@ -29,5 +49,12 @@
         "username",
         "password",
         "email"
-    ]
+    ],
+    "errorMessages": {
+        "required": {
+            "username": "Username is required for registration.",
+            "password": "Password is required for registration.",
+            "email": "Email is required for registration."
+        }
+    }
 }
