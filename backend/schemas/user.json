@@ -5,9 +5,6 @@
     "default": {},
     "title": "User",
     "properties": {
-        "id": {
-            "type": "integer"
-        },
         "username": {
             "type": "string",
             "minLength": 3,
@@ -22,35 +19,9 @@
             "format": "email",
             "maxLength": 100
         },
-        "is_admin": {
+        "isAdmin": {
             "type": "boolean",
             "default": false
-        },
-        "location": {
-            "type": "object",
-            "properties": {
-                "latitude": {
-                    "type": "number"
-                },
-                "longitude": {
-                    "type": "number"
-                },
-                "street": {
-                    "type": "string"
-                },
-                "city": {
-                    "type": "string"
-                },
-                "state": {
-                    "type": "string"
-                },
-                "post_code": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                }
-            }
         }
     },
     "additionalProperties": false,

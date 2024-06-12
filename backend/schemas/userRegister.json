@@ -36,11 +36,11 @@
                 "maxLength": "Email cannot exceed 100 characters."
             }
         },
-        "is_admin": {
+        "isAdmin": {
             "type": "boolean",
             "default": false,
             "errorMessage": {
-                "type": "is_admin must be a boolean value."
+                "type": "isAdmin must be a boolean value."
             }
         }
     },
