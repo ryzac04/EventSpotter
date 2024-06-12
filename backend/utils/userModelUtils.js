@@ -3,7 +3,6 @@
 const argon = require("argon2");
 
 const db = require("../db/index");
-const {validatePassword} = require("../middleware/validators");
 const {
     BadRequestError,
     UnauthorizedError,
