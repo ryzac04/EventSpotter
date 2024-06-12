@@ -9,11 +9,18 @@ const morgan = require("morgan");
 const { NODE_ENV } = process.env; 
 const { NotFoundError } = require("../utils/expressError");
 
+const authRoutes = require("../routes/auth");
+const userRoutes = require("../routes/user");
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
+
+/** Define Routes */
+app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
 
 /** Handle 404 errors. */
 app.use((req, res, next) => {
