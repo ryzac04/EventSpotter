@@ -5,22 +5,22 @@
     "default": {},
     "title": "User Authentication",
     "properties": {
-        "id": {
-            "type": "integer"
-        },
         "username": {
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 50
+            "type": "string"
         },
         "password": {
-            "type": "string",
-            "minLength": 6
+            "type": "string"
         }
     },
     "additionalProperties": false,
     "required": [
         "username",
         "password"
-    ]
+    ],
+    "errorMessages": {
+        "required": {
+            "username": "Username is required for authentication.",
+            "password": "Password is required for authentication."
+        }
+    }
 }
