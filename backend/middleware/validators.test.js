@@ -2,6 +2,7 @@
 
 const { BadRequestError } = require("../utils/expressError");
 const { validateUserRegistration } = require("./validators");
+const { validateUserAuth } = require("./validators");
 
 describe("User Registration Validation Middleware", () => {
     let req, res, next;
@@ -31,7 +32,7 @@ describe("User Registration Validation Middleware", () => {
     });
 
     describe("Validate that required fields are present for registration", () => {
-        test("throws BadRequestError if username missing", () => {
+        test("throws BadRequestError if username is missing", () => {
             req.body = {
                 password: "Password!2",
                 email: "user@example.com"
@@ -45,7 +46,7 @@ describe("User Registration Validation Middleware", () => {
             }
         });
 
-        test("throws BadRequestError if password missing", () => {
+        test("throws BadRequestError if password is missing", () => {
             req.body = {
                 username: "user",
                 email: "user@example.com"
@@ -59,7 +60,7 @@ describe("User Registration Validation Middleware", () => {
             }
         });
 
-        test("throws BadRequestError if email missing", () => {
+        test("throws BadRequestError if email is missing", () => {
             req.body = {
                 username: "user",
                 password: "Password!2"
@@ -209,5 +210,54 @@ describe("User Registration Validation Middleware", () => {
                 expect(next).not.toHaveBeenCalled();
             }
         });
+    });
+});
+
+describe("User Authentication Validation Middleware", () => {
+    let req, res, next;
+
+    beforeEach(() => {
+        req = {
+            body: {}
+        };
+        res = {};
+        next = jest.fn();
+    });
+    
+    afterEach(() => {
+        req = {};
+        res = {};
+        next.mockReset();
+    });
+
+    test("Valid user authentication passes validation", () => {
+        req.body = {
+            username: "user",
+            password: "Password!2"
+        }
+        expect(() => validateUserAuth(req, res, next)).not.toThrow();
+        expect(next).toHaveBeenCalled();
+    });
+
+    test("throws BadRequestError if username is missing", () => {
+        req.body = { password: "Password!2" };
+        try {
+            validateUserAuth(req, res, next);
+        } catch (error) {
+            expect(error).toBeInstanceOf(BadRequestError);
+            expect(error.message).toBe("Username is required for authentication.");
+            expect(next).not.toHaveBeenCalled();
+        }
+    });
+
+    test("throws BadRequestError if password is missing", () => {
+        req.body = { username: "user" };
+        try {
+            validateUserAuth(req, res, next);
+        } catch (error) {
+            expect(error).toBeInstanceOf(BadRequestError);
+            expect(error.message).toBe("Password is required for authentication.");
+            expect(next).not.toHaveBeenCalled();
+        }
     });
 });
