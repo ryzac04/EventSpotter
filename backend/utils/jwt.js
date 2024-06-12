@@ -29,7 +29,7 @@ function createAccessToken(user) {
             if (user.isAdmin === undefined || user.isAdmin === null) invalidProperties.push("'isAdmin'");
 
             throw new BadRequestError(`User object must have valid ${invalidProperties.join(', ')} properties.`);
-        }
+        };
 
         let payload = {
             sub: user.id,
@@ -42,7 +42,6 @@ function createAccessToken(user) {
         let accessToken = jwt.sign(payload, ACCESS_JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION });
 
         return accessToken;
-
     } catch (error) {
         console.error("Error creating access token:", error);
         throw new BadRequestError("Failed to create access token.");
@@ -71,7 +70,6 @@ function createRefreshToken(user) {
         let refreshToken = jwt.sign(payload, REFRESH_JWT_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION });
 
         return refreshToken;
-
     } catch (error) {
         console.error("Error creating refresh token:", error);
         throw new BadRequestError("Failed to create refresh token.");
@@ -79,23 +77,22 @@ function createRefreshToken(user) {
 }
 
 /**
- * Function to decode a token.
- *  
- * @param {string} token - the token to be decoded. 
- * @returns {Object} 'decodedToken' - the decoded token. 
- * @throws {BadRequestError} if decoding the JWT fails.
+ * Function to verify a token.
+ * 
+ * @param {string} token - the token to be verified.
+ * @param {string} secret - the secret key to verify the token.
+ * @returns {Object} 'verifiedToken' - the verified token.
+ * @throws {BadRequestError} if verifying the JWT fails. 
  */
 
-function decodeToken(token) {
+function verifyToken(token, secret) {
     try {
-        const decodedToken = jwt.decode(token);
-
-        return decodedToken;
-
+        const verifiedToken = jwt.verify(token, secret);
+        return verifiedToken;
     } catch (error) {
-        console.error("Error decoding JWT:", error);
-        throw new BadRequestError("Failed to decode JWT.");
+        console.error("Error verifying JWT:", error);
+        throw new BadRequestError("Failed to verify JWT.");
     }
 }
 
-module.exports = { createAccessToken, createRefreshToken, decodeToken };
+module.exports = { createAccessToken, createRefreshToken, verifyToken };
