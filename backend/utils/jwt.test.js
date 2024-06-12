@@ -3,8 +3,9 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET } = process.env;
 
-const { createAccessToken, createRefreshToken, decodeToken } = require("./jwt");
+const { createAccessToken, createRefreshToken, verifyToken } = require("./jwt");
 const { BadRequestError } = require("./expressError");
+const { verify } = require("argon2");
 
 describe("JWT Utility Functions", () => {
     // Mock users for testing. 
@@ -114,15 +115,15 @@ describe("JWT Utility Functions", () => {
         jwt.sign = refreshSign;
     });
 
-    // Tests for decodeToken: 
-    test("decodeToken should decode a correctly generated JWT", () => {
+    // Tests for verifyToken:
+    test("verifyToken should correctly verify a generated JWT", () => {
         const accessToken = createAccessToken(user1);
         const refreshToken = createRefreshToken(user1);
 
-        const decodedAccessToken = decodeToken(accessToken);
-        const decodedRefreshToken = decodeToken(refreshToken);
+        const verifiedAccessToken = verifyToken(accessToken, ACCESS_JWT_SECRET);
+        const verifiedRefreshToken = verifyToken(refreshToken, REFRESH_JWT_SECRET);
 
-        expect(decodedAccessToken).toEqual({
+        expect(verifiedAccessToken).toEqual({
             sub: user1.id,
             username: user1.username,
             email: user1.email,
@@ -131,10 +132,21 @@ describe("JWT Utility Functions", () => {
             exp: expect.any(Number)
         });
 
-        expect(decodedRefreshToken).toEqual({
+        expect(verifiedRefreshToken).toEqual({
             sub: user1.id,
             iat: expect.any(Number),
             exp: expect.any(Number)
         });
+    });
+
+    test("verifyToken should throw BadRequestError if JWT verification fails", () => {
+        const invalidToken = "invalid.token.here";
+
+        expect(() => verifyToken(invalidToken, ACCESS_JWT_SECRET)).toThrow(BadRequestError);
+
+        const validTokenWrongSecret = createAccessToken(user1);
+        const wrongSecret = 'wrong_secret';
+
+        expect(() => verifyToken(validTokenWrongSecret, wrongSecret)).toThrow(BadRequestError);
     });
 });
