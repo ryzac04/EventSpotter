@@ -3,6 +3,7 @@
 const { Validator } = require("jsonschema");
 const { BadRequestError } = require("../utils/expressError");
 const userRegisterSchema = require("../schemas/userRegister.json");
+const userAuthSchema = require("../schemas/userAuth.json");
 
 const validator = new Validator();
 
@@ -77,7 +78,9 @@ const validateSchema = (schema) => {
  */
 
 const validateUserRegistration = validateSchema(userRegisterSchema);
+const validateUserAuth = validateSchema(userAuthSchema);
 
 module.exports = {
-    validateUserRegistration
+    validateUserRegistration,
+    validateUserAuth
 };
