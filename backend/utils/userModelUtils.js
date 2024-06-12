@@ -58,8 +58,6 @@ function checkUserExists({ user }) {
 
 async function hashPassword(password) {
     try {
-        validatePassword(password);
-
         return await argon.hash(password, argon2TimeCost);
     } catch (error) {
         console.error("Error in hashPassword:", error);
