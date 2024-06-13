@@ -30,7 +30,7 @@ async function checkDuplicateUsername(username) {
         [username],
     );
     if (duplicateCheck.rows[0]) {
-        throw new BadRequestError(`Username '${username}' is already taken.`);
+        throw new BadRequestError(`Username ${username} is already taken.`);
     }
 }
 
