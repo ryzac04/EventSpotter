@@ -83,6 +83,7 @@ describe("JWT Utility Functions", () => {
 
         expect(decodedRefreshToken).toEqual({
             sub: user1.id,
+            username: user1.username,
             iat: expect.any(Number),
             exp: expect.any(Number)
         });
@@ -135,6 +136,7 @@ describe("JWT Utility Functions", () => {
 
         expect(verifiedRefreshToken).toEqual({
             sub: user1.id,
+            username: user1.username,
             iat: expect.any(Number),
             exp: expect.any(Number)
         });
@@ -149,5 +151,10 @@ describe("JWT Utility Functions", () => {
         const wrongSecret = 'wrong_secret';
 
         expect(() => verifyToken(validTokenWrongSecret, wrongSecret)).toThrow(BadRequestError);
+    });
+
+    test("verifyToken should throw BadRequestError if token is expired", () => {
+        const expiredToken = jwt.sign({ sub: user1.id }, ACCESS_JWT_SECRET, { expiresIn: '-1s' });
+        expect(() => verifyToken(expiredToken, ACCESS_JWT_SECRET)).toThrow(BadRequestError);
     });
 });
