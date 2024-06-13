@@ -47,7 +47,7 @@ class User {
                 email,
                 is_admin)
                 VALUES ($1, $2, $3, $4)
-                RETURNING username, email, is_admin AS "isAdmin"`,
+                RETURNING id, username, email, is_admin AS "isAdmin"`,
                 [
                     username,
                     hashedPassword,
@@ -88,7 +88,8 @@ class User {
 
             // Query the database to find the user
             const result = await db.query(
-                `SELECT username,
+                `SELECT id,
+                        username,
                         password,
                         email,
                         is_admin AS "isAdmin"
@@ -132,7 +133,8 @@ class User {
     static async findUser(username) {
         try {
             const result = await db.query(
-                `SELECT username,
+                `SELECT id,
+                        username,
                         email,
                         is_admin AS "isAdmin"
                 FROM users
