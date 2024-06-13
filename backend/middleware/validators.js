@@ -62,21 +62,17 @@ const formatValidationErrors = (errors, schema) => {
 const validateSchema = (schema) => {
     return (req, res, next) => {
         const validationResult = validator.validate(req.body, schema);
-        console.log("*******************", req.body)
 
         if (!validationResult.valid) {
             const errorMessage = formatValidationErrors(validationResult.errors, schema);
             throw new BadRequestError(errorMessage);
         }
-
+        
         next();
     };
 };
 
-/**
- * Middleware functions present in routes. 
- */
-
+/** Middleware functions present in routes. */
 const validateUserRegistration = validateSchema(userRegisterSchema);
 const validateUserAuth = validateSchema(userAuthSchema);
 
