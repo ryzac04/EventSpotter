@@ -64,6 +64,7 @@ function createRefreshToken(user) {
 
         let payload = {
             sub: user.id,
+            username: user.username,
             iat: Math.floor(Date.now() / 1000)
         };
 
