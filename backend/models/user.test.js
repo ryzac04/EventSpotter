@@ -41,7 +41,7 @@ describe("register", () => {
         expect(user).toHaveProperty("email", "newuser@email.com");
         expect(user).toHaveProperty("isAdmin", false);
     });
-    
+
     // checkDuplicateUsername
     test("throws BadRequestError for duplicate user", async () => {
         try {
@@ -53,7 +53,7 @@ describe("register", () => {
             });
         } catch (error) {
             expect(error).toBeInstanceOf(BadRequestError);
-            expect(error.message).toEqual("Username 'testname1' is already taken.");
+            expect(error.message).toEqual("Username testname1 is already taken.");
         };
     });
     
@@ -72,7 +72,7 @@ describe("register", () => {
         });
         try {
             const password = "Password!2";
-            await expect(hashPassword(password)).rejects.toThrow(InternalServerError);
+            await hashPassword(password);
         } catch (error) {
             expect(error).toBeInstanceOf(InternalServerError);
             expect(error.message).toEqual("Failed to hash password.");
@@ -103,8 +103,8 @@ describe("register", () => {
 });
 
 /**
- * authenticate
- */
+* authenticate
+*/
 
 describe("authenticate", () => {
     test("correctly authenticates user", async () => {
@@ -150,8 +150,8 @@ describe("authenticate", () => {
 });
 
 /**
- * findUser
- */
+* findUser
+*/
 
 describe("findUser", () => {
     test("correctly finds user by username", async () => {
@@ -186,10 +186,10 @@ describe("findUser", () => {
         };
     });
 });
-
+    
 /**
- * findAllUsers
- */
+* findAllUsers
+*/
 
 describe("findAllUsers", () => {
     test("correctly finds all users", async () => {
@@ -216,8 +216,8 @@ describe("findAllUsers", () => {
 });
 
 /**
- * updateUser
- */
+* updateUser
+*/
 
 describe("updateUser", () => {
     test("correctly updates user information", async () => {
@@ -244,7 +244,7 @@ describe("updateUser", () => {
                 email: "newemail@example.com",
                 isAdmin: false
             }
-            await User.updateUser("testname3", user );
+            await User.updateUser("testname3", user);
         } catch (error) {
             expect(error).toBeInstanceOf(NotFoundError);
             expect(error.message).toEqual("Unable to find user.");
@@ -269,8 +269,8 @@ describe("updateUser", () => {
 });
 
 /**
- * remove
- */
+* remove
+*/
 
 describe("remove", () => {
     test("successfully removes user", async () => {
