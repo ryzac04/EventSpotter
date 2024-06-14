@@ -39,7 +39,7 @@ async function authenticateUser(req, res, next) {
         res.header("x-access-token", accessToken).header("x-refresh-token", refreshToken);
 
         // Return logged in user in the response body
-        return res.status(201).json(authUser);
+        return res.status(200).json(authUser);
     } catch (error) {
         next(error);
     };
@@ -49,7 +49,7 @@ async function refreshToken(req, res, next) {
     try {
         const { refreshToken } = req.body;
         const payload = verifyToken(refreshToken, REFRESH_JWT_SECRET);
-        const user = await User.findUser(payload.sub);
+        const user = await User.findUser(payload.username);
 
         const newAccessToken = createAccessToken(user);
 
