@@ -1,22 +1,31 @@
 "use strict";
 
+require("dotenv").config();
+
+const { ACCESS_JWT_SECRET } = process.env;
+
 const { UnauthorizedError } = require("../utils/expressError");
 const { verifyToken } = require("../utils/jwt");
 
 // Middleware to ensure the request has a valid access token 
 function ensureAuthenticated(req, res, next) {
     try {
-        const token = req.headers['authorization'];
-        if (!token) {
+        const accessToken = req.body.accessToken || req.headers.authorization;
+        if (!accessToken) {
             throw new UnauthorizedError("No token provided.");
         }
 
         // Remove "Bearer" from the token string if it's present
-        const actualToken = token.startsWith("Bearer ") ? token.slice(7, token.length) : token;
+        const actualToken = accessToken.startsWith("Bearer ")
+            ? accessToken.slice(7)
+            : accessToken.startsWith("bearer ")
+                ? accessToken.slice(7)
+                : accessToken;
 
-        const verifiedToken = verifyToken(actualToken, process.env.ACCESS_JWT_SECRET);
+        const verifiedToken = verifyToken(actualToken, ACCESS_JWT_SECRET);
 
         res.locals.user = verifiedToken;
+
         next();
     } catch (error) {
         next(error);
