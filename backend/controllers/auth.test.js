@@ -10,7 +10,7 @@ const {
     commonBeforeEach,
     commonAfterEach,
     commonAfterAll
-} = require("../models/_testCommon");
+} = require("../utils/_testCommon");
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
@@ -40,8 +40,8 @@ describe("Auth Controller", () => {
             expect(response.body.username).toBe(newUser.username);
             expect(response.body.email).toBe(newUser.email);
             expect(response.body.isAdmin).toBe(newUser.isAdmin);
-            expect(response.header['x-access-token']).toBeTruthy();
-            expect(response.header['x-refresh-token']).toBeTruthy();
+            expect(response.header.authorization).toBeTruthy();
+            expect(response.header["x-refresh-token"]).toBeTruthy();
         });
 
         test("throws BadRequestError for duplicate user", async () => {
@@ -111,8 +111,8 @@ describe("Auth Controller", () => {
             
             expect(response.status).toEqual(200);
             expect(response.body.username).toBe(user.username);
-            expect(response.header['x-access-token']).toBeTruthy();
-            expect(response.header['x-refresh-token']).toBeTruthy();
+            expect(response.header["authorization"]).toBeTruthy();
+            expect(response.header["x-refresh-token"]).toBeTruthy();
         });
 
         test("throws UnauthorizedError if user not found", async () => {
@@ -176,7 +176,7 @@ describe("Auth Controller", () => {
                 .send(user);             
             
             tokens = {
-                accessToken: res.header["x-access-token"],
+                accessToken: res.header["Authorization"],
                 refreshToken: res.header["x-refresh-token"],
             };
 
@@ -186,7 +186,7 @@ describe("Auth Controller", () => {
                         
             expect(response.status).toEqual(200);
             expect(response.body.accessToken).toBeTruthy(); 
-            expect(response.header['x-access-token']).toBeTruthy();
+            expect(response.header["authorization"]).toBeTruthy();
         });
 
         test("throws BadRequestError for invalid refresh token", async () => {
