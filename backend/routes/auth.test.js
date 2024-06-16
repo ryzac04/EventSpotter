@@ -10,7 +10,7 @@ const {
     commonBeforeEach,
     commonAfterEach,
     commonAfterAll
-} = require("../models/_testCommon");
+} = require("../utils/_testCommon");
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
@@ -40,8 +40,8 @@ describe("Auth Routes", () => {
             expect(response.body.username).toBe(newUser.username);
             expect(response.body.email).toBe(newUser.email);
             expect(response.body.isAdmin).toBe(newUser.isAdmin);
-            expect(response.header['x-access-token']).toBeTruthy();
-            expect(response.header['x-refresh-token']).toBeTruthy();
+            expect(response.header["authorization"]).toBeTruthy();
+            expect(response.header["x-refresh-token"]).toBeTruthy();
         });
 
         test("throws BadRequestError for duplicate user", async () => {
@@ -97,6 +97,7 @@ describe("Auth Routes", () => {
     /**
      * Testing /login Endpoint
      */
+
     describe("POST /login", () => {
         test("correctly authenticates a user", async () => {
             const user = {
@@ -110,8 +111,8 @@ describe("Auth Routes", () => {
 
             expect(response.status).toEqual(200);
             expect(response.body.username).toBe(user.username);
-            expect(response.header['x-access-token']).toBeTruthy();
-            expect(response.header['x-refresh-token']).toBeTruthy();
+            expect(response.header["authorization"]).toBeTruthy();
+            expect(response.header["x-refresh-token"]).toBeTruthy();
         });
 
         test("throws UnauthorizedError if user not found", async () => {
@@ -160,6 +161,7 @@ describe("Auth Routes", () => {
     /**
      * Testing /refresh Endpoint
      */
+
     describe("POST /refresh", () => {
         let tokens;
 
@@ -175,7 +177,7 @@ describe("Auth Routes", () => {
                 .send(user);
 
             tokens = {
-                accessToken: loginResponse.header["x-access-token"],
+                accessToken: loginResponse.header["Authorization"],
                 refreshToken: loginResponse.header["x-refresh-token"],
             };
 
@@ -186,7 +188,7 @@ describe("Auth Routes", () => {
 
             expect(refreshResponse.status).toEqual(200);
             expect(refreshResponse.body.accessToken).toBeTruthy();
-            expect(refreshResponse.header['x-access-token']).toBeTruthy();
+            expect(refreshResponse.header["authorization"]).toBeTruthy();
         });
 
         test("throws BadRequestError for invalid refresh token", async () => {
