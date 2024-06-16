@@ -17,7 +17,7 @@ const {
     commonBeforeEach,
     commonAfterEach,
     commonAfterAll
-} = require("./_testCommon");
+} = require("../utils/_testCommon");
 
 
 beforeAll(commonBeforeAll);
