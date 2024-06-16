@@ -14,11 +14,14 @@ async function registerUser(req, res, next) {
         const { username, password, email, isAdmin } = req.body;
         const newUser = await User.register({ username, password, email, isAdmin });
 
+        // Set newUser to res.locals.user for authorization later
+        res.locals.user = newUser;
+
         const accessToken = createAccessToken(newUser);
         const refreshToken = createRefreshToken(newUser);
 
         // Set tokens in the response header
-        res.header("x-access-token", accessToken).header("x-refresh-token", refreshToken);
+        res.header("Authorization", accessToken).header("x-refresh-token", refreshToken);
         
         // Return registered user in the response body
         return res.status(201).json(newUser);
@@ -32,11 +35,14 @@ async function authenticateUser(req, res, next) {
         const { username, password } = req.body;
         const authUser = await User.authenticate(username, password);
 
+        // Set authUser to res.locals.user for authorization later
+        res.locals.user = authUser;
+
         const accessToken = createAccessToken(authUser);
         const refreshToken = createRefreshToken(authUser);
 
         // Set tokens in the response header
-        res.header("x-access-token", accessToken).header("x-refresh-token", refreshToken);
+        res.header("Authorization", accessToken).header("x-refresh-token", refreshToken);
 
         // Return logged in user in the response body
         return res.status(200).json(authUser);
@@ -54,7 +60,7 @@ async function refreshToken(req, res, next) {
         const newAccessToken = createAccessToken(user);
 
         // Set new access token in the response header
-        res.header("x-access-token", newAccessToken).json({ accessToken: newAccessToken });
+        res.header("Authorization", newAccessToken).json({ accessToken: newAccessToken });
     } catch (error) {
         next(error);
     };
