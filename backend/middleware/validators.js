@@ -4,6 +4,7 @@ const { Validator } = require("jsonschema");
 const { BadRequestError } = require("../utils/expressError");
 const userRegisterSchema = require("../schemas/userRegister.json");
 const userAuthSchema = require("../schemas/userAuth.json");
+const userUpdateSchema = require("../schemas/userUpdate.json");
 
 const validator = new Validator();
 
@@ -75,8 +76,10 @@ const validateSchema = (schema) => {
 /** Middleware functions present in routes. */
 const validateUserRegistration = validateSchema(userRegisterSchema);
 const validateUserAuth = validateSchema(userAuthSchema);
+const validateUserUpdate = validateSchema(userUpdateSchema);
 
 module.exports = {
     validateUserRegistration,
-    validateUserAuth
+    validateUserAuth,
+    validateUserUpdate
 };
