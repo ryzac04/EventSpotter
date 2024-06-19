@@ -299,3 +299,59 @@ describe("remove", () => {
         await expect(User.remove("nonexistent")).rejects.toThrow(NotFoundError);
     });
 });
+
+/**
+ * Token tests
+ */
+
+describe("Token Methods", () => {
+    test("storeRefreshToken - stores a refresh token for a user", async () => {
+        const userId = 1;
+        const token = "sample-refresh-token";
+
+        const mockQuery = jest.spyOn(db, "query").mockResolvedValue({
+            rows: [{ id: 1, userId, token }]
+        });
+
+        try {
+            const result = await User.storeRefreshToken(userId, token);
+            expect(result).toEqual({ id: 1, userId, token });
+            expect(mockQuery).toHaveBeenCalledWith(
+                expect.stringContaining("INSERT INTO refresh_tokens"),
+                expect.arrayContaining([userId, token])
+            );
+        } finally {
+            mockQuery.mockRestore();
+        }
+    });
+
+    test("deleteRefreshToken - deletes a refresh token from the database", async () => {
+        const nonExistentToken = "non-existent-token";
+
+        const result = await User.deleteRefreshToken(nonExistentToken);
+    
+        expect(result.message).toEqual("Refresh token deleted successfully.");
+    
+        const checkDeletedToken = await db.query(
+            "SELECT * FROM refresh_tokens WHERE token = $1",
+            [nonExistentToken]
+        );
+        expect(checkDeletedToken.rows.length).toEqual(0);
+    });
+
+    test("deleteRefreshToken - handles database error", async () => {
+        const token = "sample-refresh-token";
+        const errorMsg = "Database connection error";
+
+        const mockQuery = jest.spyOn(db, "query").mockRejectedValue(new Error(errorMsg));
+
+        try {
+            await expect(User.deleteRefreshToken(token)).rejects.toThrow(InternalServerError);
+        } catch (error) {
+            expect(error.message).toContain("Unable to delete refresh token");
+            expect(error.cause.message).toEqual(errorMsg);
+        } finally {
+            mockQuery.mockRestore();
+        }
+    });
+});
