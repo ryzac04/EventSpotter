@@ -6,6 +6,7 @@ const db = require("../db/index");
 
 const {
     checkDuplicateUsername,
+    checkDuplicateEmail,
     checkUserExists,
     hashPassword,
     verifyPassword,
@@ -53,6 +54,24 @@ describe("checkDuplicateUsername", () => {
         mockDbQuery.mockResolvedValue({ rows: [{ username }] });
 
         await expect(checkDuplicateUsername(username)).rejects.toThrow(BadRequestError);
+    });
+});
+
+describe("checkDuplicateEmail", () => {
+    test("does not throw error if email is not taken", async () => {
+        const email = "newUser@email.com";
+        // Mock the database query result
+        mockDbQuery.mockResolvedValue({ rows: [] });
+
+        await expect(checkDuplicateEmail(email)).resolves.not.toThrow();
+    });
+
+    test("throws BadRequestError if email is already taken", async () => {
+        const email = "newUser@email.com";
+        // Mock the database query result
+        mockDbQuery.mockResolvedValue({ rows: [{ email }] });
+
+        await expect(checkDuplicateEmail(email)).rejects.toThrow(BadRequestError);
     });
 });
 

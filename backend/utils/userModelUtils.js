@@ -35,6 +35,26 @@ async function checkDuplicateUsername(username) {
 }
 
 /**
+ * Check if an email is already taken. 
+ * 
+ * @param {string} email - the email of the user. 
+ * @throws {BadRequestError} if the username is already taken. 
+ */
+
+async function checkDuplicateEmail(email) {
+
+    const duplicateCheck = await db.query(
+        `SELECT email
+        FROM users
+        WHERE email = $1`,
+        [email],
+    );
+    if (duplicateCheck.rows[0]) {
+        throw new BadRequestError(`Email ${email} is already taken.`);
+    }
+}
+
+/**
  * Check if user exists
  * 
  * @param {Object} user - user object.
@@ -111,6 +131,7 @@ function sqlForPartialUpdate(dataToUpdate, jsToSql) {
 
 module.exports = {
     checkDuplicateUsername,
+    checkDuplicateEmail,
     checkUserExists,
     hashPassword,
     verifyPassword,
