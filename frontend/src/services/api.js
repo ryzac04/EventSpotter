@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import { saveToken } from "../utils/tokenStorage";
+import { clearToken, getToken, saveToken } from "../utils/tokenStorage";
 
 const BASE_URL = process.env.REACT_BASE_URL || "http://localhost:3001";
 
@@ -54,6 +54,18 @@ class EventSpotterApi{
             return { user: user, accessToken, refreshToken };
         } catch (error) {
             console.error("Login failed:", error);
+            throw error;
+        }
+    };
+
+    static async logout() {
+        try {
+            let refreshToken = getToken("refreshToken");
+            let res = await this.request("auth/logout", { refreshToken }, "post");
+            
+            return res.data;
+        } catch (error) {
+            console.error("Logout failed:", error);
             throw error;
         }
     };
