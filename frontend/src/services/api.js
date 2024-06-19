@@ -45,6 +45,18 @@ class EventSpotterApi{
             throw error;
         }
     };
+
+    static async login(data) {
+        try {
+            let res = await this.request("auth/login", data, "post");
+            const { user, accessToken, refreshToken } = res.data;
+
+            return { user: user, accessToken, refreshToken };
+        } catch (error) {
+            console.error("Login failed:", error);
+            throw error;
+        }
+    };
 };
 
 export default EventSpotterApi;

@@ -2,6 +2,7 @@
 import { BrowserRouter, Route } from "react-router-dom";
 import Routes from "./components/routes-nav/Routes";
 import { signup } from "./services/authService";
+import { login } from "./services/authService";
 
 import './App.css';
 
@@ -10,7 +11,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <BrowserRouter>
-          <Routes signup={signup} />
+          <Routes signup={signup} login={login} />
         </BrowserRouter>
       </header>
     </div>
