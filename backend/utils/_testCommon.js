@@ -11,6 +11,9 @@ const { InternalServerError } = require("../utils/expressError");
  * Setup function to prepare the database and insert example data before all tests.
  * 
  * Creates the users table if it doesn't exist, deletes any existing data, and inserts test data into the users table.
+ * 
+ * Creates the refresh_tokens table if it doesn't exist and deletes any existing data.
+ * 
  * @throws {InternalServerError} if there's a failure in setting up test data.
  */
 
@@ -26,9 +29,22 @@ async function commonBeforeAll() {
                 is_admin BOOLEAN NOT NULL DEFAULT FALSE)`
         );
 
+        // Create refresh_tokens table if it does not exist
+        await db.query(
+            `CREATE TABLE IF NOT EXISTS refresh_tokens (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                token TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`
+        );
+
         // Delete any data that may be present in users table
         await db.query("DELETE FROM users;");
         await db.query("ALTER SEQUENCE users_id_seq RESTART WITH 1;");
+
+        // Delete any data that may be present in refresh_tokens table
+        await db.query("DELETE FROM refresh_tokens;");
+        await db.query("ALTER SEQUENCE refresh_tokens_id_seq RESTART WITH 1;");
 
         // Insert test data into users table
         await db.query(
