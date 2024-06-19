@@ -42,10 +42,6 @@ async function commonBeforeAll() {
         await db.query("DELETE FROM users;");
         await db.query("ALTER SEQUENCE users_id_seq RESTART WITH 1;");
 
-        // Delete any data that may be present in refresh_tokens table
-        await db.query("DELETE FROM refresh_tokens;");
-        await db.query("ALTER SEQUENCE refresh_tokens_id_seq RESTART WITH 1;");
-
         // Insert test data into users table
         await db.query(
             `INSERT INTO users (
@@ -57,6 +53,7 @@ async function commonBeforeAll() {
                 ('testname1', $1, 'testname1@email.com', FALSE),
                 ('testname2', $2, 'testname2@email.com', TRUE)
             RETURNING
+                id,
                 username,
                 email,
                 is_admin AS "isAdmin"`,
