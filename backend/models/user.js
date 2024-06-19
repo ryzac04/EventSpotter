@@ -256,7 +256,7 @@ class User {
                  FROM users
                  WHERE username = $1
                  RETURNING username`,
-                [username],
+                [username]
             );
 
             const user = result.rows[0];
@@ -269,6 +269,43 @@ class User {
             if (!(error instanceof NotFoundError)) {
                 throw new InternalServerError(`Unable to delete ${username}.`);
             } else throw error;
+        }
+    }
+
+    static async storeRefreshToken(userId, token) {
+        try {
+            const result = await db.query(
+                `INSERT INTO refresh_tokens
+                (user_id,
+                token)
+                VALUES ($1, $2)
+                RETURNING id, user_id AS "userId", token `,
+                [userId, token]
+            )
+
+            const storedToken = result.rows[0];
+            return storedToken;
+            
+        } catch (error) {
+            console.error("Error storing refresh token:", error);
+            throw new InternalServerError("Unable to store refresh token.");
+        }
+    }
+
+    static async deleteRefreshToken(token) {
+        try {
+            await db.query(
+                `DELETE 
+                FROM refresh_tokens
+                WHERE token = $1`,
+                [token]
+            );
+
+            return { message: "Refresh token deleted successfully." };
+
+        } catch (error) {
+            console.error("Error deleting refresh token:", error);
+            throw new InternalServerError("Unable to delete refresh token.")
         }
     }
 }
