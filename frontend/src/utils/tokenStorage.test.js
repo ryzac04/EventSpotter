@@ -8,22 +8,25 @@ describe("tokenStorage utility functions", () => {
     });
 
     test("saveToken stores the token in localStorage", () => {
-        const token = "sampleToken";
-        saveToken(token);
-        expect(localStorage.getItem("ESAppAccessToken")).toBe(token);
+        const accessToken = "sampleAccessToken";
+        const refreshToken = "sampleRefreshToken";
+        saveToken(accessToken, refreshToken);
+        expect(localStorage.getItem("accessToken")).toBe(accessToken);
+        expect(localStorage.getItem("refreshToken")).toBe(refreshToken);
     });
 
-    test("getToken retrieves the token from localStorage", () => {
-        const token = "sampleToken";
-        localStorage.setItem("ESAppAccessToken", token);
-        console.log("TOKEN", token);
-        expect(getToken()).toBe(token);
+    test("getToken retrieves the correct token in localStorage", () => {
+        const accessToken = "sampleAccessToken";
+        const refreshToken = "sampleRefreshToken";
+        saveToken(accessToken, refreshToken);
+        expect(getToken("accessToken")).toBe(accessToken);
+        expect(getToken("refreshToken")).toBe(refreshToken);
     });
 
     test("clearToken removes the token from localStorage", () => {
         const token = "sampleToken";
-        localStorage.setItem("ESAppAccessToken", token);
+        localStorage.setItem("accessToken", token);
         clearToken();
-        expect(localStorage.getItem("ESAppAccessToken")).toBeNull();
+        expect(getToken("accessToken")).toBeNull();
     });
 });
