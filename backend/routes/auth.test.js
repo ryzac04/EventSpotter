@@ -37,9 +37,9 @@ describe("Auth Routes", () => {
                 .send(newUser);
 
             expect(response.status).toEqual(201);
-            expect(response.body.username).toBe(newUser.username);
-            expect(response.body.email).toBe(newUser.email);
-            expect(response.body.isAdmin).toBe(newUser.isAdmin);
+            expect(response.body.newUser.username).toBe(newUser.username);
+            expect(response.body.newUser.email).toBe(newUser.email);
+            expect(response.body.newUser.isAdmin).toBe(newUser.isAdmin);
             expect(response.header["authorization"]).toBeTruthy();
             expect(response.header["x-refresh-token"]).toBeTruthy();
         });
@@ -110,7 +110,7 @@ describe("Auth Routes", () => {
                 .send(user);
 
             expect(response.status).toEqual(200);
-            expect(response.body.username).toBe(user.username);
+            expect(response.body.authUser.username).toBe(user.username);
             expect(response.header["authorization"]).toBeTruthy();
             expect(response.header["x-refresh-token"]).toBeTruthy();
         });
@@ -198,6 +198,66 @@ describe("Auth Routes", () => {
 
             expect(invalidRefreshResponse.status).toEqual(400);
             expect(invalidRefreshResponse.body.error.message).toBe("Failed to verify JWT.");
+        });
+    });
+
+    /**
+     * Testing /logout Endpoint
+     */
+
+    describe("POST /logout", () => {
+        test("should logout user successfully", async () => {
+            const loginResponse = await request(app)
+                .post("/auth/login")
+                .send({
+                    username: "testname1",
+                    password: "Password!2"
+                });
+
+            const refreshToken = loginResponse.header["x-refresh-token"];
+
+            const logoutResponse = await request(app)
+                .post("/auth/logout")
+                .set("x-refresh-token", refreshToken);
+
+            expect(logoutResponse.status).toEqual(200);
+            expect(logoutResponse.body.success).toBeTruthy();
+            expect(logoutResponse.body.message).toBe("User logged out successfully");
+        });
+
+        test("should logout user with no refresh token", async () => {
+            const response = await request(app)
+                .post("/auth/logout");
+
+            expect(response.status).toEqual(200);
+        });
+
+        test("should logout user with invalid refresh token", async () => {
+            const response = await request(app)
+                .post("/auth/logout")
+                .set("x-refresh-token", "invalid_refresh_token");
+
+            expect(response.status).toEqual(200);
+        });
+
+        test("should handle internal server error", async () => {
+            jest.spyOn(User, "deleteRefreshToken").mockRejectedValueOnce(new Error("Internal Server Error"));
+
+            const loginResponse = await request(app)
+                .post("/auth/login")
+                .send({
+                    username: "testname1",
+                    password: "Password!2"
+                });
+
+            const refreshToken = loginResponse.header["x-refresh-token"];
+
+            const response = await request(app)
+                .post("/auth/logout")
+                .set("x-refresh-token", refreshToken);
+
+            expect(response.status).toEqual(500);
+            expect(response.body.error.message).toBe("Internal Server Error");
         });
     });
 });

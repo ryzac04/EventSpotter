@@ -43,7 +43,7 @@ describe("User Routes", () => {
                 .send(newUser);
 
             expect(response.status).toEqual(201);
-            expect(response.body).toEqual({
+            expect(response.body.newUser).toEqual({
                 id: 3,
                 username: "testuser",
                 email: "testuser@example.com",
@@ -72,7 +72,7 @@ describe("User Routes", () => {
                 .send(newUser);
 
             expect(response.status).toEqual(201);
-            expect(response.body).toEqual({
+            expect(response.body.newUser).toEqual({
                 id: 4,
                 username: "testuser",
                 email: "testuser@example.com",
