@@ -1,16 +1,16 @@
 
-const TOKEN_KEY = 'ESAppAccessToken';
-
-const saveToken = (token) => {
-    localStorage.setItem(TOKEN_KEY, token);
+const saveToken = (accessToken, refreshToken) => {
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
 };
 
-const getToken = () => {
-    return localStorage.getItem(TOKEN_KEY);
+const getToken = (key) => {
+    return localStorage.getItem(key);
 };
 
 const clearToken = () => {
-    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
 };
 
 export { saveToken, getToken, clearToken };
