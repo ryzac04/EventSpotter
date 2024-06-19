@@ -13,3 +13,10 @@ CREATE TABLE IF NOT EXISTS users (
     post_code VARCHAR(20),
     country VARCHAR(100)
 );
+
+CREATE TABLE IF NOT EXISTS refresh_tokens (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    token TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
