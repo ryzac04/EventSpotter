@@ -13,7 +13,8 @@ const {
     checkUserExists,
     hashPassword,
     verifyPassword,
-    sqlForPartialUpdate
+    sqlForPartialUpdate,
+    checkDuplicateEmail
 } = require("../utils/userModelUtils");
 
 /** User model and related functions. */
@@ -34,9 +35,9 @@ class User {
 
     static async register({ username, password, email, isAdmin }) {
         try {
-            // Utility functions to check for duplicate username and to hash password
+            // Utility functions to check for duplicate username, email, and to hash password
             await checkDuplicateUsername(username);
-
+            await checkDuplicateEmail(email);
             const hashedPassword = await hashPassword(password);
 
             // Insert user into the database
@@ -65,7 +66,7 @@ class User {
         } catch (error) {
             console.error(`Error registering new user ${username} to the database:`, error);
             if (!(error instanceof BadRequestError)) {
-                throw new InternalServerError(`Failed to register new user ${username} to the database.`);
+                throw new InternalServerError(`Unable to register new user ${username}.`);
             } else {
                 throw error;
             }
@@ -116,7 +117,7 @@ class User {
         } catch (error) {
             console.error(`Error authenticating ${username}:`, error);
             if (!(error instanceof UnauthorizedError)) {
-                throw new InternalServerError(`Failed to authenticate ${username}.`);
+                throw new InternalServerError(`Unable to authenticate ${username}.`);
             } else throw error;
         }
     }
@@ -152,7 +153,7 @@ class User {
         } catch (error) {
             console.error(`Error retrieving user data for username ${username} from the database:`, error);
             if (!(error instanceof NotFoundError)) {
-                throw new InternalServerError(`Failed to retrieve user data for username ${username} from the database.`);
+                throw new InternalServerError(`Unable to find username ${username}.`);
             } else throw error;
         }
     }
@@ -178,7 +179,7 @@ class User {
 
         } catch (error) {
             console.error("Error retrieving all users from the database:", error);
-            throw new InternalServerError("Failed to retrieve all users from the database.");
+            throw new InternalServerError("Unable to retrieve a list of all users.");
         }
     }
 
@@ -234,9 +235,7 @@ class User {
         } catch (error) {
             console.error(`Error updating user data for username ${username} to the database:`, error);
             if (!(error instanceof BadRequestError) && !(error instanceof NotFoundError)) {
-
-                throw new InternalServerError(`Failed to update user data for username ${username} to the database.`);
-                
+                throw new InternalServerError(`Unable to update user data for username ${username}.`);   
             } else throw error;
         }
     }
@@ -268,7 +267,7 @@ class User {
         } catch (error) {
             console.error(`Error deleting ${username} from the database:`, error);
             if (!(error instanceof NotFoundError)) {
-                throw new InternalServerError(`Failed to delete ${username} from the database.`);
+                throw new InternalServerError(`Unable to delete ${username}.`);
             } else throw error;
         }
     }

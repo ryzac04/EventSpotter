@@ -56,6 +56,21 @@ describe("register", () => {
             expect(error.message).toEqual("Username testname1 is already taken.");
         };
     });
+
+    // checkDuplicateEmail
+    test("throws BadRequestError for duplicate user", async () => {
+        try {
+            await User.register({
+                username: "testname3",
+                password: "Password!2",
+                email: "testname1@email.com",
+                isAdmin: false
+            });
+        } catch (error) {
+            expect(error).toBeInstanceOf(BadRequestError);
+            expect(error.message).toEqual("Email testname1@email.com is already taken.");
+        };
+    });
     
     // hashPassword 
     test("correctly hashes a password", async () => {
@@ -95,7 +110,7 @@ describe("register", () => {
             });
         } catch (error) {
             expect(error).toBeInstanceOf(InternalServerError);
-            expect(error.message).toEqual("Failed to register new user testname1 to the database.");
+            expect(error.message).toEqual("Unable to register new user testname1.");
         } finally {
             db.query.mockRestore();
         };
@@ -142,7 +157,7 @@ describe("authenticate", () => {
             await User.authenticate("testname1", "password1");
         } catch (error) {
             expect(error).toBeInstanceOf(InternalServerError);
-            expect(error.message).toEqual("Failed to authenticate testname1.");
+            expect(error.message).toEqual("Unable to authenticate testname1.");
         } finally {
             db.query.mockRestore();
         };
@@ -180,7 +195,7 @@ describe("findUser", () => {
             await User.findUser("testname1");
         } catch (error) {
             expect(error).toBeInstanceOf(InternalServerError);
-            expect(error.message).toEqual("Failed to retrieve user data for username testname1 from the database.");
+            expect(error.message).toEqual("Unable to find username testname1.");
         } finally {
             db.query.mockRestore();
         };
@@ -208,7 +223,7 @@ describe("findAllUsers", () => {
             await User.findAllUsers();
         } catch (error) {
             expect(error).toBeInstanceOf(InternalServerError);
-            expect(error.message).toEqual("Failed to retrieve all users from the database.");
+            expect(error.message).toEqual("Unable to retrieve a list of all users.");
         } finally {
             db.query.mockRestore();
         };
@@ -261,7 +276,7 @@ describe("updateUser", () => {
             await User.updateUser("username1");
         } catch (error) {
             expect(error).toBeInstanceOf(InternalServerError);
-            expect(error.message).toEqual("Failed to update user data for username username1 to the database.");
+            expect(error.message).toEqual("Unable to update user data for username username1.");
         } finally {
             db.query.mockRestore();
         };
