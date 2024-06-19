@@ -13,6 +13,18 @@ const signup = async (signupData) => {
     }
 };
 
+const login = async (loginData) => {
+    try {
+        const { user, accessToken, refreshToken } = await EventSpotterApi.login(loginData);
+        saveToken(accessToken);
+        return { success: true, user };
+    } catch (error) {
+        console.error("Login failed:", error);
+        return { success: false, error };
+    }
+};
+
 export {
-    signup
+    signup,
+    login
 };
