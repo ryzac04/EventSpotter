@@ -3,7 +3,7 @@
  * 
  * Presentational component for bootstrap-style alerts. 
  * 
- * Components used: Signup, Login, Profile
+ * Components used: SignupForm, LoginForm, Profile
  */ 
 
 const Alert = ({ type = "danger", messages = [] }) => {
