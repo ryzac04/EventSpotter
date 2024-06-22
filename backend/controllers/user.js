@@ -7,8 +7,7 @@ const User = require("../models/user");
 async function findAllUsers(req, res, next) {
     try {
         const users = await User.findAllUsers();
-        res.status(200).json(users);
-        
+        return res.status(200).json({ users }); 
     } catch (error) {
         next(error);
     };
@@ -18,7 +17,7 @@ async function findUser(req, res, next) {
     try {
         const { username } = req.params;
         const user = await User.findUser(username);
-        return res.status(200).json(user);
+        return res.status(200).json({ user });
     } catch (error) {
         next(error);
     };
@@ -27,8 +26,7 @@ async function findUser(req, res, next) {
 async function updateUser(req, res, next) {
     try {
         const user = await User.updateUser(req.params.username, req.body);
-        res.status(200).json(user);
-
+        return res.status(200).json({ user });
     } catch (error) {
         next(error);
     };
@@ -37,8 +35,7 @@ async function updateUser(req, res, next) {
 async function deleteUser(req, res, next) {
     try {
         await User.remove(req.params.username);
-        res.status(200).json({ message: 'User deleted' });
-        
+        return res.status(200).json({ deleted: req.params.username });
     } catch (error) {
         next(error);
     };
