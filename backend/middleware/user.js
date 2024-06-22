@@ -1,7 +1,6 @@
 "use strict";
 
 require("dotenv").config();
-
 const { ACCESS_JWT_SECRET } = process.env;
 
 const { UnauthorizedError } = require("../utils/expressError");
@@ -26,9 +25,9 @@ function ensureAuthenticated(req, res, next) {
 
         res.locals.user = verifiedToken;
 
-        next();
+        return next();
     } catch (error) {
-        next(error);
+        return next(error);
     }
 }
 
