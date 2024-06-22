@@ -1,21 +1,25 @@
 
-import { BrowserRouter, Route } from "react-router-dom";
-import Routes from "./components/routes-nav/Routes";
-import { signup } from "./services/authService";
-import { login } from "./services/authService";
+import { BrowserRouter } from "react-router-dom";
+
+import { AuthProvider } from "./contexts/authContext";
+import AppContent from "./components/appContent/AppContent";
 
 import './App.css';
 
+/** EventSpotter Application */
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <BrowserRouter>
-          <Routes signup={signup} login={login} />
-        </BrowserRouter>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <header className="App-header">
+                <BrowserRouter>
+                    <AuthProvider>
+                        <AppContent /> 
+                    </AuthProvider>
+                </BrowserRouter>
+            </header>
+        </div>
+    );
 }
 
 export default App;
