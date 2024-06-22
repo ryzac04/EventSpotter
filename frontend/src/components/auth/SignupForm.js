@@ -3,6 +3,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Alert from "../common/Alert";
 
+/**
+ * Signup Form Component
+ * 
+ * Signup form for new users to register with EventSpotter. 
+ * 
+ * On successful submission, calls signup prop and redirects to Home page ("/").
+ * 
+ * route: /signup
+ * 
+ * Other components used: Alert
+ */
+
 const SignupForm = ({ signup }) => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({

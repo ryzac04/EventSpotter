@@ -3,6 +3,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Alert from "../common/Alert";
 
+/**
+ * Login Form Component
+ * 
+ * Login form for existing users to login to their account. 
+ * 
+ * On successful submission, calls login prop and redirects to Home page ("/"). 
+ * 
+ * route: /signup
+ * 
+ * Other components used: Alert
+ */
+
 const LoginForm = ({ login }) => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -33,7 +45,7 @@ const LoginForm = ({ login }) => {
     return (
         <div className="SignupForm">
             <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-                <h2 className="mb-3">Sign Up</h2>
+                <h2 className="mb-3">Log In</h2>
                 <div className="card">
                     <div className="card-body">
                         <form onSubmit={handleSubmit}>
