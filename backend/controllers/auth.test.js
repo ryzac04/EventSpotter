@@ -37,9 +37,10 @@ describe("Auth Controller", () => {
                 .send(newUser);
 
             expect(response.status).toEqual(201);
-            expect(response.body.newUser.username).toBe(newUser.username);
-            expect(response.body.newUser.email).toBe(newUser.email);
-            expect(response.body.newUser.isAdmin).toBe(newUser.isAdmin);
+            expect(response.body).toEqual({
+                "accessToken": expect.any(String),
+                "refreshToken": expect.any(String)
+            });
             expect(response.header.authorization).toBeTruthy();
             expect(response.header["x-refresh-token"]).toBeTruthy();
         });
@@ -110,8 +111,11 @@ describe("Auth Controller", () => {
                 .send(user);
                             
             expect(response.status).toEqual(200);
-            expect(response.body.authUser.username).toBe(user.username);
-            expect(response.header["authorization"]).toBeTruthy();
+            expect(response.body).toEqual({
+                "accessToken": expect.any(String),
+                "refreshToken": expect.any(String),
+            });
+            expect(response.header.authorization).toBeTruthy();
             expect(response.header["x-refresh-token"]).toBeTruthy();
         });
 
@@ -186,7 +190,7 @@ describe("Auth Controller", () => {
                         
             expect(response.status).toEqual(200);
             expect(response.body.accessToken).toBeTruthy(); 
-            expect(response.header["authorization"]).toBeTruthy();
+            expect(response.header.authorization).toBeTruthy();
         });
 
         test("throws BadRequestError for invalid refresh token", async () => {

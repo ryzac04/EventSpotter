@@ -22,7 +22,7 @@ describe("User Controller", () => {
             await findAllUsers(req, res, next);
 
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith(mockUsers);
+            expect(res.json).toHaveBeenCalledWith({ users: mockUsers });
         });
 
         test("should call next with error if there is an error", async () => {
@@ -57,7 +57,7 @@ describe("User Controller", () => {
             await findUser(req, res, next);
 
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith(mockUser);
+            expect(res.json).toHaveBeenCalledWith({ user: mockUser });
         });
 
         test("should call next with error if there is an error", async () => {
@@ -92,7 +92,7 @@ describe("User Controller", () => {
             await updateUser(req, res, next);
 
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith(mockUser);
+            expect(res.json).toHaveBeenCalledWith({ user: mockUser });
         });
 
         test("should call next with error if there is an error", async () => {
@@ -126,7 +126,7 @@ describe("User Controller", () => {
             await deleteUser(req, res, next);
 
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({ message: 'User deleted' });
+            expect(res.json).toHaveBeenCalledWith({ deleted: 'testuser' });
         });
 
         test("should call next with error if there is an error", async () => {
