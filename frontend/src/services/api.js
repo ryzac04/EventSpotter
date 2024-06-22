@@ -93,10 +93,57 @@ class EventSpotterApi{
             
             return res.data.user;
         } catch (error) {
-            console.error("Failed to get current user:", error);
+            console.error(`Failed to get user ${username}:`, error);
             throw error;
         }
     };
-};
+
+    static async updateUser(username, data) {
+        try {
+            let res = await this.request(`users/${username}`, data, "patch")
+            
+            return res.data.user;
+        } catch (error) {
+            console.error(`Failed to update user info for username ${username}:`, error);
+            throw error;
+        }   
+    };
+
+    static async deleteUser(username) {
+        try {
+            let res = await this.request(`users/${username}`, "delete");
+            
+            return res.data.deleted;
+        } catch (error) {
+            console.error(`Failed to delete user ${username}:`, error);
+            throw error;
+        }   
+    };
+    
+    // Fetch all users (admin action) 
+    static async getAllUsers() {
+        try {
+            let res = await this.request("users");
+            
+            return res.data.users;
+        } catch (error) {
+            console.error("Failed to get all users:", error);
+            throw error; 
+        }
+    };
+
+    // Register new user (admin action)
+    static async adminRegisterUser(data) {
+        try {
+            let res = await this.request("users", data, "post");
+            const { accessToken, refreshToken } = res.data;
+
+            return { accessToken, refreshToken };
+        } catch (error) {
+            console.error("Failed to register new user:", error);
+            throw error;
+        }
+    };
+}
 
 export default EventSpotterApi;
