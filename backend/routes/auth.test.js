@@ -35,12 +35,13 @@ describe("Auth Routes", () => {
             const response = await request(app)
                 .post("/auth/register")
                 .send(newUser);
-
+        
             expect(response.status).toEqual(201);
-            expect(response.body.newUser.username).toBe(newUser.username);
-            expect(response.body.newUser.email).toBe(newUser.email);
-            expect(response.body.newUser.isAdmin).toBe(newUser.isAdmin);
-            expect(response.header["authorization"]).toBeTruthy();
+            expect(response.body).toEqual({
+                "accessToken": expect.any(String),
+                "refreshToken": expect.any(String)
+            });
+            expect(response.header.authorization).toBeTruthy();
             expect(response.header["x-refresh-token"]).toBeTruthy();
         });
 
@@ -110,8 +111,11 @@ describe("Auth Routes", () => {
                 .send(user);
 
             expect(response.status).toEqual(200);
-            expect(response.body.authUser.username).toBe(user.username);
-            expect(response.header["authorization"]).toBeTruthy();
+            expect(response.body).toEqual({
+                "accessToken": expect.any(String),
+                "refreshToken": expect.any(String)
+            });
+            expect(response.header.authorization).toBeTruthy();
             expect(response.header["x-refresh-token"]).toBeTruthy();
         });
 
@@ -188,7 +192,7 @@ describe("Auth Routes", () => {
 
             expect(refreshResponse.status).toEqual(200);
             expect(refreshResponse.body.accessToken).toBeTruthy();
-            expect(refreshResponse.header["authorization"]).toBeTruthy();
+            expect(refreshResponse.header.authorization).toBeTruthy();
         });
 
         test("throws BadRequestError for invalid refresh token", async () => {

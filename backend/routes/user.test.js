@@ -43,11 +43,9 @@ describe("User Routes", () => {
                 .send(newUser);
 
             expect(response.status).toEqual(201);
-            expect(response.body.newUser).toEqual({
-                id: 3,
-                username: "testuser",
-                email: "testuser@example.com",
-                isAdmin: false
+            expect(response.body).toEqual({
+                "accessToken": expect.any(String),
+                "refreshToken": expect.any(String)
             });
         });
 
@@ -72,11 +70,9 @@ describe("User Routes", () => {
                 .send(newUser);
 
             expect(response.status).toEqual(201);
-            expect(response.body.newUser).toEqual({
-                id: 4,
-                username: "testuser",
-                email: "testuser@example.com",
-                isAdmin: true
+            expect(response.body).toEqual({
+                "accessToken": expect.any(String),
+                "refreshToken": expect.any(String),
             });
         });
 
@@ -144,7 +140,7 @@ describe("User Routes", () => {
                 .set("authorization", `Bearer ${accessToken}`);
                 
             expect(response.status).toEqual(200);
-            expect(response.body).toHaveLength(2);
+            expect(response.body.users).toHaveLength(2);
         });
 
         test("throws UnauthorizedError if non-admin user attempts to access route", async () => {
@@ -182,10 +178,12 @@ describe("User Routes", () => {
 
             expect(response.status).toEqual(200);
             expect(response.body).toEqual({
-                id: 1,
-                username: "testname1",
-                email: "testname1@email.com",
-                isAdmin: false
+                user: {
+                    id: 1,
+                    username: "testname1",
+                    email: "testname1@email.com",
+                    isAdmin: false
+                }
             });
         });
 
@@ -203,10 +201,12 @@ describe("User Routes", () => {
 
             expect(response.status).toEqual(200);
             expect(response.body).toEqual({
-                id: 1,
-                username: "testname1",
-                email: "testname1@email.com",
-                isAdmin: false
+                user: {
+                    id: 1,
+                    username: "testname1",
+                    email: "testname1@email.com",
+                    isAdmin: false
+                }
             });
         });
 
@@ -281,8 +281,8 @@ describe("User Routes", () => {
                 .send(updatedUser);
 
             expect(response.status).toEqual(200);
-            expect(response.body.username).toBe(updatedUser.username);
-            expect(response.body.email).toBe(updatedUser.email);
+            expect(response.body.user.username).toBe(updatedUser.username);
+            expect(response.body.user.email).toBe(updatedUser.email);
         });
         
         test("should respond with status 200 and update user details - same user", async () => {
@@ -305,8 +305,8 @@ describe("User Routes", () => {
                 .send(updatedUser);
 
             expect(response.status).toEqual(200);
-            expect(response.body.username).toBe(updatedUser.username);
-            expect(response.body.email).toBe(updatedUser.email);
+            expect(response.body.user.username).toBe(updatedUser.username);
+            expect(response.body.user.email).toBe(updatedUser.email);
         });
 
         test("throws UnauthorizedError if not same user", async () => {
@@ -415,7 +415,7 @@ describe("User Routes", () => {
                 .delete(`/users/${username}`)
                 .set("authorization", `Bearer ${accessToken}`);
 
-            expect(response.body.message).toBe("User deleted");
+            expect(response.body).toEqual({ deleted: "testname1" });
         });
 
         test("should respond with status 200 and delete the user - same user", async () => {
@@ -426,13 +426,12 @@ describe("User Routes", () => {
 
             const accessToken = loginResponse.headers["authorization"];
 
-
             const username = "testname1";
             const response = await request(app)
                 .delete(`/users/${username}`)
                 .set("authorization", `Bearer ${accessToken}`);
 
-            expect(response.body.message).toBe("User deleted");
+            expect(response.body).toEqual({ deleted: "testname1" });
         });
 
         test("throws UnauthorizedError if not same user - not admin", async () => {
