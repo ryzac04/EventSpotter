@@ -35,7 +35,7 @@ async function updateUser(req, res, next) {
 async function deleteUser(req, res, next) {
     try {
         await User.remove(req.params.username);
-        return res.status(200).json({ deleted: req.params.username });
+        return res.status(200).json({ message: `User ${req.params.username} deleted successfully.` });
     } catch (error) {
         next(error);
     };
