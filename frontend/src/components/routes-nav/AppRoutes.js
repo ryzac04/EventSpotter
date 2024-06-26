@@ -6,6 +6,7 @@ import Homepage from "../homepage/Homepage";
 import SignupForm from "../auth/SignupForm";
 import LoginForm from "../auth/LoginForm";
 import Profile from "../user/Profile";
+import DeleteAccount from "../user/DeleteAccount";
 
 /**
  * AppRoutes Component
@@ -17,6 +18,7 @@ import Profile from "../user/Profile";
  * Props:
  * - signup: function to handle user registration.
  * - login: function to handle user login.
+ * - updateUser: function to update user information.
  */
 
 const AppRoutes = ({ signup, login, updateUser }) => {
@@ -27,6 +29,7 @@ const AppRoutes = ({ signup, login, updateUser }) => {
                 <Route exact path="/signup" element={<SignupForm signup={signup} />} />
                 <Route exact path="/login" element={<LoginForm login={login} />} />
                 <Route exact path="/profile" element={<Profile updateUser={updateUser} />} />
+                <Route exact path="/delete" element={<DeleteAccount />} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </div>
