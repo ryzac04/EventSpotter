@@ -8,6 +8,7 @@ import LoginForm from "../auth/LoginForm";
 import Profile from "../user/Profile";
 import DeleteAccount from "../user/DeleteAccount";
 import ThankYou from "../user/ThankYou";
+import PrivateRoute from "./PrivateRoute";
 
 /**
  * AppRoutes Component
@@ -29,8 +30,19 @@ const AppRoutes = ({ signup, login, updateUser }) => {
                 <Route exact path="/" element={<Homepage />} />
                 <Route exact path="/signup" element={<SignupForm signup={signup} />} />
                 <Route exact path="/login" element={<LoginForm login={login} />} />
-                <Route exact path="/profile" element={<Profile updateUser={updateUser} />} />
-                <Route exact path="/delete" element={<DeleteAccount />} />
+
+                {/* Private Routes */}
+                <Route exact path="/profile" element={
+                    <PrivateRoute>
+                        <Profile updateUser={updateUser} />
+                    </PrivateRoute>}
+                />
+                <Route exact path="/delete" element={
+                    <PrivateRoute>
+                        <DeleteAccount />
+                    </PrivateRoute>}
+                />
+
                 <Route exact path="/thank-you" element={<ThankYou />} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
