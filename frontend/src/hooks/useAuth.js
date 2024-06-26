@@ -21,6 +21,7 @@ import useLocalStorage from "./useLocalStorage";
  * - signup: registers a new user and sets tokens.
  * - login: authenticates a user and sets tokens.
  * - logout: logs out the user, clears tokens and user state.
+ * - updateUser: updates user profile.
  * - refreshAccessToken: refreshes the access token.
  * 
  * Effects:
@@ -62,11 +63,15 @@ const useAuth = () => {
         loadUserInfo();
     }, [token]);
 
+    const updateTokens = (accessToken, refreshToken) => {
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken);
+    };
+
     const signup = async (signupData) => {
         try {
             const { accessToken, refreshToken } = await EventSpotterApi.signup(signupData);
-            setAccessToken(accessToken);
-            setRefreshToken(refreshToken);
+            updateTokens(accessToken, refreshToken);
             return { success: true };
         } catch (error) {
             console.error("Signup failed:", error);
@@ -77,8 +82,7 @@ const useAuth = () => {
     const login = async (loginData) => {
         try {
             const { accessToken, refreshToken } = await EventSpotterApi.login(loginData);
-            setAccessToken(accessToken);
-            setRefreshToken(refreshToken);
+            updateTokens(accessToken, refreshToken);
             return { success: true };
         } catch (error) {
             console.error("Login failed:", error);
@@ -89,8 +93,7 @@ const useAuth = () => {
     const logout = async () => {
         try {
             await EventSpotterApi.logout();
-            setAccessToken(null);
-            setRefreshToken(null);
+            updateTokens(null, null);
             setCurrentUser(null);
             return { success: true };
         } catch (error) {
@@ -99,9 +102,21 @@ const useAuth = () => {
         }
     };
 
+    const updateUser = async (username, updatedUserData) => {
+        try {
+            const updatedUser = await EventSpotterApi.updateUser(username, updatedUserData);
+            setCurrentUser(updatedUser);
+
+            return { success: true };
+        } catch (error) {
+            console.error("Failed to update user:", error);
+            return { success: false, error };
+        }
+    };
+
     const refreshAccessToken = async () => {
         try {
-            const newAccessToken = await EventSpotterApi.refreshToken();
+            const { newAccessToken } = await EventSpotterApi.refreshToken();
             setAccessToken(newAccessToken);
         } catch (error) {
             console.error("Failed to refresh access token:", error);
@@ -111,10 +126,12 @@ const useAuth = () => {
 
     return {
         currentUser,
+        setCurrentUser,
         infoLoaded,
         signup,
         login,
         logout,
+        updateUser,
         refreshAccessToken
     };
 };
