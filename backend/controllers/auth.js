@@ -67,7 +67,9 @@ async function refreshToken(req, res, next) {
         const newAccessToken = createAccessToken(user);
 
         // Set new access token in the response header
-        res.header("Authorization", newAccessToken).json({ accessToken: newAccessToken });
+        res.header("Authorization", newAccessToken);
+
+        return res.status(200).json({ newAccessToken });
     } catch (error) {
         next(error);
     };
