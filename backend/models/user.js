@@ -263,6 +263,8 @@ class User {
 
             // Check if user exists
             checkUserExists({ user });
+
+            return { message: `User ${username} deleted successfully.` };
             
         } catch (error) {
             console.error(`Error deleting ${username} from the database:`, error);
