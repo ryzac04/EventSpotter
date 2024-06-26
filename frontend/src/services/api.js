@@ -112,9 +112,9 @@ class EventSpotterApi{
 
     static async deleteUser(username) {
         try {
-            let res = await this.request(`users/${username}`, "delete");
-            
-            return res.data.deleted;
+            let res = await this.request(`users/${username}`, {}, "delete");
+
+            return res.data.message;
         } catch (error) {
             console.error(`Failed to delete user ${username}:`, error);
             throw error;
