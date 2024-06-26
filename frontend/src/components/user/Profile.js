@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import { useAuthContext } from "../../contexts/authContext";
-import EventSpotterApi from "../../services/api";
 import Alert from "../common/Alert";
 
 /**
