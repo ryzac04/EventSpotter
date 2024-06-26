@@ -77,8 +77,9 @@ class EventSpotterApi{
         try {    
             let refreshToken = localStorage.getItem("refreshToken");
             let res = await this.request("auth/refresh", { refreshToken }, "post");
+            const { newAccessToken } = res.data;
 
-            return res.accessToken;   
+            return { newAccessToken };
         } catch (error) {
             console.error("Failed to refresh access token:", error);
             throw error;
