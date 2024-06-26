@@ -49,7 +49,6 @@ const Profile = ({ updateUser }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         setFormErrors([]);
         setSuccessMessage("");
         setNoChangeMessage("");
@@ -146,6 +145,7 @@ const Profile = ({ updateUser }) => {
                                 onChange={handleChange}
                             />
                         </div>
+
                         <div className="form-group mt-4">
                             {formErrors.length
                                 ? <Alert type="danger" messages={formErrors} />
