@@ -18,7 +18,7 @@ import { useAuthContext } from "../../contexts/authContext";
  */
 
 const AppContent = () => {
-  const { infoLoaded, logout, signup, login } = useAuthContext();
+  const { infoLoaded, logout, signup, login, updateUser } = useAuthContext();
 
   if (!infoLoaded) return <LoadingSpinner />;
 
@@ -26,7 +26,7 @@ const AppContent = () => {
     <>
       <NavBar logout={logout} />
       <main className="Container pt-5">
-        <AppRoutes signup={signup} login={login} />
+        <AppRoutes signup={signup} login={login} updateUser={updateUser} />
       </main>
     </>
   );
