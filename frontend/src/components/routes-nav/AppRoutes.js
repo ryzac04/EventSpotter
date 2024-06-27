@@ -8,6 +8,7 @@ import LoginForm from "../auth/LoginForm";
 import Profile from "../user/Profile";
 import DeleteAccount from "../user/DeleteAccount";
 import ThankYou from "../user/ThankYou";
+import EventMap from "../EventMap";
 import PrivateRoute from "./PrivateRoute";
 
 /**
@@ -42,7 +43,12 @@ const AppRoutes = ({ signup, login, updateUser }) => {
                         <DeleteAccount />
                     </PrivateRoute>}
                 />
-
+                <Route exact path="/map" element={
+                    <PrivateRoute>
+                        <EventMap />
+                    </PrivateRoute>}
+                />
+                
                 <Route exact path="/thank-you" element={<ThankYou />} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>

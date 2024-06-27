@@ -19,14 +19,19 @@ const NavBar = ({logout}) => {
     
     const loggedInNav = () => {
         return (
-            <ul className="navbar-nav ml-auto">
-                <li className="nav-item mr-4">
+            <ul className="navbar-nav ms-auto">
+                <li className="nav-item me-4">
+                    <NavLink className="nav-link" to="/map">
+                        Find Fun!
+                    </NavLink>
+                </li>
+                <li className="nav-item me-4">
                     <NavLink className="nav-link" to="/profile">
                         Profile
                     </NavLink>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/" onClick={logout}>
+                    <Link className="nav-link logout-link" to="/" onClick={logout}>
                         Log out {currentUser.username}
                     </Link>
                 </li>
