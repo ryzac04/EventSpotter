@@ -16,7 +16,7 @@ const Homepage = () => {
   return (
     <div className="Homepage">
       <div className="container text-center">
-        <h1 className="mb-4 font-weight-bold">EventSpotter</h1>
+        <h1 className="mb-4 fw-bold">EventSpotter</h1>
         <p className="lead">Fun at your fingertips.</p>
         {currentUser
           ? <h2>
@@ -24,11 +24,11 @@ const Homepage = () => {
           </h2>
           : (
             <p>
-              <Link className="btn btn-primary font-weight-bold mr-3"
+              <Link className="btn btn-primary fw-bold me-3"
                 to="/login">
                 Log in
               </Link>
-              <Link className="btn btn-primary font-weight-bold"
+              <Link className="btn btn-primary fw-bold"
                 to="/signup">
                 Sign up
               </Link>

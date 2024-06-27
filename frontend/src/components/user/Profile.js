@@ -96,7 +96,7 @@ const Profile = ({ updateUser }) => {
             <div className="card">
                 <div className="card-body">
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group mb-3">
+                        <div className="form-group mb-2">
                             <label className="form-label" htmlFor="username">Username</label>
                             <input
                                 disabled
@@ -109,7 +109,7 @@ const Profile = ({ updateUser }) => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group mb-2">
                             <label className="form-label" htmlFor="email">Email</label>
                             <input
                                 className="form-control"
@@ -121,7 +121,7 @@ const Profile = ({ updateUser }) => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group mb-2">
                             <label className="form-label" htmlFor="password">Password</label>
                             <input
                                 className="form-control"
@@ -145,6 +145,15 @@ const Profile = ({ updateUser }) => {
                                 onChange={handleChange}
                             />
                         </div>
+                        
+                        <div>
+                            <button className="btn btn-primary mt-4">Save Changes</button>
+
+                            <Link className="btn btn-danger mt-4 float-end"
+                                to="/delete">
+                                Delete Account
+                            </Link>
+                        </div>
 
                         <div className="form-group mt-4">
                             {formErrors.length
@@ -157,14 +166,7 @@ const Profile = ({ updateUser }) => {
                             {noChangesMessage && (
                                 <Alert type="info" messages={[noChangesMessage]} />)}
                         </div>
-                        
-                        <div className="d-grid">
-                            <button className="btn btn-primary btn-block mt-4">Save Changes</button>
-                        </div>
-                        <Link className="btn btn-primary font-weight-bold mr-3"
-                            to="/delete">
-                            Delete Account
-                        </Link>
+
                     </form>
                 </div>
             </div>

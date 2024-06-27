@@ -1,10 +1,10 @@
 
 /** Loading message used by components that fetch API data. */
 
-const Loading = () => {
+const LoadingSpinner = () => {
 
     return (
-        <div className="Loading">
+        <div className="LoadingSpinner">
             <div className="container text-center">
                 <h1 className="mb-4 fw-bold">Loading...</h1>
             </div>
@@ -12,4 +12,4 @@ const Loading = () => {
     );
 };
 
-export default Loading;
+export default LoadingSpinner;

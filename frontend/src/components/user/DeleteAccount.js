@@ -20,7 +20,7 @@ import EventSpotterApi from "../../services/api";
 
 const DeleteAccount = () => {
     const { currentUser, setCurrentUser } = useAuthContext();
-    const [formError, setFormError] = useState([]);
+    const [formErrors, setFormErrors] = useState([]);
     const navigate = useNavigate();
 
 
@@ -31,22 +31,31 @@ const DeleteAccount = () => {
             navigate("/thank-you");     
         } catch (error) {
             console.error("Error deleting user:", error);
-            setFormError("Failed to delete account. Please try again later.");
+            setFormErrors("Failed to delete account. Please try again later.");
         }
     };
 
     return (
         <div className="DeleteAccount col-md-6 col-lg-4 offset-md-3 offset-lg-4">
-            <h3>Delete Account</h3>
+            <h3 className="heading-text">Delete Account</h3>
             <div className="card">
                 <div className="card-body">
 
-                    <p className="text-danger">By pressing the button below, your account will be permanently deleted. This action cannot be undone.</p>
+                    <p className="text-danger fw-bold">By pressing the button below, your account will be permanently deleted.</p>
+                    <p className="text-danger fw-bold">  This action cannot be undone.</p>
 
-                        {formError && <Alert type="danger" messages={[formError]} />}
+                    <div className="mt-4">
+                        <button onClick={handleDeleteAccount} className="btn btn-danger">Delete My Account</button>
+                    
+                        <Link to="/profile" className="btn btn-secondary float-end">Cancel</Link>
+                    </div>
 
-                        <button onClick={handleDeleteAccount} className="btn btn-danger mr-2">Delete My Account</button>
-                        <Link to="/profile" className="btn btn-secondary">Cancel</Link>
+                    <div className="mt-4">
+                        {formErrors.length
+                            ? <Alert type="danger" messages={formErrors} />
+                            : null}
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -45,7 +45,7 @@ const LoginForm = ({ login }) => {
     return (
         <div className="SignupForm">
             <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-                <h2 className="mb-3">Log In</h2>
+                <h2 className="heading-text">Log In</h2>
                 <div className="card">
                     <div className="card-body">
                         <form onSubmit={handleSubmit}>
@@ -69,17 +69,15 @@ const LoginForm = ({ login }) => {
                                 />
                             </div>
 
-                            {formErrors.length
-                                ? <Alert type="danger" messages={formErrors} />
-                                : null
-                            }
+                            <button type="submit" className="btn btn-primary mt-4">Submit</button>
 
-                            <button
-                                type="submit"
-                                className="btn btn-primary float-right"
-                            >
-                                Submit
-                            </button>
+                            <div className="mt-4">
+                                {formErrors.length
+                                    ? <Alert type="danger" messages={formErrors} />
+                                    : null
+                                }
+                            </div>
+
                         </form>
                     </div>
                 </div>
