@@ -1,38 +1,55 @@
-.App {
-  text-align: center;
+/* 
+Universal Styling 
+
+To maintain stylistic consistency across the app, there
+are several styles here that will apply to many components.
+
+Bootstrap styling is also present in many components - mostly
+for page structuring. 
+
+There are also some css pages dedicated to specific components
+for specific styling/formatting reasons: 
+
+ - NavBar.css
+ - index.css (for font-family)
+ */
+
+/* Background Styling */
+body {
+  background-image: url(../public/images/background.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  margin: 0;
+  padding: 0 0 30px 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* General Form Styling - Profile.js, LoginForm.js, SignupForm.js */
+input:focus,
+input:active,
+button:focus,
+button:active {
+  box-shadow: none !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.form-label {
+  text-align: left;
+  font-weight: bold;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* Heading Text Styling - Profile.js, LoginForm.js, SignupForm.js */
+.heading-text {
+  text-align: left;
   color: white;
+  text-shadow: 2px 2px 5px rgb(52, 48, 47);
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Home Page and Loading Widget styling - Homepage.js, LoadingSpinner.js */
+.Homepage,
+.LoadingSpinner {
+  height: calc(100vh - 400px);
+  display: flex;
+  align-items: center;
+  color: white;
+  text-shadow: 2px 2px 5px rgb(52, 48, 47);
 }
