@@ -33,7 +33,6 @@ const useAuth = () => {
     const [refreshToken, setRefreshToken] = useLocalStorage("refreshToken");
     const [currentUser, setCurrentUser] = useState(null);
     const [infoLoaded, setInfoLoaded] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(!!token);
 
     console.debug(
         "App",
@@ -129,7 +128,6 @@ const useAuth = () => {
         currentUser,
         setCurrentUser,
         infoLoaded,
-        isAuthenticated,
         signup,
         login,
         logout,
