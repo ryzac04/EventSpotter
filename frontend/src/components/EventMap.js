@@ -20,6 +20,8 @@ const EventMap = () => {
     const [droppedPinCoords, setDroppedPinCoords] = useState(null);
     const [droppedPinAddress, setDroppedPinAddress] = useState("");
     const [events, setEvents] = useState([]);
+    const [selectedMarkerId, setSelectedMarkerId] = useState(null);
+    const [infoWindowOpen, setInfoWindowOpen] = useState(false);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
     // Save state to localStorage on state change
@@ -64,7 +66,14 @@ const EventMap = () => {
                             userCoords={userCoords}
                             userAddress={userAddress}
                         />
+                        
                     </Map>
+                    <EventPin
+                        selectedMarkerId={selectedMarkerId}
+                        setSelectedMarkerId={setSelectedMarkerId}
+                        setInfoWindowOpen={setInfoWindowOpen}
+                        events={events}
+                    />
                     <EventFilterForm
                         setEvents={setEvents}
                         userCoords={userCoords}
