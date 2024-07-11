@@ -34,13 +34,6 @@ const useAuth = () => {
     const [currentUser, setCurrentUser] = useState(null);
     const [infoLoaded, setInfoLoaded] = useState(false);
 
-    console.debug(
-        "App",
-        "infoLoaded=", infoLoaded,
-        "currentUser=", currentUser,
-        "token=", token
-    );
-
     useEffect(() => {
         const loadUserInfo = async () => {
             if (token) {
