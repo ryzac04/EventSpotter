@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Alert from "../common/Alert";
 
 /**
- * Login Form Component
+ * LoginForm Component
  * 
  * Login form for existing users to login to their account. 
  * 

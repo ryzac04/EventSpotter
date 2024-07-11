@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Alert from "../common/Alert";
 
 /**
- * Signup Form Component
+ * SignupForm Component
  * 
  * Signup form for new users to register with EventSpotter. 
  * 
