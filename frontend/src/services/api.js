@@ -31,7 +31,7 @@ class EventSpotterApi{
             let message = error.response.data.error.message;
             throw Array.isArray(message) ? message : [message];
         }
-    }
+    };
 
     // API auth routes 
 
@@ -145,6 +145,6 @@ class EventSpotterApi{
             throw error;
         }
     };
-}
+};
 
 export default EventSpotterApi;
