@@ -93,8 +93,8 @@ const useAuth = () => {
     const logout = async () => {
         try {
             await EventSpotterApi.logout();
-            updateTokens(null, null);
             setCurrentUser(null);
+            localStorage.clear();
             return { success: true };
         } catch (error) {
             console.error("Logout failed:", error);
