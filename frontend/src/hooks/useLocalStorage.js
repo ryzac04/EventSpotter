@@ -14,8 +14,9 @@ import { useState, useEffect } from "react";
  *  - else, updates localStorage
  * 
  * Implementation in components is similar to useState: 
- * 
  *  const [data, setData] = useLocalStorage("data")
+ * 
+ * Found in: useAuth.js 
  */
 
 function useLocalStorage(key, firstValue = null) {
