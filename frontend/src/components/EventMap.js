@@ -15,6 +15,9 @@ const EventMap = () => {
     // State 
     const [mapCenter, setMapCenter] = useState(DEFAULT_CENTER);
     const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM_DENIED);
+    const [userCoords, setUserCoords] = useState(null);
+    const [userAddress, setUserAddress] = useState("");
+    const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
     // Save state to localStorage on state change
     useEffect(() => {
@@ -30,7 +33,13 @@ const EventMap = () => {
 
     return (
         <div className="d-flex justify-content-center align-items-center">
-
+            <PermissionModal
+                setMapCenter={setMapCenter}
+                setMapZoom={setMapZoom}
+                setUserCoords={setUserCoords}
+                setUserAddress={setUserAddress}
+                setButtonsDisabled={setButtonsDisabled}
+            />
             <APIProvider
                 apiKey={process.env.REACT_APP_GMAP_API_KEY}
                 libraries={["places", "geometry", "drawing", "visualization", "routes"]}
