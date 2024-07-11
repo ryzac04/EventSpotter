@@ -37,12 +37,11 @@ const SignupForm = ({ signup }) => {
         } catch (error) {
             console.error("Error during signup:", error);
         }
-    }
-
+    };
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value })
-    }
+    };
 
     return (
         <div className="SignupForm">
@@ -80,16 +79,13 @@ const SignupForm = ({ signup }) => {
                                     onChange={handleChange}
                                 />
                             </div>
-
                             <button type="submit" className="btn btn-primary mt-4">Submit</button>
-
                             <div className="mt-4">
                                 {formErrors.length
                                     ? <Alert type="danger" messages={formErrors} />
                                     : null
                                 }
                             </div>
-
                         </form>
                     </div>
                 </div>
