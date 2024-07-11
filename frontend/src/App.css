@@ -47,7 +47,7 @@ button:active {
 /* Home Page and Loading Widget styling - Homepage.js, LoadingSpinner.js */
 .Homepage,
 .LoadingSpinner {
-  height: calc(100vh - 400px);
+  height: calc(100vh - 200px);
   display: flex;
   align-items: center;
   color: white;
