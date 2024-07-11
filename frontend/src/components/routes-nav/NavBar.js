@@ -15,7 +15,6 @@ import "./NavBar.css";
 
 const NavBar = ({ logout }) => {
     const { currentUser } = useAuthContext();
-    console.debug("Navigation", "currentUser=", currentUser);
     
     const loggedInNav = () => {
         return (
