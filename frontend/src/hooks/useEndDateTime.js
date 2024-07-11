@@ -2,7 +2,16 @@
 import { useState } from "react";
 import { formatDateToISO } from "../utils/appUtils";
 
-// Custom hook to format and handle change in end date/time input - found in EventFilterForm.js
+/**
+ * useEndDateTime custom hook
+ * 
+ * Manages and formats the end date/time input.
+ * 
+ * @returns {Object} - an object containing the endDateTime, setEndDateTime function, rawEndDateTime, and handleEndDateTimeChange function.
+ * 
+ * Found in: EventFilterForm.js
+ */
+
 const useEndDateTime = () => {
     const [endDateTime, setEndDateTime] = useState("");
     const [rawEndDateTime, setRawEndDateTime] = useState("");
