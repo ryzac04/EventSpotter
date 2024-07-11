@@ -28,6 +28,7 @@ const LoginForm = ({ login }) => {
         try {
             const result = await login(formData);
             if (result.success) {
+                localStorage.setItem("locationPermissionAsked", "false");
                 navigate("/");
             } else {
                 setFormErrors(result.error);

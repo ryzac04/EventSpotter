@@ -29,6 +29,7 @@ const SignupForm = ({ signup }) => {
         try {
             const result = await signup(formData);
             if (result.success) {
+                localStorage.setItem("locationPermissionAsked", "false");
                 navigate("/");
             } else {
                 setFormErrors(result.error);
