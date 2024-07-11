@@ -19,7 +19,7 @@ import Alert from "../common/Alert";
  */
 
 const Profile = ({ updateUser }) => {
-    const { currentUser, setCurrentUser } = useAuthContext();
+    const { currentUser } = useAuthContext();
     const [formData, setFormData] = useState({
         username: "",
         email: "",
@@ -106,7 +106,6 @@ const Profile = ({ updateUser }) => {
                                 type="text"
                                 value={formData.username}
                                 placeholder={formData.username}
-                                onChange={handleChange}
                             />
                         </div>
                         <div className="form-group mb-2">
@@ -166,7 +165,6 @@ const Profile = ({ updateUser }) => {
                             {noChangesMessage && (
                                 <Alert type="info" messages={[noChangesMessage]} />)}
                         </div>
-
                     </form>
                 </div>
             </div>
