@@ -3,11 +3,11 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import { useAuthContext } from "../../contexts/authContext";
-import Alert from "../common/Alert";
 import EventSpotterApi from "../../services/api";
+import Alert from "../common/Alert";
 
 /**
- * DeleteAccount Form
+ * DeleteAccount Component
  * 
  * Delete form for a user who wishes to cancel their account. 
  * 
