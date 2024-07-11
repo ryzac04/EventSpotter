@@ -54,7 +54,14 @@ const EventMap = () => {
                         options={{
                             scaleControl: true,
                         }}
-                    ></Map>
+                    >
+                        <UserPin
+                            selectedMarkerId={selectedMarkerId}
+                            setSelectedMarkerId={setSelectedMarkerId}
+                            userCoords={userCoords}
+                            userAddress={userAddress}
+                        />
+                    </Map>
                 </div>
             </APIProvider>
         </div>
