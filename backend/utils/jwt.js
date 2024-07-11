@@ -2,7 +2,7 @@
 require("dotenv").config();
 
 const jwt = require("jsonwebtoken");
-const { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET, ACCESS_TOKEN_EXPIRATION, REFRESH_TOKEN_EXPIRATION } = process.env;
+const { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET } = process.env;
 
 const { BadRequestError } = require("./expressError");
 
@@ -39,7 +39,7 @@ function createAccessToken(user) {
             iat: Math.floor(Date.now() / 1000)
         };
 
-        let accessToken = jwt.sign(payload, ACCESS_JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION });
+        let accessToken = jwt.sign(payload, ACCESS_JWT_SECRET);
 
         return accessToken;
     } catch (error) {
@@ -68,7 +68,7 @@ function createRefreshToken(user) {
             iat: Math.floor(Date.now() / 1000)
         };
 
-        let refreshToken = jwt.sign(payload, REFRESH_JWT_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION });
+        let refreshToken = jwt.sign(payload, REFRESH_JWT_SECRET);
 
         return refreshToken;
     } catch (error) {
