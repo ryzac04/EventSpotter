@@ -17,6 +17,9 @@ const EventMap = () => {
     const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM_DENIED);
     const [userCoords, setUserCoords] = useState(null);
     const [userAddress, setUserAddress] = useState("");
+    const [droppedPinCoords, setDroppedPinCoords] = useState(null);
+    const [droppedPinAddress, setDroppedPinAddress] = useState("");
+    const [events, setEvents] = useState([]);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
     // Save state to localStorage on state change
@@ -62,6 +65,13 @@ const EventMap = () => {
                             userAddress={userAddress}
                         />
                     </Map>
+                    <EventFilterForm
+                        setEvents={setEvents}
+                        userCoords={userCoords}
+                        droppedPinCoords={droppedPinCoords}
+                        mapCenter={mapCenter}
+                        buttonsDisabled={buttonsDisabled}
+                    />
                 </div>
             </APIProvider>
         </div>
