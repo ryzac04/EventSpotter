@@ -3,6 +3,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Homepage from "../homepage/Homepage";
+import QuickTips from "../QuickTips";
 import SignupForm from "../auth/SignupForm";
 import LoginForm from "../auth/LoginForm";
 import Profile from "../user/Profile";
@@ -14,7 +15,7 @@ import PrivateRoute from "./PrivateRoute";
 /**
  * AppRoutes Component
  * 
- * Defines application routes using React Router. It includes routes for the homepage, authentication (login/signup), and private routes for authenticated users.
+ * Defines application routes using React Router. It includes routes for the homepage, quick tips,  authentication (login/signup), and private routes for authenticated users.
  * 
  * Visiting a non-existent route redirects to the homepage. 
  * 
@@ -29,6 +30,7 @@ const AppRoutes = ({ signup, login, updateUser }) => {
         <div className="pt-5">
             <Routes>
                 <Route exact path="/" element={<Homepage />} />
+                <Route exact path="/quick-tips" element={<QuickTips />} /> 
                 <Route exact path="/signup" element={<SignupForm signup={signup} />} />
                 <Route exact path="/login" element={<LoginForm login={login} />} />
 
