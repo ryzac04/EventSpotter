@@ -2,6 +2,22 @@
 import { AdvancedMarker, Pin, InfoWindow } from "@vis.gl/react-google-maps";
 import "./EventMap.css";
 
+/**
+ * UserPin Component
+ * 
+ * Renders a marker on the map to indicate the user's location. When the marker is clicked, it toggles the display of an InfoWindow showing the user's address. 
+ * 
+ * Props passed from EventMap.js:
+ *  - selectedMarkerId
+ *  - setSelectedMarkerId
+ *  - userCoords
+ *  - userAddress
+ * 
+ * Other components used are from '@vis.gl/react-google-maps' library.
+ * 
+ * Found in: EventMap.js 
+ */
+
 const UserPin = ({
     selectedMarkerId,
     setSelectedMarkerId,
