@@ -36,12 +36,12 @@ const LoginForm = ({ login }) => {
         } catch (error) {
             console.error("Error during signup:", error);
         }
-    }
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value })
-    }
+    };
 
     return (
         <div className="SignupForm">
@@ -78,7 +78,6 @@ const LoginForm = ({ login }) => {
                                     : null
                                 }
                             </div>
-
                         </form>
                     </div>
                 </div>
