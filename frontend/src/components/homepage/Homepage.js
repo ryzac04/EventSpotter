@@ -1,18 +1,17 @@
 
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/authContext";
-import EventMap from "../EventMap";
 
 /**
  * Homepage Component
  * 
+ * Renders the homepage of the EventSpotter application. Displays a welcome message and provides navigation options based on the user's authentication status.
  * 
  * route: / 
  */
 
 const Homepage = () => {
   const { currentUser } = useAuthContext();
-  console.debug("Homepage", "currentUser=", currentUser);
 
   return (
     <div className="Homepage">
@@ -21,10 +20,10 @@ const Homepage = () => {
         <p className="lead">Fun at your fingertips.</p>
         {currentUser
           ? <div>
-            <h2>
+            <h2 className="mb-4">
               Welcome, {currentUser.username}!
             </h2>
-            <p>We're glad you're here! Click on Find Fun! at the top to get started or head to our Quick Tips page to help you search like a pro!</p>
+            <p className="lead">We're glad you're here! Click on Find Fun! at the top to get started or head to our Quick Tips page to help you search like a pro!</p>
           </div>
           : (
             <p>
@@ -42,6 +41,6 @@ const Homepage = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Homepage;
