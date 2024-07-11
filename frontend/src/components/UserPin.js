@@ -7,14 +7,17 @@ import "./EventMap.css";
  * 
  * Renders a marker on the map to indicate the user's location. When the marker is clicked, it toggles the display of an InfoWindow showing the user's address. 
  * 
- * Props passed from EventMap.js:
- *  - selectedMarkerId
- *  - setSelectedMarkerId
- *  - userCoords
- *  - userAddress
+ * @param {Object} props - The component props.
+ * @param {string} props.selectedMarkerId - the ID of the currently selected marker.
+ * @param {function} props.setSelectedMarkerId - function to set the selected marker ID.
+ * @param {Object} props.userCoords - the coordinates of the user's location.
+ * @param {number} props.userCoords.lat - the latitude of the user's location.
+ * @param {number} props.userCoords.lng - the longitude of the user's location.
+ * @param {string} props.userAddress - the address corresponding to the user's location.
+ *
+ * @returns {JSX.Element} - JSX element representing the user's location marker on the map.
  * 
  * Other components used are from '@vis.gl/react-google-maps' library.
- * 
  * Found in: EventMap.js 
  */
 
