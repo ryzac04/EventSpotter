@@ -133,6 +133,7 @@ const EventMap = () => {
                                     droppedPinAddress={droppedPinAddress}
                                     setDroppedPinAddress={setDroppedPinAddress}
                                     buttonsDisabled={buttonsDisabled}
+                                    setError={setError}
                                 />
                                 <EventPin
                                     selectedMarkerId={selectedMarkerId}
@@ -149,9 +150,11 @@ const EventMap = () => {
                                     autoSearchCoords={autoSearchCoords}
                                     setAutoSearchCoords={setAutoSearchCoords}
                                     buttonsDisabled={buttonsDisabled}
+                                    setError={setError}
                                 />
                                 <Directions
                                     ref={directionsRef}
+                                    setError={setError}
                                 />
                                 <ClearMap
                                     setDroppedPinCoords={setDroppedPinCoords}
@@ -162,6 +165,7 @@ const EventMap = () => {
                                     setInfoWindowOpen={setInfoWindowOpen}
                                     directionsRef={directionsRef}
                                     buttonsDisabled={buttonsDisabled}
+                                    setError={setError}
                                 />
                             </Map>
                         </div>
