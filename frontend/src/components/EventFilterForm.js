@@ -20,8 +20,8 @@ import "./EventMap.css";
  * @param {Object} props.droppedPinCoords - coordinates of the dropped pin on the map.
  * @param {Object} props.mapCenter - coordinates of the map center.
  * @param {boolean} props.buttonsDisabled - indicates whether buttons in the form should be disabled.
- * @param {string} props.searchError - error message to display if the search fails.
- * @param {function} props.setSearchError - function to set the search error message.
+ * @param {string} props.error - error message to display if the search fails.
+ * @param {function} props.setError - function to set the search error message.
  *
  * @returns {JSX.Element} - JSX element representing the event filter form.
  * 
@@ -36,8 +36,8 @@ const EventFilterForm = ({
     droppedPinCoords,
     mapCenter,
     buttonsDisabled,
-    searchError,
-    setSearchError
+    error,
+    setError
 }) => {
     const { currentUser } = useAuthContext();
 
@@ -100,15 +100,15 @@ const EventFilterForm = ({
                     return true;
                 });
                 setEvents(filteredEvents);
-                setSearchError(null);
+                setError(null);
                 localStorage.setItem("events", JSON.stringify(filteredEvents));
             } else {
                 setEvents([]);
-                setSearchError("No events found matching your criteria.");
+                setError("No events found matching your criteria.");
             }
         } catch (error) {
             console.error("Error fetching events:", error);
-            setSearchError("An error occurred while fetching events. Please try again later.");
+            setError("An error occurred while fetching events. Please try again later.");
         }
     };
 
@@ -198,7 +198,7 @@ const EventFilterForm = ({
                             </div>
                             <button className="btn btn-primary mt-2" type="submit" disabled={buttonsDisabled}>Search</button>
                         </form>
-                        {searchError && <Alert type="danger" messages={[searchError]} />}
+                        {error && <Alert type="danger" messages={[error]} />}
                     </div>
                 </div>
             </div>

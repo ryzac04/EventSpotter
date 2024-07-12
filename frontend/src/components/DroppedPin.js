@@ -19,8 +19,8 @@ import "./DroppedPin.css";
  * @param {string|null} props.droppedPinAddress - address of the dropped pin location.
  * @param {function} props.setDroppedPinAddress - function to set the dropped pin address.
  * @param {boolean} props.buttonsDisabled - flag indicating if buttons are disabled.
- * @param {string|null} props.searchError - error message related to search functionality.
- * @param {function} props.setSearchError - function to set the search error message.
+ * @param {string|null} props.error - error message related to search functionality.
+ * @param {function} props.setError - function to set the search error message.
  * 
  * @returns {JSX.Element} - JSX element representing the dropped pin on the map.
  * 
