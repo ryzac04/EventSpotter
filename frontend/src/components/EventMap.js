@@ -7,6 +7,7 @@ import PermissionModal from "./PermissionModal";
 import UserPin from "./UserPin";
 import DroppedPin from "./DroppedPin";
 import EventPin from "./EventPin";
+import AutocompleteSearch from "./AutocompleteSearch";
 import Directions from "./Directions";
 import EventFilterForm from "./EventFilterForm";
 import EventList from "./EventList";
@@ -30,6 +31,8 @@ const EventMap = () => {
     const [droppedPinCoords, setDroppedPinCoords] = useState(null);
     const [droppedPinAddress, setDroppedPinAddress] = useState("");
     const [events, setEvents] = useState([]);
+    const [autoSearchMarker, setAutoSearchMarker] = useState(null);
+    const [autoSearchCoords, setAutoSearchCoords] = useState(null);
     const [selectedMarkerId, setSelectedMarkerId] = useState(null);
     const [infoWindowOpen, setInfoWindowOpen] = useState(false);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
@@ -68,8 +71,6 @@ const EventMap = () => {
                 setUserCoords={setUserCoords}
                 setUserAddress={setUserAddress}
                 setButtonsDisabled={setButtonsDisabled}
-                error={error}
-                setError={setError}
             />
             <APIProvider
                 apiKey={process.env.REACT_APP_GMAP_API_KEY}
@@ -101,16 +102,20 @@ const EventMap = () => {
                             droppedPinAddress={droppedPinAddress}
                             setDroppedPinAddress={setDroppedPinAddress}
                             buttonsDisabled={buttonsDisabled}
-                            error={error}
-                            setError={setError}
                         />
-                        <EventPin
+                        <AutocompleteSearch
                             selectedMarkerId={selectedMarkerId}
                             setSelectedMarkerId={setSelectedMarkerId}
                             setInfoWindowOpen={setInfoWindowOpen}
-                            events={events}
+                            autoSearchMarker={autoSearchMarker}
+                            setAutoSearchMarker={setAutoSearchMarker}
+                            autoSearchCoords={autoSearchCoords}
+                            setAutoSearchCoords={setAutoSearchCoords}
+                            buttonsDisabled={buttonsDisabled}
                         />
-                        <Directions ref={directionsRef} />
+                        <Directions
+                            ref={directionsRef}
+                        />
                     </Map>
                     <EventFilterForm
                         setEvents={setEvents}
