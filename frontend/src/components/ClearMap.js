@@ -65,7 +65,7 @@ const ClearMap = ({
 
     return (
         <form>
-            <div className="utility-buttons">
+            <div className="clear-button">
                 <button className="btn btn-danger" disabled={buttonsDisabled} onClick={handleClearMap}>Clear Map</button>
             </div>
         </form>
