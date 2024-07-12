@@ -19,6 +19,7 @@ import "./AutocompleteSearch.css";
  * @param {Object} props.autoSearchMarker - marker object for the auto-complete search result.
  * @param {function} props.setAutoSearchMarker - function to set the state of the auto-complete search marker.
  * @param {boolean} props.buttonsDisabled - indicates whether buttons are disabled.
+ * @param {function} props.setError - function to set error state or display an error message.
  * 
  * @returns {JSX.Element} - JSX element representing the AutocompleteSearch component.
  * 
@@ -34,7 +35,8 @@ const AutocompleteSearch = ({
     setInfoWindowOpen,
     autoSearchMarker,
     setAutoSearchMarker,
-    buttonsDisabled
+    buttonsDisabled,
+    setError
 }) => {
     const map = useMap();
     
@@ -68,6 +70,8 @@ const AutocompleteSearch = ({
             },
             (error) => {
                 console.error("Geocoding error:", error);
+                setError("Error retrieving this location. Please try again.");
+
             }
         );
 

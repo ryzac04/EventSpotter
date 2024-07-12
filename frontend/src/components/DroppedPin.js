@@ -20,6 +20,7 @@ import "./DroppedPin.css";
  * @param {string|null} props.droppedPinAddress - the address of the dropped pin location.
  * @param {function} props.setDroppedPinAddress - function to set the state of the dropped pin address.
  * @param {boolean} props.buttonsDisabled - indicates whether buttons are disabled.
+ * @param {function} props.setError - function to set error state or display an error message.
  * 
  * @returns {JSX.Element} - JSX element representing 'Drop Pin' toggle button and the dropped pin marker on the map.
  * 
@@ -35,7 +36,8 @@ const DroppedPin = forwardRef(({
     setDroppedPinCoords,
     droppedPinAddress,
     setDroppedPinAddress,
-    buttonsDisabled
+    buttonsDisabled,
+    setError
 }, ref) => {
     const [droppedPinActive, setDroppedPinActive] = useState(false);
 
@@ -64,6 +66,7 @@ const DroppedPin = forwardRef(({
                     },
                     (error) => {
                         console.error("Geocoding error:", error);
+                        setError("Error retrieving dropped pin location. Please try again.");
                     }
                 );
             }

@@ -7,6 +7,9 @@ import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
  * 
  * Renders a button to fetch and display driving directions on a Google Map.
  * Utilizes the Google Maps Directions Service and Directions Renderer.
+ * 
+ * @param {Object} props - the component props.
+ * @param {function} props.setError - function to set error state or display an error message.
  *
  * @returns {JSX.Element} - JSX element - 'Directions' button.
  * 
@@ -17,7 +20,7 @@ import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
  * This app found in EventMap.js
  */
 
-const Directions = forwardRef((props, ref) => {
+const Directions = forwardRef(({setError}, ref) => {
     const map = useMap();
     const routesLibrary = useMapsLibrary("routes");
 
@@ -91,6 +94,7 @@ const Directions = forwardRef((props, ref) => {
             localStorage.setItem("directions", JSON.stringify(response));
         }).catch(error => {
             console.error("Directions request failed:", error);
+            setError("Unable to plot that route at this time. Please try again.");
         });
     };
 
