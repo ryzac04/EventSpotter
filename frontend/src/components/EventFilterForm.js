@@ -8,12 +8,36 @@ import Alert from "./common/Alert";
 
 import "./EventMap.css";
 
+/**
+ * EventFilterForm Component
+ * 
+ * Renders a form for filtering events based on search criteria such as keyword, distance, date/time, price range, and result size. 
+ * It interacts with the Ticketmaster API to fetch events based on the provided filters and displays any errors encountered during the fetch process. 
+ * 
+ * @param {Object} props - the component props.
+ * @param {function} props.setEvents - function to set the array of events fetched from the API.
+ * @param {Object} props.userCoords - coordinates of the user's location.
+ * @param {Object} props.droppedPinCoords - coordinates of the dropped pin on the map.
+ * @param {Object} props.mapCenter - coordinates of the map center.
+ * @param {boolean} props.buttonsDisabled - indicates whether buttons in the form should be disabled.
+ * @param {string} props.searchError - error message to display if the search fails.
+ * @param {function} props.setSearchError - function to set the search error message.
+ *
+ * @returns {JSX.Element} - JSX element representing the event filter form.
+ * 
+ * Other components used: Alert
+ * Custom hook used: useEndDateTime
+ * Found in: EventMap.js
+ */
+
 const EventFilterForm = ({
     setEvents,
     userCoords,
     droppedPinCoords,
     mapCenter,
-    buttonsDisabled
+    buttonsDisabled,
+    searchError,
+    setSearchError
 }) => {
     const { currentUser } = useAuthContext();
 
@@ -24,8 +48,6 @@ const EventFilterForm = ({
     const [priceMin, setPriceMin] = useState("0");
     const [priceMax, setPriceMax] = useState("");
     const [resultSize, setResultSize] = useState(10);
-
-    const [searchError, setSearchError] = useState(null);
     
     useEffect(() => {
 
@@ -104,59 +126,83 @@ const EventFilterForm = ({
     };
 
     return (
-        <div>
-            <form>
-                <div className="filters">
-                    <label>Search:</label>
-                    <input
-                        type="text"
-                        value={searchKeyword}
-                        onChange={(e) => setSearchKeyword(e.target.value)}
-                    />
-                    <br />
-                    <label>Distance (miles):</label>
-                    <input
-                        type="number"
-                        value={filterDistance}
-                        min="0"
-                        onChange={(e) => setFilterDistance(e.target.value)}
-                    />
-                    <br />
-                    <label>End Date Time:</label>
-                    <input
-                        type="datetime-local"
-                        value={rawEndDateTime}
-                        onChange={handleEndDateTimeChange}
-                    />
-                    <br />
-                    <label>Price Min:</label>
-                    <input
-                        type="number"
-                        value={priceMin}
-                        min="0"
-                        onChange={(e) => setPriceMin(e.target.value)}
-                    />
-                    <br />
-                    <label>Price Max:</label>
-                    <input
-                        type="number"
-                        value={priceMax}
-                        min="0"
-                        onChange={(e) => setPriceMax(e.target.value)}
-                    />
-                    <br />
-                    <label>Result Size:</label>
-                    <input
-                        type="number"
-                        value={resultSize}
-                        min="1"
-                        onChange={(e) => setResultSize(e.target.value)}
-                    />
+        <div className="EventFilterForm">
+            <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                <h3 className="heading-text">Find Events</h3>
+                <div className="card">
+                    <div className="card-body">
+                        <form onSubmit={handleSearch}>
+                            <div className="form-group mb-2">
+                                <label className="form-label" htmlFor="username">Search:</label>
+                                <input
+                                    className="form-control"
+                                    id="username"
+                                    type="text"
+                                    value={searchKeyword}
+                                    onChange={(e) => setSearchKeyword(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group mb-2">
+                                <label className="form-label" htmlFor="distance">Distance (miles):</label>
+                                <input
+                                    className="form-control"
+                                    id="distance"
+                                    type="number"
+                                    value={filterDistance}
+                                    min="0"
+                                    onChange={(e) => setFilterDistance(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group mb-2">
+                                <label className="form-label" htmlFor="end-date-time">End Date Time:</label>
+                                <input
+                                    className="form-control"
+                                    id="end-date-time"
+                                    type="datetime-local"
+                                    value={rawEndDateTime}
+                                    onChange={handleEndDateTimeChange}
+                                />
+                            </div>
+                            <div className="form-group mb-2">
+                                <label className="form-label" htmlFor="price-min">Price Min:</label>
+                                <input
+                                    className="form-control"
+                                    id="price-min"
+                                    type="number"
+                                    value={priceMin}
+                                    min="0"
+                                    onChange={(e) => setPriceMin(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group mb-2">
+                                <label className="form-label" htmlFor="price-max">Price Max:</label>
+                                <input
+                                    className="form-control"
+                                    id="price-max"
+                                    type="number"
+                                    value={priceMax}
+                                    min="0"
+                                    onChange={(e) => setPriceMax(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group mb-2">
+                                <label className="form-label" htmlFor="result-size">Result Size:</label>
+                                <input
+                                    className="form-control"
+                                    id="result-size"
+                                    type="number"
+                                    value={resultSize}
+                                    min="1"
+                                    onChange={(e) => setResultSize(e.target.value)}
+                                />
+                            </div>
+                            <button className="btn btn-primary mt-2" type="submit" disabled={buttonsDisabled}>Search</button>
+                        </form>
+                        {searchError && <Alert type="danger" messages={[searchError]} />}
+                    </div>
                 </div>
-            </form>
-            <button disabled={buttonsDisabled} onClick={handleSearch}>Search</button>
-            {searchError && <Alert type="danger" messages={[searchError]} />}
-        </div> 
+            </div>
+        </div>
     );
 };
 
