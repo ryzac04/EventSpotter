@@ -131,7 +131,7 @@ const EventFilterForm = ({
                 <h3 className="heading-text">Find Events</h3>
                 <div className="card">
                     <div className="card-body">
-                        <form onSubmit={handleSearch}>
+                        <form className="mb-4" onSubmit={handleSearch}>
                             <div className="form-group mb-2">
                                 <label className="form-label" htmlFor="username">Search:</label>
                                 <input
