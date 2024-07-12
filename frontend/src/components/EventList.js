@@ -13,7 +13,8 @@ import Event from "./Event";
 
 const EventList = ({ events }) => {
     return (
-        <div className="EventList col-md-8 offset-md-2">
+        <div className="EventList">
+            {events && events.length > 0 ? <h3 className="heading-text">Event List</h3> : ""}
             {events.map(event => (
                 <Event key={event.id} event={event} />
             ))}
