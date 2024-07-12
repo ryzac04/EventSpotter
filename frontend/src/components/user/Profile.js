@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import { useAuthContext } from "../../contexts/authContext";
+import { useAuthContext } from "../../contexts/AuthContext";
 import Alert from "../common/Alert";
 
 /**

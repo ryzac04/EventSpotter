@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { fromLatLng } from "react-geocode";
-import { useAuthContext } from "../contexts/authContext";
+import { useAuthContext } from "../contexts/AuthContext";
 
 import "./PermissionModal.css";
 

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import { useAuthContext } from "../contexts/authContext";
+import { useAuthContext } from "../contexts/AuthContext";
 import useEndDateTime from "../hooks/useEndDateTime";
 import Alert from "./common/Alert";
 

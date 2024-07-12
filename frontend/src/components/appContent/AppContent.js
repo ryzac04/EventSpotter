@@ -2,7 +2,7 @@
 import AppRoutes from "../routes-nav/AppRoutes";
 import NavBar from "../routes-nav/NavBar";
 import LoadingSpinner from "../common/LoadingSpinner";
-import { useAuthContext } from "../../contexts/authContext";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 /**
  * AppContent Component
