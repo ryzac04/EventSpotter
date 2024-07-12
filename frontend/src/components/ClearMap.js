@@ -14,6 +14,7 @@
  * @param {function} props.setInfoWindowOpen - function to set the state of InfoWindow visibility.
  * @param {Object} props.directionsRef - reference to the Directions component for clearing directions.
  * @param {boolean} props.buttonsDisabled - indicates whether buttons are disabled.
+ * @param {function} props.setError - function to set error state or display an error message.
  * 
  * @returns {JSX.Element} - JSX element - 'Clear Map' button.
  * 
@@ -28,7 +29,8 @@ const ClearMap = ({
     setAutoSearchCoords,
     setInfoWindowOpen,
     directionsRef,
-    buttonsDisabled
+    buttonsDisabled,
+    setError
 }) => {
 
     const handleClearMap = (e) => {
@@ -47,6 +49,9 @@ const ClearMap = ({
         // Clear auto-complete marker and coords
         setAutoSearchMarker(null);
         setAutoSearchCoords(null);
+
+        // Clear errors 
+        setError(null);
 
         // Clear directions 
         if (directionsRef.current) {
