@@ -18,6 +18,7 @@ import "./PermissionModal.css";
  * @param {function} props.setUserCoords - function to set the user's coordinates.
  * @param {function} props.setUserAddress - function to set the user's address.
  * @param {function} props.setButtonsDisabled - function to set the disabled state of buttons during modal display.
+ * @param {function} props.setError - function to set error state or display an error message.
  * 
  * @returns {JSX.Element} - JSX element representing the modal for location permission.
  * 
@@ -36,7 +37,8 @@ const PermissionModal = ({
     setMapZoom,
     setUserCoords,
     setUserAddress,
-    setButtonsDisabled
+    setButtonsDisabled,
+    setError
 }) => {
     const { currentUser } = useAuthContext();
 
@@ -57,6 +59,7 @@ const PermissionModal = ({
                 },
                 (error) => {
                     console.error("Geocoding error:", error);
+                    setError("Error retrieving user location. Please try again.");
                 }
             );
         } else if (currentUser) {
@@ -80,6 +83,7 @@ const PermissionModal = ({
             }
         } else {
             console.error("Geolocation is not supported by this browser.");
+            setError("Geolocation is not supported by this browser. Please use a different browser.");
             setMapCenter(DEFAULT_CENTER);
             setMapZoom(DEFAULT_ZOOM_DENIED);
         }
@@ -106,11 +110,13 @@ const PermissionModal = ({
                     },
                     (error) => {
                         console.error("Geocoding error:", error);
+                        setError("Error retrieving user location. Please try again.");
                     }
                 );
             },
             (error) => {
                 console.error("Permission denied or position unavailable.", error);
+                setError("Permission denied or position unavailable. Please enable location services to use this feature.");
                 setMapCenter(DEFAULT_CENTER);
                 setMapZoom(DEFAULT_ZOOM_DENIED);
             },
