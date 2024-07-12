@@ -74,7 +74,7 @@ const DroppedPin = forwardRef(({
         <div className="DroppedPin">
             <div className="toggle-dropped-pin">
                 <button
-                    className={`btn btn-light ${droppedPinActive ? "active" : ""}`}
+                    className={`btn btn-secondary ${droppedPinActive ? "active" : ""}`}
                     disabled={buttonsDisabled}
                     onClick={handleDroppedPinToggle}
                 >
