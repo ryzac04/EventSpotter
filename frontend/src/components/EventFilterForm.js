@@ -4,7 +4,6 @@ import axios from "axios";
 
 import { useAuthContext } from "../contexts/AuthContext";
 import useEndDateTime from "../hooks/useEndDateTime";
-import Alert from "./common/Alert";
 
 /**
  * EventFilterForm Component
@@ -18,8 +17,7 @@ import Alert from "./common/Alert";
  * @param {Object} props.droppedPinCoords - the coordinates of the dropped pin.
  * @param {Object} props.mapCenter - the coordinates of the map center.
  * @param {boolean} props.buttonsDisabled - indicates whether buttons are disabled.
- * @param {string} props.error - error message to display if the search fails.
- * @param {function} props.setError - function to set the state of the search error message.
+ * @param {function} props.setError - function to set error state or display an error message.
  *
  * @returns {JSX.Element} - JSX element representing the event filter form.
  * 
@@ -35,7 +33,6 @@ const EventFilterForm = ({
     droppedPinCoords,
     mapCenter,
     buttonsDisabled,
-    error,
     setError
 }) => {
     const { currentUser } = useAuthContext();
@@ -103,6 +100,7 @@ const EventFilterForm = ({
                 localStorage.setItem("events", JSON.stringify(filteredEvents));
             } else {
                 setEvents([]);
+                localStorage.removeItem("events");
                 setError("No events found matching your criteria.");
             }
         } catch (error) {
@@ -197,7 +195,6 @@ const EventFilterForm = ({
                             </div>
                             <button className="btn btn-primary mt-2" type="submit" disabled={buttonsDisabled}>Search</button>
                         </form>
-                        {error && <Alert type="danger" messages={[error]} />}
                     </div>
                 </div>
             </div>
