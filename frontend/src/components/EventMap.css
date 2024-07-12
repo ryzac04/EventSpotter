@@ -4,6 +4,7 @@
     width: 70%;
     margin: 0 auto;
 }
+
 .map-heading {
     text-align: center;
     color: white;
@@ -47,7 +48,11 @@
     margin-top: 20px;
     width: 70%;
     margin: 0 auto;
+}
 
+.event-section>* {
+    flex: 1;
+    margin: 10px;
 }
 
 @media (max-width: 768px) {
@@ -56,21 +61,12 @@
         /* Stack the columns on smaller screens */
     }
 }
-/* ul {
-    padding: 0px;
-    padding-left: 1.5rem;
-    margin: 0px;
-}
 
-*/
-/* li button {
-    color: #f6e05e;
-    background: none;
-    border: none;
-    cursor: pointer;
+.alert-container {
+    margin: 0 auto;
+    width: 60%;
+    text-align: center;
 }
-
-*/
 
 /* Common styles for any component that utilizes InfoWindow or Pin */
 .info-window p {
@@ -83,14 +79,6 @@
     margin-top: 0;
 }
 
-.info-window ul li {
-    list-style-type: disc;
-}
-
 .info-window span {
     font-weight: bold;
-}
-.event-section>* {
-    flex: 1;
-    margin: 10px;
 }
