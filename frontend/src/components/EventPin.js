@@ -101,8 +101,8 @@ const EventPin = ({
                             </InfoWindow>
                         )}
                     </AdvancedMarker>
-                );
-            })};
+                )
+            })}
         </div>
     );
 };
