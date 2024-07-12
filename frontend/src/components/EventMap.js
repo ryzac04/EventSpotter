@@ -92,14 +92,12 @@ const EventMap = () => {
                 <div className="row">
                     <div className="col-12">
                         <div className="location-display-container">
-
                             <LocationDisplay
                                 userAddress={userAddress}
                                 droppedPinAddress={droppedPinAddress}
                             />
                         </div>
                     </div>
-                        
                 </div>
                 <div className="row">
                     <div className="col-12">
@@ -163,16 +161,18 @@ const EventMap = () => {
                         </div>
                     </div>
                 </div>
-                <EventFilterForm
-                    setEvents={setEvents}
-                    userCoords={userCoords}
-                    droppedPinCoords={droppedPinCoords}
-                    mapCenter={mapCenter}
-                    buttonsDisabled={buttonsDisabled}
-                    error={error}
-                    setError={setError}
-                />
-                <EventList events={events} />
+                <div className="event-section mt-4">
+                    <EventFilterForm
+                        setEvents={setEvents}
+                        userCoords={userCoords}
+                        droppedPinCoords={droppedPinCoords}
+                        mapCenter={mapCenter}
+                        buttonsDisabled={buttonsDisabled}
+                        error={error}
+                        setError={setError}
+                    />
+                    <EventList events={events} />
+                </div>
             </APIProvider>
         </div>
     );
