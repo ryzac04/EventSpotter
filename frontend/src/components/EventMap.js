@@ -1,12 +1,13 @@
 
 import React, { useState, useEffect, useRef } from "react";
-import { APIProvider, Map, } from "@vis.gl/react-google-maps";
+import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { setKey } from "react-geocode";
 
 import PermissionModal from "./PermissionModal";
 import UserPin from "./UserPin";
 import DroppedPin from "./DroppedPin";
 import EventPin from "./EventPin";
+import Directions from "./Directions";
 import EventFilterForm from "./EventFilterForm";
 import EventList from "./EventList";
 
@@ -37,6 +38,7 @@ const EventMap = () => {
 
     // Refs
     const droppedPinRef = useRef();
+    const directionsRef = useRef();
 
     // Save state to localStorage on state change
     useEffect(() => {
@@ -66,6 +68,8 @@ const EventMap = () => {
                 setUserCoords={setUserCoords}
                 setUserAddress={setUserAddress}
                 setButtonsDisabled={setButtonsDisabled}
+                error={error}
+                setError={setError}
             />
             <APIProvider
                 apiKey={process.env.REACT_APP_GMAP_API_KEY}
@@ -100,14 +104,14 @@ const EventMap = () => {
                             error={error}
                             setError={setError}
                         />
-                        
+                        <EventPin
+                            selectedMarkerId={selectedMarkerId}
+                            setSelectedMarkerId={setSelectedMarkerId}
+                            setInfoWindowOpen={setInfoWindowOpen}
+                            events={events}
+                        />
+                        <Directions ref={directionsRef} />
                     </Map>
-                    <EventPin
-                        selectedMarkerId={selectedMarkerId}
-                        setSelectedMarkerId={setSelectedMarkerId}
-                        setInfoWindowOpen={setInfoWindowOpen}
-                        events={events}
-                    />
                     <EventFilterForm
                         setEvents={setEvents}
                         userCoords={userCoords}
