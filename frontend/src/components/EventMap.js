@@ -38,7 +38,6 @@ const EventMap = () => {
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const [error, setError] = useState(null);
 
-
     // Refs
     const droppedPinRef = useRef();
     const directionsRef = useRef();
@@ -102,6 +101,12 @@ const EventMap = () => {
                             droppedPinAddress={droppedPinAddress}
                             setDroppedPinAddress={setDroppedPinAddress}
                             buttonsDisabled={buttonsDisabled}
+                        />
+                        <EventPin
+                            selectedMarkerId={selectedMarkerId}
+                            setSelectedMarkerId={setSelectedMarkerId}
+                            setInfoWindowOpen={setInfoWindowOpen}
+                            events={events}
                         />
                         <AutocompleteSearch
                             selectedMarkerId={selectedMarkerId}
