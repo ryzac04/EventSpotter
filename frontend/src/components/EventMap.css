@@ -10,6 +10,11 @@
     margin: 0 auto;
 }
 
+.map-heading {
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 5px rgb(52, 48, 47);
+}
 ul {
     padding: 0px;
     padding-left: 1.5rem;
@@ -40,4 +45,29 @@ li button {
 
 .info-window span {
     font-weight: bold;
+}
+.directions-container {
+    position: absolute;
+    top: 8px;
+    left: 80%;
+    transform: translateX(-50%);
+    width: 17%;
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.clear-button {
+    position: absolute;
+    bottom: 30px;
+    left: 85%;
+    transform: translateX(-50%);
+    width: 14%;
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
