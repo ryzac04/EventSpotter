@@ -12,6 +12,7 @@ import Directions from "./Directions";
 import LocationDisplay from "./LocationDisplay";
 import EventFilterForm from "./EventFilterForm";
 import EventList from "./EventList";
+import ClearMap from "./ClearMap";
 
 import "./EventMap.css";
 
@@ -74,7 +75,7 @@ const EventMap = () => {
         }
     };
 
-     return (
+    return (
         <div className="container-fluid">
             <PermissionModal
                 setMapCenter={setMapCenter}
@@ -159,6 +160,16 @@ const EventMap = () => {
                     buttonsDisabled={buttonsDisabled}
                     error={error}
                     setError={setError}
+                />
+                <ClearMap
+                    setDroppedPinCoords={setDroppedPinCoords}
+                    setDroppedPinAddress={setDroppedPinAddress}
+                    setEvents={setEvents}
+                    setAutoSearchMarker={setAutoSearchMarker}
+                    setAutoSearchCoords={setAutoSearchCoords}
+                    setInfoWindowOpen={setInfoWindowOpen}
+                    directionsRef={directionsRef}
+                    buttonsDisabled={buttonsDisabled}
                 />
                 <EventList events={events} />
             </APIProvider>
