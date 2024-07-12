@@ -104,7 +104,7 @@ const Directions = forwardRef((props, ref) => {
     const autoSearchAddress = localStorage.getItem("autoSearchAddress");
 
     return (
-        <div className="directions">
+        <div className="directions-container">
             {(userAddress || droppedPinAddress) && (eventAddress || autoSearchAddress) ? (
                 <button className="btn btn-secondary" onClick={handleGetDirections}>Get Directions</button>
             ) : (
