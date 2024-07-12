@@ -46,8 +46,7 @@ const AutocompleteSearch = ({
         setupAutocomplete();
     }, []);
 
-    const handleLocationSelect = (e) => {
-        e.preventDefault();
+    const handleLocationSelect = () => {
         if (!autocomplete || !map) return;
         const place = autocomplete.getPlace();
 
@@ -113,9 +112,14 @@ const AutocompleteSearch = ({
         setInputValue(e.target.value);
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        handleLocationSelect();
+    };
+
     return (
         <div className="autocomplete-container">
-            <form onSubmit={handleLocationSelect}>
+            <form onSubmit={handleSubmit}>
             <input
                 id="autocomplete"
                 className="autocomplete-input"
