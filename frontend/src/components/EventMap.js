@@ -9,6 +9,7 @@ import DroppedPin from "./DroppedPin";
 import EventPin from "./EventPin";
 import AutocompleteSearch from "./AutocompleteSearch";
 import Directions from "./Directions";
+import LocationDisplay from "./LocationDisplay";
 import EventFilterForm from "./EventFilterForm";
 import EventList from "./EventList";
 
@@ -42,6 +43,17 @@ const EventMap = () => {
     const droppedPinRef = useRef();
     const directionsRef = useRef();
 
+    // Load state from localStorage on component mount - maintains venue pins and event list through page refresh
+    useEffect(() => {
+        const storedDroppedPinCoords = JSON.parse(localStorage.getItem("droppedPinCoords"));
+        const storedAutoSearchMarker = JSON.parse(localStorage.getItem("autoSearchMarker"));
+        const storedEvents = JSON.parse(localStorage.getItem("events"));
+
+        setDroppedPinCoords(storedDroppedPinCoords);
+        setAutoSearchMarker(storedAutoSearchMarker);
+        if (storedEvents) { setEvents(storedEvents) }; // upon first mount, there will be no storedEvents
+    }, []);
+
     // Save state to localStorage on state change
     useEffect(() => {
         localStorage.setItem("mapCenter", JSON.stringify(mapCenter));
@@ -62,8 +74,8 @@ const EventMap = () => {
         }
     };
 
-    return (
-        <div className="d-flex justify-content-center align-items-center">
+     return (
+        <div className="container-fluid">
             <PermissionModal
                 setMapCenter={setMapCenter}
                 setMapZoom={setMapZoom}
@@ -75,64 +87,80 @@ const EventMap = () => {
                 apiKey={process.env.REACT_APP_GMAP_API_KEY}
                 libraries={["places", "geometry", "drawing", "visualization", "routes"]}
             >
-                <div className="map-container">
-                    <Map
-                        mapId={process.env.REACT_APP_GMAP_MAP_ID}
-                        center={mapCenter}
-                        zoom={mapZoom}
-                        onCameraChanged={handleMapChange}
-                        onClick={handleMapClick}
-                        options={{
-                            scaleControl: true,
-                        }}
-                    >
-                        <UserPin
-                            selectedMarkerId={selectedMarkerId}
-                            setSelectedMarkerId={setSelectedMarkerId}
-                            userCoords={userCoords}
+                <div className="row">
+                    <div className="col-12">
+                <div className="location-display-container"> 
+
+                        <LocationDisplay
                             userAddress={userAddress}
-                        />
-                        <DroppedPin
-                            ref={droppedPinRef}
-                            selectedMarkerId={selectedMarkerId}
-                            setSelectedMarkerId={setSelectedMarkerId}
-                            droppedPinCoords={droppedPinCoords}
-                            setDroppedPinCoords={setDroppedPinCoords}
                             droppedPinAddress={droppedPinAddress}
-                            setDroppedPinAddress={setDroppedPinAddress}
-                            buttonsDisabled={buttonsDisabled}
                         />
-                        <EventPin
-                            selectedMarkerId={selectedMarkerId}
-                            setSelectedMarkerId={setSelectedMarkerId}
-                            setInfoWindowOpen={setInfoWindowOpen}
-                            events={events}
-                        />
-                        <AutocompleteSearch
-                            selectedMarkerId={selectedMarkerId}
-                            setSelectedMarkerId={setSelectedMarkerId}
-                            setInfoWindowOpen={setInfoWindowOpen}
-                            autoSearchMarker={autoSearchMarker}
-                            setAutoSearchMarker={setAutoSearchMarker}
-                            autoSearchCoords={autoSearchCoords}
-                            setAutoSearchCoords={setAutoSearchCoords}
-                            buttonsDisabled={buttonsDisabled}
-                        />
-                        <Directions
-                            ref={directionsRef}
-                        />
-                    </Map>
-                    <EventFilterForm
-                        setEvents={setEvents}
-                        userCoords={userCoords}
-                        droppedPinCoords={droppedPinCoords}
-                        mapCenter={mapCenter}
-                        buttonsDisabled={buttonsDisabled}
-                        error={error}
-                        setError={setError}
-                    />
-                    <EventList events={events} />
+                        </div>
+                    </div>
+                        
                 </div>
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="map-container">
+                                <Map
+                                    mapId={process.env.REACT_APP_GMAP_MAP_ID}
+                                    center={mapCenter}
+                                    zoom={mapZoom}
+                                    onCameraChanged={handleMapChange}
+                                    onClick={handleMapClick}
+                                    options={{
+                                        scaleControl: true,
+                                    }}
+                                >
+                                    <UserPin
+                                        selectedMarkerId={selectedMarkerId}
+                                        setSelectedMarkerId={setSelectedMarkerId}
+                                        userCoords={userCoords}
+                                        userAddress={userAddress}
+                                    />
+                                    <DroppedPin
+                                        ref={droppedPinRef}
+                                        selectedMarkerId={selectedMarkerId}
+                                        setSelectedMarkerId={setSelectedMarkerId}
+                                        droppedPinCoords={droppedPinCoords}
+                                        setDroppedPinCoords={setDroppedPinCoords}
+                                        droppedPinAddress={droppedPinAddress}
+                                        setDroppedPinAddress={setDroppedPinAddress}
+                                        buttonsDisabled={buttonsDisabled}
+                                    />
+                                    <EventPin
+                                        selectedMarkerId={selectedMarkerId}
+                                        setSelectedMarkerId={setSelectedMarkerId}
+                                        setInfoWindowOpen={setInfoWindowOpen}
+                                        events={events}
+                                    />
+                                    <AutocompleteSearch
+                                        selectedMarkerId={selectedMarkerId}
+                                        setSelectedMarkerId={setSelectedMarkerId}
+                                        setInfoWindowOpen={setInfoWindowOpen}
+                                        autoSearchMarker={autoSearchMarker}
+                                        setAutoSearchMarker={setAutoSearchMarker}
+                                        autoSearchCoords={autoSearchCoords}
+                                        setAutoSearchCoords={setAutoSearchCoords}
+                                        buttonsDisabled={buttonsDisabled}
+                                    />
+                                    <Directions
+                                        ref={directionsRef}
+                                    />
+                                </Map>
+                                </div>
+                            </div>
+                        </div>
+                <EventFilterForm
+                    setEvents={setEvents}
+                    userCoords={userCoords}
+                    droppedPinCoords={droppedPinCoords}
+                    mapCenter={mapCenter}
+                    buttonsDisabled={buttonsDisabled}
+                    error={error}
+                    setError={setError}
+                />
+                <EventList events={events} />
             </APIProvider>
         </div>
     );
