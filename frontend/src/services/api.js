@@ -21,7 +21,6 @@ class EventSpotterApi{
      * @throws {Array} - an array of error messages if the request fails. 
      */
     static async request(endpoint, data = {}, method = "get", extraHeaders) {
-        console.debug("API Call:", endpoint, data, method);
 
         const url = `${BASE_URL}/${endpoint}`;
         const headers = {
