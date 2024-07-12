@@ -126,7 +126,7 @@ const EventFilterForm = ({
 
     return (
         <div className="EventFilterForm">
-            <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+            <div className="event-form-container">
                 <h3 className="heading-text">Find Events</h3>
                 <div className="card">
                     <div className="card-body">
@@ -153,7 +153,7 @@ const EventFilterForm = ({
                                 />
                             </div>
                             <div className="form-group mb-2">
-                                <label className="form-label" htmlFor="end-date-time">End Date Time:</label>
+                                <label className="form-label" htmlFor="end-date-time">End Date/Time:</label>
                                 <input
                                     className="form-control"
                                     id="end-date-time"
@@ -163,7 +163,7 @@ const EventFilterForm = ({
                                 />
                             </div>
                             <div className="form-group mb-2">
-                                <label className="form-label" htmlFor="price-min">Price Min:</label>
+                                <label className="form-label" htmlFor="price-min">Price Min (USD):</label>
                                 <input
                                     className="form-control"
                                     id="price-min"
@@ -174,7 +174,7 @@ const EventFilterForm = ({
                                 />
                             </div>
                             <div className="form-group mb-2">
-                                <label className="form-label" htmlFor="price-max">Price Max:</label>
+                                <label className="form-label" htmlFor="price-max">Price Max (USD):</label>
                                 <input
                                     className="form-control"
                                     id="price-max"
@@ -185,7 +185,7 @@ const EventFilterForm = ({
                                 />
                             </div>
                             <div className="form-group mb-2">
-                                <label className="form-label" htmlFor="result-size">Result Size:</label>
+                                <label className="form-label" htmlFor="result-size">Number of Events:</label>
                                 <input
                                     className="form-control"
                                     id="result-size"
