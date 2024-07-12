@@ -1,16 +1,36 @@
 
 import React, { useState, useEffect } from "react";
-import { setKey, fromLatLng } from "react-geocode";
+import { fromLatLng } from "react-geocode";
 import { useAuthContext } from "../contexts/authContext";
 
 import Alert from "./common/Alert";
-import "./EventMap.css";
+import "./PermissionModal.css";
 
-// Set Google Maps API Key - needed for "react-geocode"
-setKey(process.env.REACT_APP_GMAP_API_KEY);
+/**
+ * PermissionModal Component
+ * 
+ * Handles user permission for accessing location to show nearby events.
+ * If user grants permission, updates user coordinates, address, and updates map settings.
+ * If user denies permission or geolocation is not supported, defaults to the specified map center and zoom.
+ * 
+ * @param {Object} props - the component props.
+ * @param {function} props.setMapCenter - function to set the map center coordinates.
+ * @param {function} props.setMapZoom - function to set the map zoom level.
+ * @param {function} props.setUserCoords - function to set the user's coordinates.
+ * @param {function} props.setUserAddress - function to set the user's address.
+ * @param {function} props.setButtonsDisabled - function to set the disabled state of buttons during modal display.
+ * @param {string|null} props.error - error message related to location or geocoding.
+ * @param {function} props.setError - function to set the error message.
+ * 
+ * @returns {JSX.Element} - JSX element representing the modal for location permission.
+ * 
+ * Uses fromLatLng from react-geocode for reverse geocoding.
+ * Other components used: Alert
+ * Found in: EventMap.js
+ */
 
 // Default Map Settings
-const DEFAULT_CENTER = { lat: 39.8283, lng: -98.5795 }; // center of contiguous 48 states in USA - fun fact!
+const DEFAULT_CENTER = { lat: 39.8283, lng: -98.5795 }; // center of contiguous 48 states in USA - just a fun fact!
 const DEFAULT_ZOOM_DENIED = 3;
 const DEFAULT_ZOOM_GRANTED = 9;
 
@@ -19,7 +39,9 @@ const PermissionModal = ({
     setMapZoom,
     setUserCoords,
     setUserAddress,
-    setButtonsDisabled
+    setButtonsDisabled,
+    error,
+    setError
 }) => {
     const { currentUser } = useAuthContext();
 
@@ -40,15 +62,16 @@ const PermissionModal = ({
                 },
                 (error) => {
                     console.error("Geocoding error:", error);
+                    setError("Failed to retrieve address. Please try again.");
                 }
             );
         } else if (currentUser) {
-            handleLocationPermssion();
+            handlePermissionAsked();
         }
 
     }, [currentUser]);
 
-    const handleLocationPermssion = () => {
+    const handlePermissionAsked = () => {
         if (navigator.geolocation) {
             // Check if the user has already been asked for location permission
             const locationPermissionAsked = localStorage.getItem("locationPermissionAsked");
@@ -63,10 +86,11 @@ const PermissionModal = ({
             }
         } else {
             console.error("Geolocation is not supported by this browser.");
+            setError("Failed to retrieve address. Please try again.");
             setMapCenter(DEFAULT_CENTER);
             setMapZoom(DEFAULT_ZOOM_DENIED);
         }
-    }
+    };
 
     const handleAllowLocation = () => {
         navigator.geolocation.getCurrentPosition(
@@ -89,11 +113,13 @@ const PermissionModal = ({
                     },
                     (error) => {
                         console.error("Geocoding error:", error);
+                        setError("Failed to retrieve address. Please try again.");
                     }
                 );
             },
             (error) => {
                 console.error("Permission denied or position unavailable.", error);
+                setError("Failed to retrieve address. Please try again.");
                 setMapCenter(DEFAULT_CENTER);
                 setMapZoom(DEFAULT_ZOOM_DENIED);
             },
@@ -116,18 +142,20 @@ const PermissionModal = ({
         setShowCustomModal(false);
         setButtonsDisabled(false); // Re-enable buttons after handling location permission
     };
+
     return (
         <div>
             {
                 showCustomModal && (
                     <div className="custom-modal">
+                        <h5></h5>
                         <p>EventSpotter would like to use your location to show nearby events. Do you give permission to access your location?</p>
-                        <button onClick={handleAllowLocation}>Allow</button>
-                        <button onClick={handleDenyLocation}>Deny</button>
+                        <button className="btn btn-primary" onClick={handleAllowLocation}>Allow</button>
+                        <button className="btn btn-danger float-end" onClick={handleDenyLocation}>Deny</button>
                     </div>
                 )}
+            {error && <Alert type="danger" messages={[error]} />}
         </div>
-
     );
 };
 
