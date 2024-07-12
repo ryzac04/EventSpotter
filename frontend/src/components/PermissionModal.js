@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { fromLatLng } from "react-geocode";
 import { useAuthContext } from "../contexts/authContext";
 
-import Alert from "./common/Alert";
 import "./PermissionModal.css";
 
 /**
@@ -19,13 +18,10 @@ import "./PermissionModal.css";
  * @param {function} props.setUserCoords - function to set the user's coordinates.
  * @param {function} props.setUserAddress - function to set the user's address.
  * @param {function} props.setButtonsDisabled - function to set the disabled state of buttons during modal display.
- * @param {string|null} props.error - error message related to location or geocoding.
- * @param {function} props.setError - function to set the error message.
  * 
  * @returns {JSX.Element} - JSX element representing the modal for location permission.
  * 
  * Uses fromLatLng from react-geocode for reverse geocoding.
- * Other components used: Alert
  * Found in: EventMap.js
  */
 
@@ -39,9 +35,7 @@ const PermissionModal = ({
     setMapZoom,
     setUserCoords,
     setUserAddress,
-    setButtonsDisabled,
-    error,
-    setError
+    setButtonsDisabled
 }) => {
     const { currentUser } = useAuthContext();
 
@@ -62,7 +56,6 @@ const PermissionModal = ({
                 },
                 (error) => {
                     console.error("Geocoding error:", error);
-                    setError("Failed to retrieve address. Please try again.");
                 }
             );
         } else if (currentUser) {
@@ -86,7 +79,6 @@ const PermissionModal = ({
             }
         } else {
             console.error("Geolocation is not supported by this browser.");
-            setError("Failed to retrieve address. Please try again.");
             setMapCenter(DEFAULT_CENTER);
             setMapZoom(DEFAULT_ZOOM_DENIED);
         }
@@ -113,13 +105,11 @@ const PermissionModal = ({
                     },
                     (error) => {
                         console.error("Geocoding error:", error);
-                        setError("Failed to retrieve address. Please try again.");
                     }
                 );
             },
             (error) => {
                 console.error("Permission denied or position unavailable.", error);
-                setError("Failed to retrieve address. Please try again.");
                 setMapCenter(DEFAULT_CENTER);
                 setMapZoom(DEFAULT_ZOOM_DENIED);
             },
@@ -154,7 +144,6 @@ const PermissionModal = ({
                         <button className="btn btn-danger float-end" onClick={handleDenyLocation}>Deny</button>
                     </div>
                 )}
-            {error && <Alert type="danger" messages={[error]} />}
         </div>
     );
 };

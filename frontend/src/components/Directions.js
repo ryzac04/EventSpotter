@@ -2,18 +2,11 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 
-import Alert from "./common/Alert";
-
 /**
  * Directions Component
  * 
  * Renders a button to fetch and display driving directions on a Google Map.
  * Utilizes the Google Maps Directions Service and Directions Renderer.
- * Displays an error message if fetching directions fails.
- * 
- * @param {Object} props - the component props.
- * @param {string} props.error - error message to display.
- * @param {function} props.setError - function to set the error message.
  *
  * @returns {JSX.Element} - JSX element representing the Directions component.
  * 
@@ -24,7 +17,7 @@ import Alert from "./common/Alert";
  * Found in EventMap.js
  */
 
-const Directions = forwardRef(({ error, setError }, ref) => {
+const Directions = forwardRef((props, ref) => {
     const map = useMap();
     const routesLibrary = useMapsLibrary("routes");
 
@@ -84,7 +77,6 @@ const Directions = forwardRef(({ error, setError }, ref) => {
         const destination = localStorage.getItem("eventAddress") || localStorage.getItem("autoSearchAddress");
 
         if (!origin || !destination) {
-            setError("Origin and destination are both required to map a route.")
             return;
         }
 
@@ -97,10 +89,8 @@ const Directions = forwardRef(({ error, setError }, ref) => {
             directionsRenderer.setDirections(response);
             setRoutes(response.routes);
             localStorage.setItem("directions", JSON.stringify(response));
-            setError("");
         }).catch(error => {
             console.error("Directions request failed:", error);
-            setError("Failed to fetch directions. Please try again.");
         });
     };
 
@@ -120,7 +110,6 @@ const Directions = forwardRef(({ error, setError }, ref) => {
             ) : (
                 <button className="btn btn-secondary" disabled>Get Directions</button>
             )}
-            {error && <Alert type="danger" messages={[error]} />}
         </div>
     );
 });

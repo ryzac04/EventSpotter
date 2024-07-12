@@ -3,7 +3,6 @@ import React, { useState, forwardRef, useImperativeHandle } from "react";
 import { AdvancedMarker, Pin, InfoWindow } from "@vis.gl/react-google-maps";
 import { fromLatLng } from "react-geocode";
 
-import Alert from "./common/Alert";
 import "./DroppedPin.css";
 
 /**
@@ -19,8 +18,6 @@ import "./DroppedPin.css";
  * @param {string|null} props.droppedPinAddress - address of the dropped pin location.
  * @param {function} props.setDroppedPinAddress - function to set the dropped pin address.
  * @param {boolean} props.buttonsDisabled - flag indicating if buttons are disabled.
- * @param {string|null} props.error - error message related to search functionality.
- * @param {function} props.setError - function to set the search error message.
  * 
  * @returns {JSX.Element} - JSX element representing the dropped pin on the map.
  * 
@@ -35,9 +32,7 @@ const DroppedPin = forwardRef(({
     setDroppedPinCoords,
     droppedPinAddress,
     setDroppedPinAddress,
-    buttonsDisabled,
-    error,
-    setError
+    buttonsDisabled
 }, ref) => {
     const [droppedPinActive, setDroppedPinActive] = useState(false);
 
@@ -66,7 +61,6 @@ const DroppedPin = forwardRef(({
                     },
                     (error) => {
                         console.error("Geocoding error:", error);
-                        setError("Failed to retrieve address. Please try again.");
                     }
                 );
             }
@@ -104,7 +98,6 @@ const DroppedPin = forwardRef(({
                     )}
                 </AdvancedMarker>
             )}
-            {error && <Alert type="danger" messages={[error]} />}
         </div>
     );
 });
