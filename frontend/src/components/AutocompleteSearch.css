@@ -3,7 +3,7 @@
     top: 8px;
     left: 50%;
     transform: translateX(-50%);
-    width: 100%;
+    width: 40%;
     max-width: 400px;
     margin: 0 auto;
     display: flex;
@@ -17,7 +17,6 @@
     font-size: 16px;
     border: 1px solid #ccc;
     box-sizing: border-box;
-    margin-bottom: 10px;
 }
 
 .autocomplete-button {
