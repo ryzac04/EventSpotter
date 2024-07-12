@@ -3,12 +3,10 @@
  * 
  * Presentational component for bootstrap-style alerts. 
  * 
- * Found in: SignupForm, LoginForm, Profile
+ * Found in: SignupForm.js, LoginForm.js, Profile.js, EventFilterForm.js
  */ 
 
 const Alert = ({ type = "danger", messages = [] }) => {
-    console.debug("Alert", "type=", type, "messages=", messages);
-
     return (
         <div className={`alert alert-${type}`} role="alert">
             {messages.map(error => (
