@@ -1,7 +1,9 @@
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { setKey } from "react-geocode";
+
+import { ErrorContext } from "../contexts/ErrorContext";
 
 import PermissionModal from "./PermissionModal";
 import UserPin from "./UserPin";
@@ -13,6 +15,7 @@ import LocationDisplay from "./LocationDisplay";
 import EventFilterForm from "./EventFilterForm";
 import EventList from "./EventList";
 import ClearMap from "./ClearMap";
+import Alert from "./common/Alert";
 
 import "./EventMap.css";
 
@@ -24,6 +27,7 @@ const DEFAULT_CENTER = { lat: 39.8283, lng: -98.5795 }; // center of contiguous 
 const DEFAULT_ZOOM_DENIED = 3;
 
 const EventMap = () => {
+    const { setError, clearError } = useContext(ErrorContext);
 
     // State 
     const [mapCenter, setMapCenter] = useState(DEFAULT_CENTER);
@@ -38,13 +42,12 @@ const EventMap = () => {
     const [selectedMarkerId, setSelectedMarkerId] = useState(null);
     const [infoWindowOpen, setInfoWindowOpen] = useState(false);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
-    const [error, setError] = useState(null);
 
     // Refs
     const droppedPinRef = useRef();
     const directionsRef = useRef();
 
-    // Load state from localStorage on component mount - maintains venue pins and event list through page refresh
+    // Load state from localStorage on component mount - maintains venue pins and event list through page refresh; also clears error messages
     useEffect(() => {
         const storedDroppedPinCoords = JSON.parse(localStorage.getItem("droppedPinCoords"));
         const storedAutoSearchMarker = JSON.parse(localStorage.getItem("autoSearchMarker"));
@@ -53,6 +56,8 @@ const EventMap = () => {
         setDroppedPinCoords(storedDroppedPinCoords);
         setAutoSearchMarker(storedAutoSearchMarker);
         if (storedEvents) { setEvents(storedEvents) }; // upon first mount, there will be no storedEvents
+
+        clearError();
     }, []);
 
     // Save state to localStorage on state change
@@ -84,6 +89,7 @@ const EventMap = () => {
                 setUserCoords={setUserCoords}
                 setUserAddress={setUserAddress}
                 setButtonsDisabled={setButtonsDisabled}
+                setError={setError}
             />
             <APIProvider
                 apiKey={process.env.REACT_APP_GMAP_API_KEY}
@@ -161,6 +167,9 @@ const EventMap = () => {
                         </div>
                     </div>
                 </div>
+                <div className="alert-container">
+                    <Alert />
+                </div>
                 <div className="event-section mt-4">
                     <EventFilterForm
                         setEvents={setEvents}
@@ -168,7 +177,6 @@ const EventMap = () => {
                         droppedPinCoords={droppedPinCoords}
                         mapCenter={mapCenter}
                         buttonsDisabled={buttonsDisabled}
-                        error={error}
                         setError={setError}
                     />
                     <EventList events={events} />
