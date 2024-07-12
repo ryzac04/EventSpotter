@@ -1,10 +1,11 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { APIProvider, Map, } from "@vis.gl/react-google-maps";
 import { setKey } from "react-geocode";
 
 import PermissionModal from "./PermissionModal";
 import UserPin from "./UserPin";
+import DroppedPin from "./DroppedPin";
 import EventPin from "./EventPin";
 import EventFilterForm from "./EventFilterForm";
 import EventList from "./EventList";
@@ -31,6 +32,11 @@ const EventMap = () => {
     const [selectedMarkerId, setSelectedMarkerId] = useState(null);
     const [infoWindowOpen, setInfoWindowOpen] = useState(false);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
+    const [error, setError] = useState(null);
+
+
+    // Refs
+    const droppedPinRef = useRef();
 
     // Save state to localStorage on state change
     useEffect(() => {
@@ -42,6 +48,14 @@ const EventMap = () => {
     const handleMapChange = (event) => {
         setMapCenter(event.detail.center);
         setMapZoom(event.detail.zoom);
+    };
+
+    const handleMapClick = (e) => {
+        const latitude = e.detail.latLng.lat;
+        const longitude = e.detail.latLng.lng;
+        if (droppedPinRef.current) {
+            droppedPinRef.current.handleDroppedPin(latitude, longitude);
+        }
     };
 
     return (
@@ -74,6 +88,18 @@ const EventMap = () => {
                             userCoords={userCoords}
                             userAddress={userAddress}
                         />
+                        <DroppedPin
+                            ref={droppedPinRef}
+                            selectedMarkerId={selectedMarkerId}
+                            setSelectedMarkerId={setSelectedMarkerId}
+                            droppedPinCoords={droppedPinCoords}
+                            setDroppedPinCoords={setDroppedPinCoords}
+                            droppedPinAddress={droppedPinAddress}
+                            setDroppedPinAddress={setDroppedPinAddress}
+                            buttonsDisabled={buttonsDisabled}
+                            error={error}
+                            setError={setError}
+                        />
                         
                     </Map>
                     <EventPin
@@ -88,6 +114,8 @@ const EventMap = () => {
                         droppedPinCoords={droppedPinCoords}
                         mapCenter={mapCenter}
                         buttonsDisabled={buttonsDisabled}
+                        error={error}
+                        setError={setError}
                     />
                     <EventList events={events} />
                 </div>
