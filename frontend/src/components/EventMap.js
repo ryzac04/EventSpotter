@@ -3,6 +3,14 @@ import React, { useState, useEffect } from "react";
 import { APIProvider, Map, } from "@vis.gl/react-google-maps";
 import { setKey } from "react-geocode";
 
+import PermissionModal from "./PermissionModal";
+import UserPin from "./UserPin";
+import EventPin from "./EventPin";
+import EventFilterForm from "./EventFilterForm";
+import EventList from "./EventList";
+
+import "./EventMap.css";
+
 // Set Google Maps API Key - needed for "react-geocode"
 setKey(process.env.REACT_APP_GMAP_API_KEY);
 
@@ -81,6 +89,7 @@ const EventMap = () => {
                         mapCenter={mapCenter}
                         buttonsDisabled={buttonsDisabled}
                     />
+                    <EventList events={events} />
                 </div>
             </APIProvider>
         </div>
