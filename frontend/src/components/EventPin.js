@@ -1,7 +1,6 @@
 
 import { AdvancedMarker, Pin, InfoWindow } from "@vis.gl/react-google-maps";
 import { groupEventsByVenue, options } from "../utils/appUtils";
-import "./EventMap.css";
 
 /**
  * EventPin Component
@@ -17,7 +16,7 @@ import "./EventMap.css";
  * @returns {JSX.Element} - JSX element representing event markers on the map.
  * 
  * Other components used are from '@vis.gl/react-google-maps' library.
- * Found in: EventMap.js 
+ * This component found in: EventMap.js 
  */
 
 const EventPin = ({

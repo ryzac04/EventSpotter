@@ -6,28 +6,27 @@ import { useAuthContext } from "../contexts/authContext";
 import useEndDateTime from "../hooks/useEndDateTime";
 import Alert from "./common/Alert";
 
-import "./EventMap.css";
-
 /**
  * EventFilterForm Component
  * 
- * Renders a form for filtering events based on search criteria such as keyword, distance, date/time, price range, and result size. 
+ * Renders a form for filtering events based on search criteria such as keyword, distance, date/time, price range, and result list size. 
  * It interacts with the Ticketmaster API to fetch events based on the provided filters and displays any errors encountered during the fetch process. 
  * 
  * @param {Object} props - the component props.
- * @param {function} props.setEvents - function to set the array of events fetched from the API.
- * @param {Object} props.userCoords - coordinates of the user's location.
- * @param {Object} props.droppedPinCoords - coordinates of the dropped pin on the map.
- * @param {Object} props.mapCenter - coordinates of the map center.
- * @param {boolean} props.buttonsDisabled - indicates whether buttons in the form should be disabled.
+ * @param {function} props.setEvents - function to set the state of the array of events fetched from the API.
+ * @param {Object} props.userCoords - the coordinates of the user's location.
+ * @param {Object} props.droppedPinCoords - the coordinates of the dropped pin.
+ * @param {Object} props.mapCenter - the coordinates of the map center.
+ * @param {boolean} props.buttonsDisabled - indicates whether buttons are disabled.
  * @param {string} props.error - error message to display if the search fails.
- * @param {function} props.setError - function to set the search error message.
+ * @param {function} props.setError - function to set the state of the search error message.
  *
  * @returns {JSX.Element} - JSX element representing the event filter form.
  * 
  * Other components used: Alert
+ * Context used: useAuthContext
  * Custom hook used: useEndDateTime
- * Found in: EventMap.js
+ * This component found in: EventMap.js
  */
 
 const EventFilterForm = ({

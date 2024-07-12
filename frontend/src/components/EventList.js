@@ -7,6 +7,8 @@ import Event from "./Event";
  * Renders list of all individual events - individual event rendered by Event.js 
  * 
  * @returns {JSX.Element} - JSX element representing the event list.
+ * 
+ * This component found in: EventMap.js
  */
 
 const EventList = ({ events }) => {

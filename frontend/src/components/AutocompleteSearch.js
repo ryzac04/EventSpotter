@@ -13,20 +13,19 @@ import "./AutocompleteSearch.css";
  * When an address is selected, it places a marker on the map and stores the location in localStorage.
  * 
  * @param {Object} props - the component props.
- * @param {string} props.selectedMarkerId - ID of the currently selected marker.
+ * @param {string} props.selectedMarkerId - the ID of the currently selected marker.
  * @param {function} props.setSelectedMarkerId - function to set the selected marker ID.
- * @param {function} props.setInfoWindowOpen - function to control the state of the info window.
+ * @param {function} props.setInfoWindowOpen - function to set the state of InfoWindow visibility.
  * @param {Object} props.autoSearchMarker - marker object for the auto-complete search result.
- * @param {function} props.setAutoSearchMarker - function to set the auto-complete search marker.
- * @param {boolean} props.buttonsDisabled - indicates whether buttons should be disabled.
+ * @param {function} props.setAutoSearchMarker - function to set the state of the auto-complete search marker.
+ * @param {boolean} props.buttonsDisabled - indicates whether buttons are disabled.
  * 
  * @returns {JSX.Element} - JSX element representing the AutocompleteSearch component.
  * 
  * Custom hooks used: useMap
- * Other components used: AdvancedMarker, Pin, InfoWindow
- * Other components used are from @vis.gl/react-google-maps and react-geocode libraries.
- * 
- * Found in: EventMap.js
+ * Uses fromLatLng from react-geocode for reverse geocoding.
+ * Other components used are from @vis.gl/react-google-maps library.
+ * This component found in: EventMap.js
  */
 
 const AutocompleteSearch = ({

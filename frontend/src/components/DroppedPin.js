@@ -8,21 +8,24 @@ import "./DroppedPin.css";
 /**
  * DroppedPin Component
  * 
- * Renders a toggle button to drop a pin on the map, displays the pin and its info when selected.
+ * Renders a toggle button to drop a pin on the map. 
+ * Clicking on the map renders a marker indicating the dropped pin location. 
+ * When the marker is clicked, it toggles the display of an InfoWindow showing the dropped pin's location.
  * 
  * @param {Object} props - the component props.
- * @param {string|null} props.selectedMarkerId - ID of the currently selected marker.
+ * @param {string|null} props.selectedMarkerId - the ID of the currently selected marker.
  * @param {function} props.setSelectedMarkerId - function to set the selected marker ID.
- * @param {Object|null} props.droppedPinCoords - coordinates of the dropped pin.
- * @param {function} props.setDroppedPinCoords - function to set the dropped pin coordinates.
- * @param {string|null} props.droppedPinAddress - address of the dropped pin location.
- * @param {function} props.setDroppedPinAddress - function to set the dropped pin address.
- * @param {boolean} props.buttonsDisabled - flag indicating if buttons are disabled.
+ * @param {Object|null} props.droppedPinCoords - the coordinates of the dropped pin.
+ * @param {function} props.setDroppedPinCoords - function to set the state of the dropped pin coordinates.
+ * @param {string|null} props.droppedPinAddress - the address of the dropped pin location.
+ * @param {function} props.setDroppedPinAddress - function to set the state of the dropped pin address.
+ * @param {boolean} props.buttonsDisabled - indicates whether buttons are disabled.
  * 
- * @returns {JSX.Element} - JSX element representing the dropped pin on the map.
+ * @returns {JSX.Element} - JSX element representing 'Drop Pin' toggle button and the dropped pin marker on the map.
  * 
- * Other components used are from @vis.gl/react-google-maps and react-geocode libraries.
- * Found in: EventMap.js 
+ * Uses fromLatLng from react-geocode for reverse geocoding.
+ * Other components used are from @vis.gl/react-google-maps library.
+ * This component found in: EventMap.js 
  */
 
 const DroppedPin = forwardRef(({

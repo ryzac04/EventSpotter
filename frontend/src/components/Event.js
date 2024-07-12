@@ -13,7 +13,7 @@ import { options } from "../utils/appUtils";
  * @returns {JSX.Element} - JSX element representing the singular event. 
  * 
  * Utility function used: options 
- * Found in: EventList.js
+ * This component found in: EventList.js
  */
 
 const Event = ({ event }) => {

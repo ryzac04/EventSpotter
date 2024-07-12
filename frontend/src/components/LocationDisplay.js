@@ -1,6 +1,5 @@
 
 import React from 'react';
-import "./EventMap.css"
 
 /**
  * LocationDisplay Component
@@ -9,14 +8,13 @@ import "./EventMap.css"
  * If available, shows the user's address or the dropped pin's address.
  * Also displays the destination address stored in localStorage.
  * 
- * @component
  * @param {Object} props - the component props.
- * @param {string} props.userAddress - the user's address to display.
- * @param {string} props.droppedPinAddress - the dropped pin's address to display.
+ * @param {string} props.userAddress - the address corresponding to the user's location.
+ * @param {string} props.droppedPinAddress - the address of the dropped pin location.
  * 
  * @returns {JSX.Element} - JSX element representing the location display information.
  * 
- * Found in: EventMap.js
+ * This component found in: EventMap.js
  */
 
 const LocationDisplay = ({ userAddress, droppedPinAddress }) => {

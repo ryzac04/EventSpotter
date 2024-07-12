@@ -21,8 +21,9 @@ import "./PermissionModal.css";
  * 
  * @returns {JSX.Element} - JSX element representing the modal for location permission.
  * 
+ * Custom hook used: useAuthContext
  * Uses fromLatLng from react-geocode for reverse geocoding.
- * Found in: EventMap.js
+ * This component found in: EventMap.js
  */
 
 // Default Map Settings

@@ -8,13 +8,13 @@ import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
  * Renders a button to fetch and display driving directions on a Google Map.
  * Utilizes the Google Maps Directions Service and Directions Renderer.
  *
- * @returns {JSX.Element} - JSX element representing the Directions component.
+ * @returns {JSX.Element} - JSX element - 'Directions' button.
  * 
  * Other components used: Alert
- * Custom hooks used: useMap, useMapsLibrary
  * Functions exposed through ref:
  * - clearDirections: Clears the current directions and resets the component state.
- * Found in EventMap.js
+ * Other components used are from @vis.gl/react-google-maps library.
+ * This app found in EventMap.js
  */
 
 const Directions = forwardRef((props, ref) => {
