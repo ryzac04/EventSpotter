@@ -4,14 +4,16 @@ Universal Styling
 To maintain stylistic consistency across the app, there
 are several styles here that will apply to many components.
 
-Bootstrap styling is also present in many components - mostly
-for page structuring. 
+Bootstrap styling is also present in many components.
 
 There are also some css pages dedicated to specific components
-for specific styling/formatting reasons: 
-
- - NavBar.css
- - index.css (for font-family)
+for specific styling/formatting reasons:
+ - index.css (for font-family),
+ - NavBar.css,
+ - EventMap.css,
+ - PermissionModal.css - DroppedPin.css,
+ - AutocompleteSearch.css,
+ - DroppedPin.css
  */
 
 /* Background Styling */
@@ -37,6 +39,7 @@ button:active {
   text-align: left;
   font-weight: bold;
 }
+
 /* Heading Text Styling - Profile.js, LoginForm.js, SignupForm.js */
 .heading-text {
   text-align: left;
@@ -47,7 +50,7 @@ button:active {
 /* Home Page and Loading Widget styling - Homepage.js, LoadingSpinner.js */
 .Homepage,
 .LoadingSpinner {
-  height: calc(100vh - 200px);
+  height: calc(100vh - 350px);
   display: flex;
   align-items: center;
   color: white;
