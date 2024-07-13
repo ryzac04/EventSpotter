@@ -3,13 +3,13 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Homepage from "../homepage/Homepage";
-import QuickTips from "../QuickTips";
+import QuickTips from "../quickTips/QuickTips";
 import SignupForm from "../auth/SignupForm";
 import LoginForm from "../auth/LoginForm";
 import Profile from "../user/Profile";
 import DeleteAccount from "../user/DeleteAccount";
 import ThankYou from "../user/ThankYou";
-import EventMap from "../EventMap";
+import EventMap from "../mapComponents/EventMap";
 import PrivateRoute from "./PrivateRoute";
 
 /**
