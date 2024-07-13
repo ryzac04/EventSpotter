@@ -18,18 +18,18 @@ import { useAuthContext } from "../../contexts/AuthContext";
  */
 
 const AppContent = () => {
-  const { infoLoaded, logout, signup, login, updateUser } = useAuthContext();
+  const { infoLoaded } = useAuthContext();
 
   if (!infoLoaded) return <LoadingSpinner />;
 
   return (
     <>
-      <NavBar logout={logout} />
+      <NavBar />
       <main className="Container pt-5">
-        <AppRoutes signup={signup} login={login} updateUser={updateUser} />
+        <AppRoutes />
       </main>
     </>
   );
-}
+};
 
 export default AppContent;
