@@ -25,19 +25,19 @@ import PrivateRoute from "./PrivateRoute";
  * - updateUser: function to update user information.
  */
 
-const AppRoutes = ({ signup, login, updateUser }) => {
+const AppRoutes = () => {
     return (
         <div className="pt-5">
             <Routes>
                 <Route exact path="/" element={<Homepage />} />
                 <Route exact path="/quick-tips" element={<QuickTips />} /> 
-                <Route exact path="/signup" element={<SignupForm signup={signup} />} />
-                <Route exact path="/login" element={<LoginForm login={login} />} />
+                <Route exact path="/signup" element={<SignupForm />} />
+                <Route exact path="/login" element={<LoginForm />} />
 
                 {/* Private Routes */}
                 <Route exact path="/profile" element={
                     <PrivateRoute>
-                        <Profile updateUser={updateUser} />
+                        <Profile />
                     </PrivateRoute>}
                 />
                 <Route exact path="/delete" element={
