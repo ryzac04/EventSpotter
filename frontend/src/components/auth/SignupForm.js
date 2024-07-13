@@ -22,7 +22,7 @@ import Alert from "../common/Alert";
 
 const SignupForm = () => {
     const { signup } = useAuthContext();
-    const { setError, clearError } = useContext(ErrorContext)
+    const { setError, clearError } = useContext(ErrorContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: "",
