@@ -1,7 +1,7 @@
 
 import { BrowserRouter } from "react-router-dom";
 
-import { ErrorProvider } from "./contexts/ErrorContext";
+import { MessageProvider } from "./contexts/MessageContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import AppContent from "./components/appContent/AppContent";
 
@@ -19,11 +19,11 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <BrowserRouter>
-                    <ErrorProvider>
+                    <MessageProvider>
                         <AuthProvider>
                             <AppContent />
                         </AuthProvider>
-                    </ErrorProvider>
+                    </MessageProvider>
                 </BrowserRouter>
             </header>
         </div>
