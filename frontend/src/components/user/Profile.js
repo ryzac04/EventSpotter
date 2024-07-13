@@ -1,16 +1,17 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import { useAuthContext } from "../../contexts/AuthContext";
+import { MessageContext } from "../../contexts/MessageContext";
 import Alert from "../common/Alert";
 
 /**
  * Profile Component 
  * 
- * Form to edit profile details: email and password.
+ * Renders a form to edit profile details: email and password.
  * 
- * Displays profile form and handles changes to form state. Submitting the form calls the API to save, and triggers user reloading throughout the site. 
+ * Displays profile form and handles changes to form state. Submitting the form calls the API to save and triggers user reloading throughout the site. 
  * Also displays delete button that will bring user to account deletion form.
  * 
  * route: /profile
@@ -18,18 +19,22 @@ import Alert from "../common/Alert";
  * Other components used: Alert
  */
 
-const Profile = ({ updateUser }) => {
-    const { currentUser } = useAuthContext();
+const Profile = () => {
+    const { currentUser, updateUser } = useAuthContext();
+    const { setError, clearError, setSuccess, clearSuccess, setInfo, clearInfo } = useContext(MessageContext);
     const [formData, setFormData] = useState({
         username: "",
         email: "",
         password: "",
         confirmPassword: ""
     });
-    const [formErrors, setFormErrors] = useState([]);
-    const [successMessage, setSuccessMessage] = useState("");
-    const [noChangesMessage, setNoChangeMessage] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        clearError();
+        clearSuccess();
+        clearInfo();
+    }, []);
 
     useEffect(() => {
         if (currentUser) {
@@ -49,13 +54,13 @@ const Profile = ({ updateUser }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setFormErrors([]);
-        setSuccessMessage("");
-        setNoChangeMessage("");
+        clearError();
+        clearSuccess();
+        clearInfo();
 
         // Check password confirmation
         if (formData.password && formData.password !== formData.confirmPassword) {
-            setFormErrors(["Passwords do not match"]);
+            setError(["Passwords do not match"]);
             return;
         }
 
@@ -66,7 +71,7 @@ const Profile = ({ updateUser }) => {
 
         // Check if there are no changes
         if (!usernameChanged && !emailChanged && !passwordChanged) {
-            setNoChangeMessage("No changes were made to the profile.");
+            setInfo("No changes were made to the profile.");
             return;
         }
 
@@ -80,13 +85,14 @@ const Profile = ({ updateUser }) => {
             const result = await updateUser(currentUser.username, dataToUpdate);
 
             if (result.success) {
-                setSuccessMessage("Profile updated successfully");
+                setSuccess("Profile updated successfully");
                 navigate("/profile");
             } else {
-                setFormErrors(result.error)
+                setError(result.error)
             }
         } catch (error) {
             console.error("Error during user update:", error);
+            setError(["An unexpected error occurred. Please try again."]);
         }
     }
 
@@ -153,21 +159,10 @@ const Profile = ({ updateUser }) => {
                                 Delete Account
                             </Link>
                         </div>
-
-                        <div className="form-group mt-4">
-                            {formErrors.length
-                                ? <Alert type="danger" messages={formErrors} />
-                                : null}
-                        
-                            {successMessage && (
-                                <Alert type="success" messages={[successMessage]} />)}
-                            
-                            {noChangesMessage && (
-                                <Alert type="info" messages={[noChangesMessage]} />)}
-                        </div>
                     </form>
                 </div>
             </div>
+            <Alert />
         </div>
     );
 };
