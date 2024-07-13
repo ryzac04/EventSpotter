@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { setKey } from "react-geocode";
 
-import { ErrorContext } from "../contexts/ErrorContext";
+import { MessageContext } from "../contexts/MessageContext";
 
 import PermissionModal from "./PermissionModal";
 import UserPin from "./UserPin";
@@ -19,6 +19,18 @@ import Alert from "./common/Alert";
 
 import "./EventMap.css";
 
+/**
+ * EventMap Component
+ * 
+ * Integrates a Google Maps interface for displaying events and managing user interactions.
+ * Manages map center, zoom level, user and event coordinates, and interacts with various map components.
+ * Uses localStorage for persistent state and handles error messages through context.
+ * 
+ * @returns {JSX.Element} JSX element representing the EventMap component.
+ * 
+ * Other components used are from @vis.gl/react-google-maps library.
+ */
+
 // Set Google Maps API Key - needed for "react-geocode"
 setKey(process.env.REACT_APP_GMAP_API_KEY);
 
@@ -27,7 +39,7 @@ const DEFAULT_CENTER = { lat: 39.8283, lng: -98.5795 }; // center of contiguous 
 const DEFAULT_ZOOM_DENIED = 3;
 
 const EventMap = () => {
-    const { setError, clearError } = useContext(ErrorContext);
+    const { setError, clearError, clearSuccess, clearInfo } = useContext(MessageContext);
 
     // State 
     const [mapCenter, setMapCenter] = useState(DEFAULT_CENTER);
@@ -58,6 +70,8 @@ const EventMap = () => {
         if (storedEvents) { setEvents(storedEvents) }; // upon first mount, there will be no storedEvents
 
         clearError();
+        clearSuccess();
+        clearInfo();
     }, []);
 
     // Save state to localStorage on state change
