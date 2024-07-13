@@ -1,7 +1,7 @@
 
 import React, { useContext } from "react";
-import { ErrorContext } from "../../contexts/ErrorContext";
-import { formatErrorMessages } from "../../utils/errorUtils";
+import { MessageContext } from "../../contexts/MessageContext";
+import { formatMessages } from "../../utils/messageUtils";
 
 /** Alert Component
  * 
@@ -14,20 +14,46 @@ import { formatErrorMessages } from "../../utils/errorUtils";
  * - Profile.js
  */ 
 
-const Alert = ({ type = "danger", messages = [] }) => {
-    const { error } = useContext(ErrorContext);
-    if (!error && messages.length === 0) return null;
+const Alert = () => {
+    const { error, success, info } = useContext(MessageContext);
 
-    const errorMessages = formatErrorMessages(error);
+    const errorMessages = formatMessages(error);
+    const successMessages = formatMessages(success);
+    const infoMessages = formatMessages(info);
+
+    if (!errorMessages.length && !successMessages.length && !infoMessages.length) {
+        return null;
+    }
+
     return (
         <div className="alert-container mt-4">
-            <div className={`alert alert-${type}`} role="alert">
-                <ul className="list-unstyled mb-0">
-                    {errorMessages.map((error, index) => (
-                        <li className="mb-0 small" key={index}>{error}</li>
-                    ))}
-                </ul>
-            </div>
+            {errorMessages.length > 0 && (
+                <div className="alert alert-danger" role="alert">
+                    <ul className="list-unstyled mb-0">
+                        {errorMessages.map((error, index) => (
+                            <li className="mb-0 small" key={index}>{error}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+            {successMessages.length > 0 && (
+                <div className="alert alert-success" role="alert">
+                    <ul className="list-unstyled mb-0">
+                        {successMessages.map((message, index) => (
+                            <li className="mb-0 small" key={index}>{message}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+            {infoMessages.length > 0 && (
+                <div className="alert alert-info" role="alert">
+                    <ul className="list-unstyled mb-0">
+                        {infoMessages.map((message, index) => (
+                            <li className="mb-0 small" key={index}>{message}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </div>
     );
 };
