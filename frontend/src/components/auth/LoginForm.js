@@ -1,27 +1,37 @@
 
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useAuthContext } from "../../contexts/AuthContext";
+import { ErrorContext } from "../../contexts/ErrorContext";
 import Alert from "../common/Alert";
 
 /**
  * LoginForm Component
  * 
- * Login form for existing users to login to their account. 
+ * Renders a login form for existing users to login to their account. 
+ * It handles form submission, user input changes, and manages error messages. 
  * 
- * On successful submission, calls login prop and redirects to Home page ("/"). 
+ * On successful submission, calls login function from the AuthContext and redirects to Home page ("/"). 
+ * If an error occurs during login, it sets the error message in the ErrorContext. 
  * 
  * route: /signup
  * 
  * Other components used: Alert
  */
 
-const LoginForm = ({ login }) => {
+const LoginForm = () => {
+    const { login } = useAuthContext();
+    const { setError, clearError } = useContext(ErrorContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: "",
         password: ""
     });
-    const [formErrors, setFormErrors] = useState([]);
+
+    useEffect(() => {
+        clearError();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,7 +41,7 @@ const LoginForm = ({ login }) => {
                 localStorage.setItem("locationPermissionAsked", "false");
                 navigate("/");
             } else {
-                setFormErrors(result.error);
+                setError(result.error);
             }
         } catch (error) {
             console.error("Error during signup:", error);
@@ -69,19 +79,12 @@ const LoginForm = ({ login }) => {
                                     onChange={handleChange}
                                 />
                             </div>
-
                             <button type="submit" className="btn btn-primary mt-4">Submit</button>
-
-                            <div className="mt-4">
-                                {formErrors.length
-                                    ? <Alert type="danger" messages={formErrors} />
-                                    : null
-                                }
-                            </div>
                         </form>
                     </div>
                 </div>
             </div>
+            <Alert />
         </div>
     );
 };
