@@ -1,28 +1,38 @@
 
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useAuthContext } from "../../contexts/AuthContext";
+import { ErrorContext } from "../../contexts/ErrorContext";
 import Alert from "../common/Alert";
 
 /**
  * SignupForm Component
  * 
- * Signup form for new users to register with EventSpotter. 
+ * Renders a signup form for new users to register with EventSpotter.
+ * It handles form submission, user input changes, and manages error messages.
  * 
- * On successful submission, calls signup prop and redirects to Home page ("/").
+ * On successful submission, it calls the signup function from the AuthContext and redirects to the Home page ("/").
+ * If an error occurs during signup, it sets the error message in the ErrorContext.
  * 
  * route: /signup
  * 
  * Other components used: Alert
  */
 
-const SignupForm = ({ signup }) => {
+const SignupForm = () => {
+    const { signup } = useAuthContext();
+    const { setError, clearError } = useContext(ErrorContext)
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: "",
         password: "",
         email: "",
     });
-    const [formErrors, setFormErrors] = useState([]);
+
+    useEffect(() => {
+        clearError();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,7 +42,7 @@ const SignupForm = ({ signup }) => {
                 localStorage.setItem("locationPermissionAsked", "false");
                 navigate("/");
             } else {
-                setFormErrors(result.error);
+                setError(result.error);
             }
         } catch (error) {
             console.error("Error during signup:", error);
@@ -80,16 +90,11 @@ const SignupForm = ({ signup }) => {
                                 />
                             </div>
                             <button type="submit" className="btn btn-primary mt-4">Submit</button>
-                            <div className="mt-4">
-                                {formErrors.length
-                                    ? <Alert type="danger" messages={formErrors} />
-                                    : null
-                                }
-                            </div>
                         </form>
                     </div>
                 </div>
             </div>
+            <Alert />
         </div>
     );
 };
