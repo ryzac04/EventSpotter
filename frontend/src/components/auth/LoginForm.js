@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuthContext } from "../../contexts/AuthContext";
-import { ErrorContext } from "../../contexts/ErrorContext";
+import { MessageContext } from "../../contexts/MessageContext";
 import Alert from "../common/Alert";
 
 /**
@@ -13,7 +13,7 @@ import Alert from "../common/Alert";
  * It handles form submission, user input changes, and manages error messages. 
  * 
  * On successful submission, calls login function from the AuthContext and redirects to Home page ("/"). 
- * If an error occurs during login, it sets the error message in the ErrorContext. 
+ * If an error occurs during login, it sets the error message in the MessageContext. 
  * 
  * route: /signup
  * 
@@ -22,7 +22,7 @@ import Alert from "../common/Alert";
 
 const LoginForm = () => {
     const { login } = useAuthContext();
-    const { setError, clearError } = useContext(ErrorContext);
+    const { setError, clearError, clearSuccess, clearInfo } = useContext(MessageContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: "",
@@ -31,6 +31,8 @@ const LoginForm = () => {
 
     useEffect(() => {
         clearError();
+        clearSuccess();
+        clearInfo();
     }, []);
 
     const handleSubmit = async (e) => {
