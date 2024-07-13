@@ -13,8 +13,8 @@ import "./NavBar.css";
  * Logged in user shows username as link to profile page and logout button.
  */
 
-const NavBar = ({ logout }) => {
-    const { currentUser } = useAuthContext();
+const NavBar = () => {
+    const { currentUser, logout } = useAuthContext();
     
     const loggedInNav = () => {
         return (
