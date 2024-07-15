@@ -187,9 +187,10 @@ describe("Auth Controller", () => {
             const response = await request(app)
                 .post("/auth/refresh")
                 .send({ refreshToken: tokens.refreshToken });
+            console.log("RESPONSE", response.body)
                         
             expect(response.status).toEqual(200);
-            expect(response.body.accessToken).toBeTruthy(); 
+            expect(response.body.newAccessToken).toBeTruthy(); 
             expect(response.header.authorization).toBeTruthy();
         });
 
