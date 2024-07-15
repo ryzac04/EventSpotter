@@ -46,7 +46,6 @@ describe("JWT Utility Functions", () => {
             email: user1.email,
             isAdmin: user1.isAdmin,
             iat: expect.any(Number),
-            exp: expect.any(Number)
         });
     });
 
@@ -85,7 +84,6 @@ describe("JWT Utility Functions", () => {
             sub: user1.id,
             username: user1.username,
             iat: expect.any(Number),
-            exp: expect.any(Number)
         });
     });
 
@@ -131,14 +129,12 @@ describe("JWT Utility Functions", () => {
             email: user1.email,
             isAdmin: user1.isAdmin,
             iat: expect.any(Number),
-            exp: expect.any(Number)
         });
 
         expect(verifiedRefreshToken).toEqual({
             sub: user1.id,
             username: user1.username,
             iat: expect.any(Number),
-            exp: expect.any(Number)
         });
     });
 
