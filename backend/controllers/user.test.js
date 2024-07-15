@@ -126,7 +126,7 @@ describe("User Controller", () => {
             await deleteUser(req, res, next);
 
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({ deleted: 'testuser' });
+            expect(res.json).toHaveBeenCalledWith({ message: "User testuser deleted successfully." });
         });
 
         test("should call next with error if there is an error", async () => {
