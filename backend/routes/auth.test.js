@@ -191,7 +191,7 @@ describe("Auth Routes", () => {
                 .send({ refreshToken: tokens.refreshToken });
 
             expect(refreshResponse.status).toEqual(200);
-            expect(refreshResponse.body.accessToken).toBeTruthy();
+            expect(refreshResponse.body.newAccessToken).toBeTruthy();
             expect(refreshResponse.header.authorization).toBeTruthy();
         });
 
