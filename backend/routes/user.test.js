@@ -415,7 +415,7 @@ describe("User Routes", () => {
                 .delete(`/users/${username}`)
                 .set("authorization", `Bearer ${accessToken}`);
 
-            expect(response.body).toEqual({ deleted: "testname1" });
+            expect(response.body).toEqual({ message: "User testname1 deleted successfully." });
         });
 
         test("should respond with status 200 and delete the user - same user", async () => {
@@ -431,7 +431,7 @@ describe("User Routes", () => {
                 .delete(`/users/${username}`)
                 .set("authorization", `Bearer ${accessToken}`);
 
-            expect(response.body).toEqual({ deleted: "testname1" });
+            expect(response.body).toEqual({ message: "User testname1 deleted successfully." });
         });
 
         test("throws UnauthorizedError if not same user - not admin", async () => {
