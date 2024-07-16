@@ -96,7 +96,7 @@ const EventFilterForm = ({
                     return true;
                 });
                 setEvents(filteredEvents);
-                setError(null);
+                setError([]);
                 localStorage.setItem("events", JSON.stringify(filteredEvents));
             } else {
                 setEvents([]);
