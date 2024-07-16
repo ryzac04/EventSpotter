@@ -51,7 +51,7 @@ const ClearMap = ({
         setAutoSearchCoords(null);
 
         // Clear errors 
-        setError(null);
+        setError([]);
 
         // Clear directions 
         if (directionsRef.current) {
