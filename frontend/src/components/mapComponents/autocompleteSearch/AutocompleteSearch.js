@@ -118,6 +118,12 @@ const AutocompleteSearch = ({
         await handleLocationSelect();
     };
 
+    const handlePreventEnter = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+        }
+    };
+
     return (
         <div className="autocomplete-container">
             <form onSubmit={handleSubmit}>
@@ -128,6 +134,7 @@ const AutocompleteSearch = ({
                 placeholder="Enter address"
                 value={inputValue}
                 onChange={handleChange}
+                onKeyDown={handlePreventEnter}
             />
             <button className="autocomplete-button" type="submit" disabled={buttonsDisabled} >Search</button>
             </form>
