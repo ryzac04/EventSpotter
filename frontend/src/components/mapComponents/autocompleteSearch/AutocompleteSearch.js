@@ -47,11 +47,12 @@ const AutocompleteSearch = ({
         setupAutocomplete();
     }, []);
 
-    const handleLocationSelect = () => {
+    const handleLocationSelect = async () => {
         if (!autocomplete || !map) return;
-        const place = autocomplete.getPlace();
 
-        if (!inputValue || !place.geometry || !place.formatted_address) {
+        const place = await autocomplete.getPlace();
+
+        if (!inputValue || !place || !place.geometry || !place.formatted_address) {
             setInputValue("");
             return;
         }
@@ -61,31 +62,28 @@ const AutocompleteSearch = ({
         const location = { lat: latitude, lng: longitude };
         // Store location in localStorage
         localStorage.setItem("autoSearchCoords", JSON.stringify(location));
-        
-        // Reverse Geocode the coordinates
-        fromLatLng(latitude, longitude).then(
-            (response) => {
-                const autoSearchAddress = response.results[0].formatted_address;
-                localStorage.setItem("autoSearchAddress", autoSearchAddress);
-            },
-            (error) => {
-                console.error("Geocoding error:", error);
-                setError("Error retrieving this location. Please try again.");
 
-            }
-        );
+        try {
+            const response = await fromLatLng(latitude, longitude);
+            console.log("SEARCH RESPONSE", response);
+            const autoSearchAddress = response.results[0].formatted_address;
+            localStorage.setItem("autoSearchAddress", autoSearchAddress);
 
-        const newMarker = {
-            id: uuidv4(),
-            position: location,
-            address: place.formatted_address
-        };
-        localStorage.removeItem("autoSearchMarker");
-        localStorage.setItem("autoSearchMarker", JSON.stringify(newMarker));
+            const newMarker = {
+                id: uuidv4(),
+                position: location,
+                address: place.formatted_address
+            };
+            localStorage.removeItem("autoSearchMarker");
+            localStorage.setItem("autoSearchMarker", JSON.stringify(newMarker));
 
-        map.setCenter(location);
-        setAutoSearchMarker(newMarker);
-        setInputValue("");
+            map.setCenter(location);
+            setAutoSearchMarker(newMarker);
+            setInputValue("");
+        } catch (error) {
+            console.error("Geocoding error:", error);
+            setError("Error retrieving this location. Please try again.");
+        }
     };
 
     const setupAutocomplete = () => {
@@ -115,9 +113,9 @@ const AutocompleteSearch = ({
         setInputValue(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        handleLocationSelect();
+        await handleLocationSelect();
     };
 
     return (
@@ -131,7 +129,7 @@ const AutocompleteSearch = ({
                 value={inputValue}
                 onChange={handleChange}
             />
-            <button className="autocomplete-button" type="submit" disabled={buttonsDisabled}>Search</button>
+            <button className="autocomplete-button" type="submit" disabled={buttonsDisabled} >Search</button>
             </form>
             {autoSearchMarker && (
                 <AdvancedMarker
