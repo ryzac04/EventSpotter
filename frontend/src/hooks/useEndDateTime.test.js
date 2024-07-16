@@ -1,10 +1,5 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 import useEndDateTime from "./useEndDateTime";
-import { formatDateToISO } from "../utils/appUtils";
-
-// jest.mock("../utils/appUtils", () => ({
-//     formatDateToISO: jest.fn(date => date.toISOString())
-// }));
 
 describe("useEndDateTime hook", () => {
     test("should initialize with empty strings", () => {
