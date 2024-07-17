@@ -27,5 +27,6 @@ If a user chooses not to share their location, the map can still be used and a c
   * Backend dependencies are listed in 'backend/package.json'. 
 
 ## URLs
+* [EventSpotter](https://eventspotter-frontend.onrender.com)
 * [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript)
 * [Ticketmaster Discovery API](https://developer.ticketmaster.com/products-and-docs/apis/discovery-api/v2/)
