@@ -82,7 +82,6 @@ const EventFilterForm = ({
             };
 
             const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json`, { params });
-            console.log(response);
 
             if (response.data && response.data._embedded && response.data._embedded.events) {
                 const filteredEvents = response.data._embedded.events.filter(event => {
