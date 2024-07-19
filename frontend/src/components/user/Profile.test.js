@@ -1,6 +1,6 @@
 
 import React from "react";
-import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import Profile from "./Profile";
 import { useAuthContext } from "../../contexts/AuthContext";
@@ -84,9 +84,7 @@ describe("Profile Component", () => {
     fireEvent.change(screen.getByLabelText("Password"), { target: { value: "" } });
     fireEvent.change(screen.getByLabelText("Confirm Password"), { target: { value: "" } });
 
-    await act(async () => {
-      fireEvent.click(screen.getByText("Save Changes"));
-    });
+    fireEvent.click(screen.getByText("Save Changes"));
 
     await waitFor(() => {
       expect(mockUpdateUser).toHaveBeenCalledWith(mockCurrentUser.username, {
