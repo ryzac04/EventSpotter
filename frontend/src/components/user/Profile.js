@@ -84,7 +84,7 @@ const Profile = () => {
         try {
             const result = await updateUser(currentUser.username, dataToUpdate);
 
-            if (result.success) {
+            if (result && result.success) {
                 setSuccess("Profile updated successfully");
                 navigate("/profile");
             } else {
