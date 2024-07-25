@@ -17,8 +17,8 @@ import { options } from "../../../utils/appUtils";
  */
 
 const Event = ({ event }) => {
-    const venue = event._embedded.venues[0];
-    const classifications = event.classifications[0];
+    const venue = event._embedded?.venues[0];
+    const classifications = event.classifications?.[0];
 
     const address = `${venue.address.line1 || "Unavailable"}, 
                     ${venue.city?.name || ""}, 
